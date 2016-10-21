@@ -115,5 +115,6 @@ Route::group(['middleware' => ['auth', 'check_role'], 'roles' => 'Inscripciones'
 	Route::get('buscar_estudiante_ci/{cedula}', 'EstudiantesController@buscar_estudiante_ci');
 	Route::get('buscar_anos/{mencion_id}', 'AnosController@buscar_anos');
 	Route::get('buscar_secciones/{ano_id}', 'AnosController@buscar_secciones');
+	Route::get('buscar_inscripciones_seccion/{esccion_id}', 'InscripcionesController@buscar_inscripciones_seccion');
 	Route::post('escolaridades/activar', 'EscolaridadesController@activar');
 	Route::post('comedor/postRegistrarIngreso', 'ComedorController@postRegistrarIngreso');

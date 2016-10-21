@@ -32,6 +32,14 @@ var Funciones = Vue.extend({
 			{
 				return Promise.resolve(response);
 			});
+		},
+		buscarInscripcionesSeccion: function (seccion_id)
+		{
+			return this.$http.get('/buscar_inscripciones_seccion/' + seccion_id)
+			.then(function(response)
+			{
+				return Promise.resolve(response);
+			});
 		}
 	}
 });

@@ -7,7 +7,6 @@
 	<h3>Listado de Inscripciones</h3><br>
 	@include('partials.error-message')
 	<div class="box box-primary">
-		
 		<div class="box-header with-border">
 			<div class="row">
 				<di class="col-xs-3">
@@ -19,51 +18,132 @@
 				<di class="col-xs-3">
 					<div class="form-group">
 						<label for="">Mención</label>
-						{!! Form::select('mencion_id', $menciones, NULL, ['class' => 'form-control', 'placeholder' => '', 'required' => 'required', 'id' => 'sel-mencion']) !!}
+						{!! Form::select('mencion_id', $menciones, NULL, [
+							'class' => 'form-control', 
+							'placeholder' => '', 
+							'id' => 'sel-mencion', 
+							'v-model' => 'mencion_id', 
+							'@change' => 'buscarAno()']
+							) !!}
 					</div>				
 				</di>
 				<di class="col-xs-3">
 					<div class="form-group">
 						<label for="">Año</label>
-						<select name="ano_id" id="sel_ano" class="form-control" required></select>
+						<select name="ano_id" id="sel_ano" class="form-control" v-model="ano_id" @change='buscarSeccion()'>
+							<option 
+							v-for = "(key, value) in anos" 
+							value = "@{{key}}">
+							@{{ value }}
+						</option>
+						</select>
 					</div>				
 				</di>
 				<div class="col-xs-2">
 					<div class="form-group">
 						<label for="">Sección</label>
-						<select name="seccion_id" id="sel_seccion" class="form-control" placeholder="Selccione una seccion" required></select>
+						<select name="seccion_id" 
+						id="sel_seccion" 
+						class="form-control" 
+						placeholder="Selccione una seccion" 
+						v-model="seccion_id"
+						>
+						<option 
+							v-for = "(key, value) in secciones" 
+							value = "@{{key}}">
+							@{{ value }}
+						</option>
+					</select>
 					</div>
 				</div>
 				<div class="col-xs-1">
-					<button style="margin-top:2.2em" class="btn btn-sm btn-primary">
+					<button :disabled="formValid()" style="margin-top:2.2em" class="btn btn-sm btn-primary" @click="buscarInscripcion()">
 						<span class="glyphicon glyphicon-search"></span>
 					</button>				
 				</div>
 			</div>		
+		</div>
+	</div>
+
+	<p v-if="error" class="alert alert-danger text-center">No hay estudiantes inscritos</p>
+
+	<div class="box box-info" v-if="estudiantes" v-if="estudiantes.length > 1">
+		<div class="box-header with-border">
+			<h4>Listado de Estudiantes</h4>	
 		</div>
 		<div class="box-body">
 			<table class="table">
 				<tr>
 					<th>Cédula</th>
 					<th>Nombre y Apellido</th>
-					<th width="150px">Acciones</th>
+					<th>Acciones</th>
 				</tr>
-				<tbody id="table-data">
-					
-				</tbody>
+				<tr v-for="estudiante in estudiantes">
+					<td>@{{ estudiante.cedula }}</td>
+					<td>@{{ estudiante.nombre }} @{{ estudiante.apellido }}</td>
+					<td>
+						<a class="btn btn-default btn-sm" href="@{{ estudiante.id }}">
+							<span class="glyphicon glyphicon-search"></span>
+						</a></td>
+				</tr>
 			</table>
-			<div class="alert alert-danger text-center" id="alert">
-				No se encontraron resultados
-			</div>
 		</div>
-	</div>	
+	</div>
 </div>
 @endsection
 
-@section('scripts')	
-	<script src="{{ asset('/js/buscar-anos.js') }}" type="text/javascript"></script>
-	<script src="{{ asset('/js/buscar-secciones.js') }}" type="text/javascript"></script>
-	<script src="{{ asset('/js/mencion-ano-seccion.js') }}" type="text/javascript"></script>
-	<script src="{{ asset('/js/mencion-ano-seccion.js') }}" type="text/javascript"></script>
-	<script src="{{ asset('/js/inscripciones-index.js') }}" type="text/javascript"></script>
+@section('scripts')
+<script src="{{ asset('/js/vue-functions.js') }}"></script>
+<script>
+	vm = new Funciones({
+		el: 'body',
+		data: {
+			mencion_id: '',
+			ano_id: '',
+			seccion_id: '',
+			anos: {},
+			secciones: {},
+			buscando: false,
+			error: '',
+			/*estudiantes: [
+				{cedula: '15392404', nombre: 'Jorge', apellido: 'Morgado', id: '1'},
+				{cedula: '15392404', nombre: 'Jorge', apellido: 'Morgado', id: '1'}
+			]*/
+			estudiantes: {}
+		},
+		methods: {
+			buscarAno: function ()
+			{
+				this.ano_id = '';
+				this.seccion_id = '';
+				this.secciones = {};
+				this.buscarAnos(this.mencion_id).then(function(response)
+				{
+					console.log(response.data);
+					this.anos = response.data.anos;
+				});
+			},
+			buscarSeccion: function ()
+			{
+				this.seccion_id = '';
+				this.secciones = {};
+				this.buscarSecciones(this.ano_id).then(function(response)
+				{
+					console.log(response.data.secciones);
+					this.secciones = response.data.secciones;
+				});
+			},
+			buscarInscripcion: function()
+			{
+				this.buscarInscripcionesSeccion(this.seccion_id).then(function(response){
+					console.log(response.data.estudiantes);
+					this.estudiantes = response.data.estudiantes;
+				});
+			},
+			formValid: function(){
+				if (this.seccion_id) { return false } else { return true};
+			}
+		}
+	});
+</script>
 @endsection

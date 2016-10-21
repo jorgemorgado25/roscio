@@ -155,15 +155,13 @@
 			},
 			buscarSeccion: function ()
 			{
+				this.seccion_id = '';
+				this.secciones = {};
 				this.buscarSecciones(this.ano_id).then(function(response)
 				{
 					console.log(response.data.secciones);
 					this.secciones = response.data.secciones;
 				});
-			},
-			registrarInscripcion: function()
-			{
-				console.log('hola');
 			},
 			buscarEst: function ()
 			{
@@ -188,15 +186,8 @@
 					}					
 				});
 			},
-			formValid: function()
-			{
-				if (this.estudiante.nombre && this.seccion_id)
-				{
-					return false;
-				}else
-				{
-					return true;
-				}
+			formValid: function(){
+				if (this.estudiante.nombre && this.seccion_id) { return false } else { return true };
 			}
 		}
 	});
