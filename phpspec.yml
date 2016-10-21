@@ -1,0 +1,5 @@
+suites:
+    main:
+        namespace: Roscio
+        psr4_prefix: Roscio
+        src_path: app

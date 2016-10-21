@@ -1,0 +1,23 @@
+body
+{
+	padding: 40px 60px 40px 60px;
+	font-family: Arial,Helvetica Neue,Helvetica,sans-serif;
+}
+.logo
+{
+	position: absolute;
+	top:40px;
+	left:20px;
+	width: 100px;
+}
+table
+{
+    border-collapse: collapse;
+    border-spacing: 0;
+    width:600px;
+}
+th, td
+{
+	border: 1px solid #000000;
+	padding: 4px;
+}
