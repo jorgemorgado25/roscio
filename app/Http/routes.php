@@ -111,7 +111,7 @@ Route::group(['middleware' => ['auth', 'check_role'], 'roles' => 'Inscripciones'
 
 /* RUTAS PARA PETICIONES AJAX */
 	Route::get('buscar_persona_ci/{cedula}', 'EstudiantesController@buscar_persona_ci');
-	Route::get('buscar_persona_id/{cedula}', 'EstudiantesController@buscar_persona_id');
+	Route::get('buscar_persona_id/{id}', 'EstudiantesController@buscar_persona_id');
 	Route::get('buscar_estudiante_ci/{cedula}', 'EstudiantesController@buscar_estudiante_ci');
 	Route::get('buscar_anos/{mencion_id}', 'AnosController@buscar_anos');
 	Route::get('buscar_secciones/{ano_id}', 'AnosController@buscar_secciones');
