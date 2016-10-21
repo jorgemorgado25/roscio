@@ -69,14 +69,25 @@
 			<div class="col-md-6">
 				<div class="form-group">
 					<label for="">Mención</label>
-					{!! Form::select('mencion_id', $menciones, NULL, ['class' => 'form-control', 'placeholder' => '', 'required' => 'required', 'id' => 'sel-mencion', 'v-model' => 'mencion_id']) !!}
+					{!! Form::select('mencion_id', $menciones, NULL, [
+					'class' => 'form-control', 
+					'placeholder' => '', 
+					'required' => 'required', 
+					'id' => 'sel-mencion', 
+					'v-model' => 'mencion_id', 
+					'@change' => 'buscarAno()']
+					) !!}
 				</div>
 			</div>
 			<div class="col-md-6">
 				<div class="form-group">
 					<label for="">Ano</label>
 					<select name="ano_id" id="sel_ano" class="form-control" v-model="ano_id">
-						
+						<option 
+							v-for = "(key, value) in anos" 
+							value = "@{{key}}">
+							@{{ value }}
+						</option>
 					</select>
 				</div>
 			</div>
@@ -89,11 +100,16 @@
 						placeholder="Selccione una seccion" 
 						v-model="seccion_id"
 						>
-						<option v-for="seccion in secciones" :value="option.value">@{{ seccion.text }}</option>
+						<option v-for="seccion in secciones" :value="seccion.value">@{{ seccion.text }}</option>
 					</select>
 				</div>
 			</div>
 		</div>
+
+		<div v-for="(key, value) in anos">
+			@{{ key }} : @{{ value }}
+		</div>
+
 	</div>
 
 	<div class="box-footer clearfix">
@@ -123,20 +139,23 @@ component.hello();
 			mencion_id: '',
 			ano_id: '',
 			seccion_id: '',
-			anos: [],
+			anos: {},
 			/*secciones: [
 				{text: 'One', value: '1'},
 				{text: 'Two', value: '2'},
 				{text: 'Three', value: '3'}
-			],*/			
+			],	*/	
 			secciones: [],
 			buscando: false
 		},
 		methods: {
-
-		},
-		resource: {
-
+			buscarAno: function(){
+				this.$http.get('/buscar_anos/' + this.mencion_id)
+				.then(function(response){
+					this.ano_id = '';
+					this.anos = response.data.anos;
+				});
+			}
 		}
 	});
 </script>
