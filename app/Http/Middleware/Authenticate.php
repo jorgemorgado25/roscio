@@ -35,16 +35,19 @@ class Authenticate
      */
     public function handle($request, Closure $next)
     {
-        if ($this->auth->guest()) {
-            if ($request->ajax()) {
+        if ($this->auth->guest())
+        {
+            if ($request->ajax())
+            {
                 return response('Unauthorized.', 401);
-            } else {
+            }
+            else
+            {
                 //return redirect()->guest('auth/login');
                 Session::flash('error-message','Por favor, inicie sesión.');
                 return Redirect::route('login');
             }
         }
-
         return $next($request);
     }
 }

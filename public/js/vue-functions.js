@@ -33,11 +33,29 @@ var Funciones = Vue.extend({
 				return Promise.resolve(response);
 			});
 		},
-		buscarInscripcionesSeccion: function (seccion_id)
+		buscarInscripcionesSeccion: function (mencion_id, seccion_id)
 		{
-			return this.$http.get('/buscar_inscripciones_seccion/' + seccion_id)
+			return this.$http.get('/buscar_inscripciones_seccion/' + mencion_id + '/' + seccion_id)
 			.then(function(response)
 			{
+				return Promise.resolve(response);
+			});
+		},
+		getCategoriasRubros: function ()
+		{
+			return this.$http.get('/getCategoriasRubros')
+			.then(function(response)
+			{
+				return Promise.resolve(response);
+			});
+		},
+		getRubros: function (categoria_id)
+		{
+			return this.$http.get('/getRubros/' + categoria_id)
+			.then(function(response)
+			{
+				return Promise.resolve(response);
+			}).catch(function(response){
 				return Promise.resolve(response);
 			});
 		}

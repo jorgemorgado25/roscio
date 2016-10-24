@@ -50,11 +50,7 @@
 			</div>
 		@endif
 	</div>
-	<div class="box-footer clearfix">
-		<div class="pull-right">
-			{!! $escolaridades->render() !!}
-		</div>
-	</div>
+	
 </div>
 @endsection
 

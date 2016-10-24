@@ -28,10 +28,12 @@ class InscripcionesController extends Controller
         return view('inscripciones.index', compact('escolaridades', 'menciones'));
     }
 
-    public function buscar_inscripciones_seccion($seccion_id, Request $request)
+    public function buscar_inscripciones_seccion($escolaridad_id, $seccion_id, Request $request)
     {
-        $inscripciones = Inscripcion::where('seccion_id', $seccion_id)->get();
-        $estudiantes = [];
+        $inscripciones = Inscripcion::where('seccion_id', $seccion_id)
+            ->where('escolaridad_id', $escolaridad_id)
+            ->get();
+        $estudiantes = '';
         foreach($inscripciones as $inscripcion)
         {
             $estudiantes = array([

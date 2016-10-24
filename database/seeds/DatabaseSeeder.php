@@ -21,6 +21,8 @@ class DatabaseSeeder extends Seeder
         $this->call(AnosTableSeeder::class);
         $this->call(SeccionesTableSeeder::class);
         $this->call(EstudianteSeeder::class);
+        $this->call(CategoriaPlatoSeeder::class);
+        $this->call(RubrosTableSeeder::class);
         Model::reguard();
     }
 }

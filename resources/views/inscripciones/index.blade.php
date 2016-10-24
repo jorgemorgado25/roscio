@@ -12,7 +12,9 @@
 				<di class="col-xs-3">
 					<div class="form-group">
 						<label for="">Escolaridad</label>
-						{!! Form::select('escolaridad_id', $escolaridades, NULL, ['class' => 'form-control']) !!}
+						{!! Form::select('escolaridad_id', $escolaridades, NULL, [
+						'class' => 'form-control', 
+						'v-model' => 'escolaridad_id']) !!}
 					</div>				
 				</di>
 				<di class="col-xs-3">
@@ -65,7 +67,7 @@
 		</div>
 	</div>
 
-	<p v-if="error" class="alert alert-danger text-center">No hay estudiantes inscritos</p>
+	<p v-if="error" class="alert alert-danger text-center">@{{ error }}</p>
 
 	<div class="box box-info" v-if="estudiantes" v-if="estudiantes.length > 1">
 		<div class="box-header with-border">
@@ -82,7 +84,8 @@
 					<td>@{{ estudiante.cedula }}</td>
 					<td>@{{ estudiante.nombre }} @{{ estudiante.apellido }}</td>
 					<td>
-						<a class="btn btn-default btn-sm" href="@{{ estudiante.id }}">
+						<a class="btn btn-default btn-sm"
+						 href="{{route('estudiantes.index')}}/@{{ estudiante.id }}">
 							<span class="glyphicon glyphicon-search"></span>
 						</a></td>
 				</tr>
@@ -98,6 +101,7 @@
 	vm = new Funciones({
 		el: 'body',
 		data: {
+			escolaridad_id: '',
 			mencion_id: '',
 			ano_id: '',
 			seccion_id: '',
@@ -109,7 +113,7 @@
 				{cedula: '15392404', nombre: 'Jorge', apellido: 'Morgado', id: '1'},
 				{cedula: '15392404', nombre: 'Jorge', apellido: 'Morgado', id: '1'}
 			]*/
-			estudiantes: {}
+			estudiantes: ''
 		},
 		methods: {
 			buscarAno: function ()
@@ -135,13 +139,19 @@
 			},
 			buscarInscripcion: function()
 			{
-				this.buscarInscripcionesSeccion(this.seccion_id).then(function(response){
+				this.error = '';
+				this.estudiantes = '';
+				this.buscarInscripcionesSeccion(this.mencion_id, this.seccion_id).then(function(response){
 					console.log(response.data.estudiantes);
 					this.estudiantes = response.data.estudiantes;
+					response.data.estudiantes ? this.error = '' : this.error = 'No hay estudiantes inscritos'
 				});
 			},
 			formValid: function(){
-				if (this.seccion_id) { return false } else { return true};
+				if (this.seccion_id && this.escolaridad_id) { return false } else { return true};
+			},
+			clearEstudiantes: function(){
+				this.estudiantes = '';
 			}
 		}
 	});

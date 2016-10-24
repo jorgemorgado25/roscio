@@ -16,11 +16,20 @@
 	<h3>Panel de Administración</h3><br>
 	<div class="box box-primary">
 		<div class="box-header">
-			<h4 class="text-primary">Acceso a Comedor</h4>
+			<h4 class="text-primary">Comedor</h4>
 		</div>
 		<div class="box-body">
 			<a class="btn btn-app" href="{{ route('comedor.acceso') }}">
 				<i class="glyphicon glyphicon-log-in"></i> Acceso
+			</a>
+			<a class="btn btn-app" href="{{ route('comedor.acceso') }}">
+				<i class="glyphicon glyphicon-calendar"></i> Menú del día
+			</a>
+			<a class="btn btn-app" href="{{ route('comedor.acceso') }}">
+				<i class="glyphicon glyphicon-piggy-bank"></i> Platos
+			</a>
+			<a class="btn btn-app" href="{{ route('rubros.index') }}">
+				<i class="glyphicon glyphicon-grain"></i> Rubros
 			</a>
 		</div>
 		<div class="box-header">

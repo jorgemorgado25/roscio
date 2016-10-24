@@ -12,7 +12,7 @@ class CreatePlatoRubrosTable extends Migration
      */
     public function up()
     {
-        Schema::create('plato_rubros', function (Blueprint $table) {
+        Schema::create('plato_rubro', function (Blueprint $table) {
             $table->increments('id');
             $table->integer('plato_id');
             $table->integer('rubro_id');
