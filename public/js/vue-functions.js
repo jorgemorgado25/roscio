@@ -58,6 +58,24 @@ var Funciones = Vue.extend({
 			}).catch(function(response){
 				return Promise.resolve(response);
 			});
+		},
+		getCategoriasPlatos: function ()
+		{
+			return this.$http.get('/getCategoriasPlatos')
+			.then(function(response)
+			{
+				return Promise.resolve(response);
+			});
+		},
+		getPlatos: function (categoria_id)
+		{
+			return this.$http.get('/getPlatos/' + categoria_id)
+			.then(function(response)
+			{
+				return Promise.resolve(response);
+			}).catch(function(response){
+				return Promise.resolve(response);
+			});
 		}
 	}
 });

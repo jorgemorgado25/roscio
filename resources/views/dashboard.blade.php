@@ -25,7 +25,7 @@
 			<a class="btn btn-app" href="{{ route('comedor.acceso') }}">
 				<i class="glyphicon glyphicon-calendar"></i> Menú del día
 			</a>
-			<a class="btn btn-app" href="{{ route('comedor.acceso') }}">
+			<a class="btn btn-app" href="{{ route('platos.index') }}">
 				<i class="glyphicon glyphicon-piggy-bank"></i> Platos
 			</a>
 			<a class="btn btn-app" href="{{ route('rubros.index') }}">

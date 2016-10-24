@@ -75,6 +75,7 @@ Route::group(['middleware' => ['auth', 'check_role'], 'roles' => 'Comedor'], fun
 		'as'   => 'comedor.acceso'
 	]);
 	Route::resource('rubros', 'RubrosController');
+	Route::resource('platos', 'PlatosController');
 });
 
 #RUTAS CON CHECK ROLE 'Inscripciones'
@@ -119,7 +120,9 @@ Route::group(['middleware' => ['auth', 'check_role'], 'roles' => 'Inscripciones'
 	Route::get('buscar_inscripciones_seccion/{escolaridad_id}/{seccion_id}', 'InscripcionesController@buscar_inscripciones_seccion');
 
 	Route::get('getCategoriasRubros', 'RubrosController@getCategoriasRubros');
+	Route::get('getCategoriasPlatos', 'PlatosController@getCategoriasPlatos');
 	Route::get('getRubros/{categoria_id}', 'RubrosController@getRubros');
+	Route::get('getPlatos/{categoria_id}', 'PlatosController@getPlatos');
 
 	Route::post('escolaridades/activar', 'EscolaridadesController@activar');
 	Route::post('comedor/postRegistrarIngreso', 'ComedorController@postRegistrarIngreso');

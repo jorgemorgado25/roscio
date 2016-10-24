@@ -73,7 +73,7 @@ class RubrosController extends Controller
         $rubro->fill($request->all());
         $rubro->save();
         $categoria = CategoriaRubro::find($request->categoria_rubro_id);
-        Session::flash('success-message', 'El rubro (' . $rubro->rubro . ') se registró exitosamente en la categoría (' . $categoria->categoria . ')');
+        Session::flash('success-message', 'El rubro <<' . $rubro->rubro . '>> se registró exitosamente en la categoría <<' . $categoria->categoria . '>>');
         return Redirect::route('rubros.index');
     }
 
@@ -114,7 +114,7 @@ class RubrosController extends Controller
         $rubro = Rubro::findOrFail($id);
         $rubro->fill($request->all());        
         $rubro->save();
-        Session::flash('success-message', 'El rubro (' . $rubro->rubro . ') fue editado en la categoría (' . $categoria->categoria  .')');
+        Session::flash('success-message', 'El rubro <<' . $rubro->rubro . '>> fue editado en la categoría <<' . $categoria->categoria  .'>>');
         return Redirect::route('rubros.index');
     }
 

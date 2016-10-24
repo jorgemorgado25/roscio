@@ -14,7 +14,7 @@
 						<label for="">Escolaridad</label>
 						{!! Form::select('escolaridad_id', $escolaridades, NULL, [
 						'class' => 'form-control', 
-						'v-model' => 'escolaridad_id']) !!}
+						'v-model' => 'escolaridad_id']) !!}	
 					</div>				
 				</di>
 				<di class="col-xs-3">
@@ -22,7 +22,6 @@
 						<label for="">Mención</label>
 						{!! Form::select('mencion_id', $menciones, NULL, [
 							'class' => 'form-control', 
-							'placeholder' => '', 
 							'id' => 'sel-mencion', 
 							'v-model' => 'mencion_id', 
 							'@change' => 'buscarAno()']
