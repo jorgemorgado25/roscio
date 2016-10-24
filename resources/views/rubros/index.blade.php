@@ -3,27 +3,30 @@
 	Listado de Rubros
 @endsection
 @section('main-content')
-<h3>
+<h3>	
 	<a class="btn btn-primary pull-right btn-sm" href="{{route('rubros.create')}}">
 		<span class="glyphicon glyphicon-plus"></span>
 		Nuevo</a>
 	Listado de Rubros</h3><br>
+
+	
+
 <div class="box box-primary">
 	<div class="box-header with-border">
-		Seleccione una categoría
-		<span class="pull-right clearfix">			
-			<select v-model="categoria_id" @change="getRubro" class="form-control">
-				<option v-for="(key, value) in categorias" value="@{{key}}">
-					@{{ value }}
-				</option>
-			</select>
-		</span>
+		<div class="btn-group btn-group-justified" role="group">
+			<div class="btn-group" role="group" v-for="(key, value) in categorias">
+				<input class="btn btn-default" type="button" value="@{{ value }}" @click="getRubro(key)"/>
+			</div>			
+		</div>
 	</div>
 
 	<div class="box-body">
+
 		<div class="text-center">
 			<p><i v-if="cargando" class="fa fa-spinner fa-spin fa-4x"></i></p>				
-		</div>		
+		</div>
+
+		@include('partials.success-message')
 
 		<p class="alert alert-info text-center" v-if="!categoria_id">
 			Seleccione una categoria
@@ -36,14 +39,16 @@
 			<thead>
 			<tr>
 				<th>Rubro</th>
+				<th width="20%">Categoría</th>
 				<th width="150px" class="text-center">Acciones</th>
 			</tr>
 			</thead>
 			<tbody>
 				<tr v-for="rubro in rubros">
 					<td>@{{ rubro.rubro }}</td>
+					<td>@{{ rubro.categoria }}</td>
 					<td class="text-center">
-						<a href="#" class="btn btn-sm btn-default">
+						<a href="rubros/@{{ rubro.id }}/edit" class="btn btn-sm btn-default">
 							<span class="glyphicon glyphicon-pencil"></span>
 						</a>						
 					</td>
@@ -58,6 +63,18 @@
 @section('scripts')
 <script src="{{ asset('/js/vue-functions.js') }}"></script>
 <script>
+
+	$(document).ready(function()
+	{
+	    $('#table').dataTable(
+	    {
+	        "language": {
+	            "url": '/plugins/datatables/spanish.json'
+	        },
+		    "bInfo": false
+	    });
+	});
+
 	vm = new Funciones({
 		el: 'body',
 		data: {
@@ -78,11 +95,12 @@
 					this.categorias = response.data
 				});
 			},
-			getRubro: function()
+			getRubro: function(categoria_id)
 			{
 				this.rubros = '';
 				this.error = '';
 				this.cargando = true;
+				this.categoria_id = categoria_id
 				
 				this.getRubros(this.categoria_id).then(function(response)
 				{
@@ -91,12 +109,6 @@
 					this.rubros = response.data.rubros;
 					response.data.rubros ? this.error = '' : this.error = 'No hay rubros en la categoría seleccionada';
 				});
-				
-				/*this.$http.get('getRubros/' + this.categoria_id).then(function(response){
-					this.cargando = false;
-					console.log(response.status);
-					this.rubros = response.data.rubros;
-				});*/
 			}
 		}
 	});

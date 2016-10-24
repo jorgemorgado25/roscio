@@ -63,13 +63,13 @@
 			
 
 		</div>
+		{!! Form::close() !!}
+
 		<div class="box-footer">
 			<div class="col-md-12">
 
 				<button style="display:inline" class="btn btn-primary" type="submit"><span class="glyphicon glyphicon-floppy-disk"></span>&nbsp; Guardar</button>
 				&nbsp;
-				{!! Form::close() !!}
-
 				{!! Form::open(['route' => ['users.destroy', $user->id], 'method' => 'DELETE', 'style' => 'display:inline', 'id' => 'frm-enviar']) !!}
 					<button id="btn-eliminar" type="button" style="display: inline" class="btn btn-danger"><span class="glyphicon glyphicon-trash"></span> &nbsp;Eliminar</button>
 				{!! Form::close() !!}

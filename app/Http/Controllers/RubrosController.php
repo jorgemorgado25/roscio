@@ -4,7 +4,7 @@ namespace Roscio\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Roscio\Rubro;
-use Roscio\categoriaRubro;
+use Roscio\CategoriaRubro;
 use Redirect;
 use Session;
 use Roscio\Http\Requests;
@@ -26,6 +26,7 @@ class RubrosController extends Controller
     public function getCategoriasRubros(Request $request)
     {
         $categorias = categoriaRubro::lists('categoria', 'id');
+        //dd($categorias->toArray());
         if($request->ajax())
         {
             return response()->json($categorias);
@@ -37,7 +38,15 @@ class RubrosController extends Controller
         $rubros = Rubro::where('categoria_rubro_id', $categoria_id)->get();
         if ($rubros->toArray())
         {
-            return response()->json(['rubros' => $rubros]);
+            foreach($rubros as $rubro)
+            {
+                $result[] = [
+                    'id' => $rubro->id,
+                    'rubro' => $rubro->rubro, 
+                    'categoria' => $rubro->categoriaRubro->categoria
+                ];
+            }
+            return response()->json(['rubros' => $result]);
         }        
     }
 
@@ -60,7 +69,12 @@ class RubrosController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $rubro = new Rubro();
+        $rubro->fill($request->all());
+        $rubro->save();
+        $categoria = CategoriaRubro::find($request->categoria_rubro_id);
+        Session::flash('success-message', 'El rubro (' . $rubro->rubro . ') se registró exitosamente en la categoría (' . $categoria->categoria . ')');
+        return Redirect::route('rubros.index');
     }
 
     /**
@@ -82,7 +96,9 @@ class RubrosController extends Controller
      */
     public function edit($id)
     {
-        //
+        $rubro = Rubro::findOrFaiL($id);
+        $categoria = CategoriaRubro::lists('categoria', 'id');
+        return view('rubros.edit', compact('rubro', 'categoria'));
     }
 
     /**
@@ -94,7 +110,12 @@ class RubrosController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        $categoria = CategoriaRubro::find($request->categoria_rubro_id);
+        $rubro = Rubro::findOrFail($id);
+        $rubro->fill($request->all());        
+        $rubro->save();
+        Session::flash('success-message', 'El rubro (' . $rubro->rubro . ') fue editado en la categoría (' . $categoria->categoria  .')');
+        return Redirect::route('rubros.index');
     }
 
     /**

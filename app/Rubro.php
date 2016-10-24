@@ -7,6 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 class Rubro extends Model
 {
     protected $table =  "rubros";
+    protected $fillable = ['categoria_rubro_id', 'rubro'];
 
     public function categoriaRubro()
     {

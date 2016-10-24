@@ -54,7 +54,7 @@
                     <span>Escolaridades</span> <i class="fa fa-angle-left pull-right"></i>
                 </a>
                 <ul class="treeview-menu">
-                    <li @if(Request::segment(1)=='users' && Request::segment(2)== '')class="active"@endif>
+                    <li @if(Request::segment(1)=='escolaridades' && Request::segment(2)== '')class="active"@endif>
                         <a href="{{ route('escolaridades.index') }}">
                             <span class="glyphicon glyphicon-list"></span>Listado</a>
                     </li>

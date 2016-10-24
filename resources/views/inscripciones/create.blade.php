@@ -24,24 +24,23 @@
 							name="cedula" 
 							type="text" 
 							v-model="estudiante.cedula" 
+							autocomplete="off" 
 							class="form-control text-center input-lg">
 							<br>
 
 							<div v-if="error" class="text-center alert alert-danger" id="div-alert">
-					<p>@{{ error }}</p>
-				</div>
+								<p>@{{ error }}</p>
+							</div>
 
-							<button type="button" class="btn btn-primary btn-lg" @click="buscarEst()" style="width:100%">
+							<button type="button" class="btn btn-primary btn-lg" 
+								:disabled="estudiante.cedula == '' " 
+								@click="buscarEst()" 
+								style="width:100%">
 								Buscar Estudiante
 							</button>
 						</div>
 					</div>
 				</div>
-
-				
-					<div v-if="buscando" id="div-spinner" class="panel text-center">
-						<i class="fa fa-spinner fa-spin"></i> Buscando
-					</div>
 
 				<div class="row" v-if="estudiante.nombre">
 					<div class="col-md-6" id="div-nombre-estudiante">
