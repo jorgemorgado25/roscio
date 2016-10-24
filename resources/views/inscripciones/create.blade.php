@@ -11,8 +11,7 @@
 		<div class="box box-primary" id="app">
 			<form method="POST" id="form-create" action="{{ route('inscripciones.store') }}">
 			<div class="box-header with-border">
-				<h3 class="box-title">Datos del Estudiante</h3>
-				
+				<h3 class="box-title">Datos del Estudiante</h3>				
 			</div>
 			<div class="box-body">
 				<div class="row">
@@ -82,7 +81,6 @@
 							<label for="">Mención</label>
 							{!! Form::select('mencion_id', $menciones, NULL, [
 							'class' => 'form-control', 
-							'placeholder' => '', 
 							'required' => 'required', 
 							'id' => 'sel-mencion', 
 							'v-model' => 'mencion_id', 
@@ -204,7 +202,7 @@
 				});
 			},
 			formValid: function(){
-				if (this.estudiante.nombre && this.seccion_id) { return false } else { return true };
+				if (this.estudiante.nombre && this.seccion_id && this.mencion_id) { return false } else { return true };
 			}
 		}
 	});
