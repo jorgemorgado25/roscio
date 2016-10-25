@@ -3,7 +3,6 @@
 	Realizar Inscripción
 @endsection
 @section('main-content')
-
 <div class="row">
 	<div class="col-md-6 col-md-offset-3">
 		<h3 class="text-center">Realizar Inscripción</h3><br>
