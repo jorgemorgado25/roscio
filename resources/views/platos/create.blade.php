@@ -10,14 +10,14 @@
 		<h3 class="text-center">Registrar Plato</h3><br>
 
 		<div class="box box-primary">
-			<form action="{{ route('rubros.store') }}" method="POST" id="form-create">
+			<form method="POST" @submit.prevent="savePlato">
 
 				<div class="row">
 					<div class="box-header with-border">	
 						<div class="col-md-6">
 							<div class="form-group">
 								<label for="">Nombre del Plato</label>
-								<input name="rubro" type="text" class="form-control" required>
+								<input name="rubro" type="text" class="form-control" v-model="nombrePlato" required>
 							</div>
 						</div>
 						<div class="col-md-6">
@@ -25,6 +25,7 @@
 								<label for="">Categoría</label>
 								{!! Form::select('categoria_rubro_id', $catPlatos, null, [
 									'class' => 'form-control', 
+									'required' => 'required', 
 									'v-model' => 'categoria_plato_id'
 								]) !!}
 							</div>
@@ -40,8 +41,7 @@
 								{!! Form::select('categoria_rubro_id', $catRubro, null, [
 									'class' => 'form-control', 
 									'v-model' => 'categoria_rubro_id',
-									'@change' => 'getRubro()', 
-									'required' => 'required']) 
+									'@change' => 'getRubro()']) 
 								!!}
 							</div>
 						</div>
@@ -69,10 +69,11 @@
 									<span class="glyphicon glyphicon-ok"></span>&nbsp;
 									Añadir Ingrediente
 								</button>
-								<button type="buton" class="btn" @click="prueba">Test</button>
-							</span>				
+							</span>
+							<br>
+							<p v-if="error" class="alert alert-danger text-center">@{{ error }}</p>
 							<hr>					
-
+							
 						</div>
 						<div class="col-md-12">
 							<div v-if="ingredientes.length == 0" class="alert alert-info text-center" role="alert">Añada ingredientes al plato</div>
@@ -86,7 +87,7 @@
 									<td>@{{ ingrediente.nombre }}</td>
 									<td>@{{ ingrediente.gramos }}</td>
 									<td>
-										<button type="button" class="btn btn-danger btn-sm">
+										<button type="button" class="btn btn-danger btn-xs">
 											<span class="glyphicon glyphicon-remove"></span>
 										</button>
 									</td>
@@ -121,10 +122,7 @@
 			gramos: '',
 			error: '',
 			nombreRubro: '',
-			/*ingredientes: [{
-				nombre: 'Azucar',
-				gramos: 1000
-			}]*/
+			nombrePlato: '',
 			ingredientes: []
 		},
 		methods:
@@ -149,8 +147,8 @@
 				this.error = '';
 				nombre = this.getRubroName(this.rubro_id);
 				this.ingredientes.push({
-					id: this.rubro_id, 
-					nombre: nombre, 
+					rubro_id: this.rubro_id, 
+					nombre: nombre,
 					gramos: this.gramos
 				});
 				this.rubro_id = '',
@@ -174,8 +172,26 @@
 					return true;
 				}				
 			},
-			prueba: function(){
-				console.log(this.ingredientes[0][id]);
+			savePlato: function()
+			{
+				//window.location = '/platos';
+				if(this.ingredientes.length <= 1){
+					this.error = "Debe seleccionar al menos dos ingredientes para el plato";
+				}else {
+					data = {
+						plato: this.nombrePlato, 
+						categoria_plato_id: this.categoria_plato_id, 
+						ingredientes: this.ingredientes
+					};			
+
+					this.$http.post('/platos/postCreatePlato/', data)
+					.then(function(response)
+					{
+						if(response.data.created) { 
+							window.location = '/platos';
+						}
+			        });			        
+				}
 			}
 		}
 	});

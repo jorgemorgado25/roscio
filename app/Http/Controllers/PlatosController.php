@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use Roscio\CategoriaPlato;
 use Roscio\CategoriaRubro;
 use Roscio\Plato;
+use Roscio\PlatoRubro;
 use Redirect;
 use Session;
 use Roscio\Http\Requests;
@@ -72,7 +73,23 @@ class PlatosController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        //$plato_id = Plato::insertGetId($request->except('ingredientes'));
+        $plato = new Plato($request->except('ingredientes'));
+        $plato->save();
+        foreach($request->ingredientes as $i)
+        {
+            PlatoRubro::create([
+                'plato_id' => $plato->id, 
+                'rubro_id' => $i['rubro_id'], 
+                'gramos' => $i['gramos']
+            ]);
+        }
+        Session::flash('success-message', 'El plato <<' . $plato->plato . '>> se registró exitosamente en la categoría <<' . $plato->categoriaPlato->categoria . '>>');
+        if($request->ajax())
+        {
+
+            return response()->json(['created' => true]);
+        }
     }
 
     /**

@@ -13,4 +13,9 @@ class Rubro extends Model
     {
     	return $this->belongsTo('Roscio\CategoriaRubro', 'categoria_rubro_id');
     }
+
+    public function platoRubro()
+    {
+    	return $this->hasMany('Roscio\PlatoRubro', 'rubro_id');
+    }
 }
