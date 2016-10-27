@@ -14,7 +14,7 @@ class Plato extends Model
     	return $this->belongsTo('Roscio\CategoriaPlato', 'categoria_plato_id');
     }
 
-    public function PlatoRubro()
+    public function platoRubro()
     {
     	return $this->hasMany('Roscio\PlatoRubro', 'plato_id');
     }

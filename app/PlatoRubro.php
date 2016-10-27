@@ -11,10 +11,10 @@ class PlatoRubro extends Model
 
     public function plato()
     {
-    	return $this->belongsTo('\Roscio\Plato', 'plato_id');
+    	return $this->belongsTo('Roscio\Plato', 'plato_id');
     }
     public function rubro()
     {
-    	return $this->belongsTo('\Roscio\Rubro', 'rubro_id');
+    	return $this->belongsTo('Roscio\Rubro', 'rubro_id');
     }
 }

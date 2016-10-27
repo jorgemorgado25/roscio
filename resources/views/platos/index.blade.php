@@ -14,7 +14,7 @@
 		<div class="btn-group btn-group-justified" role="group">
 			<div class="btn-group" role="group" v-for="(key, value) in categorias">
 				<input class="btn btn-default" type="button" value="@{{ value }}" @click="getPlato(key)"/>
-			</div>			
+			</div>
 		</div>
 	</div>
 
@@ -23,9 +23,6 @@
 		<div class="text-center">
 			<p><i v-if="cargando" class="fa fa-spinner fa-spin fa-4x"></i></p>				
 		</div>
-
-		@include('partials.success-message')
-
 		<p class="alert alert-info text-center" v-if="!categoria_id">
 			Seleccione una categoria
 		</p>
@@ -46,9 +43,12 @@
 					<td>@{{ plato.plato }}</td>
 					<td>@{{ plato.categoria }}</td>
 					<td class="text-center">
-						<a href="rubros/@{{ plato.id }}/edit" class="btn btn-sm btn-default">
+						<a title="Ver" href="platos/@{{ plato.id }}" class="btn btn-sm btn-default">
+							<span class="glyphicon glyphicon-search"></span>
+						</a>
+						<a title="Editar" href="platos/@{{ plato.id }}/edit" class="btn btn-sm btn-default">
 							<span class="glyphicon glyphicon-pencil"></span>
-						</a>						
+						</a>
 					</td>
 				</tr>
 			</tbody>

@@ -44,7 +44,12 @@ class PlatosController extends Controller
             //dd($result);
             return response()->json(['platos' => $result]);
         }
+    }
 
+    public function getPlato($id, Request $request)
+    {
+        $plato = Plato::find($id);        
+        return response()->json(['plato' => $plato, 'categoria_plato' => $plato->categoriaPlato->categoria]);
     }
 
     public function index()
@@ -84,11 +89,10 @@ class PlatosController extends Controller
                 'gramos' => $i['gramos']
             ]);
         }
-        Session::flash('success-message', 'El plato <<' . $plato->plato . '>> se registró exitosamente en la categoría <<' . $plato->categoriaPlato->categoria . '>>');
+        Session::flash('success-message', 'El plato ha sido registrado exitosamente');
         if($request->ajax())
         {
-
-            return response()->json(['created' => true]);
+            return response()->json(['created' => true, 'plato_id' => $plato->id]);
         }
     }
 
@@ -100,7 +104,9 @@ class PlatosController extends Controller
      */
     public function show($id)
     {
-        //
+        $plato = Plato::findOrFail($id);
+        $catPlatos = CategoriaPlato::lists('categoria', 'id');
+        return view('platos.show', compact('plato', 'catPlatos'));
     }
 
     /**
@@ -121,9 +127,12 @@ class PlatosController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(Request $request)
     {
-        //
+        $plato = Plato::find($request->id);
+        $plato->fill($request->except('id'));
+        $plato->save();
+        return response()->json(['updated' => true, 'plato' => $plato]);
     }
 
     /**

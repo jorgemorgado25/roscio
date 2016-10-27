@@ -87,22 +87,25 @@
 									<td>@{{ ingrediente.nombre }}</td>
 									<td>@{{ ingrediente.gramos }}</td>
 									<td>
-										<button type="button" class="btn btn-danger btn-xs">
+										<button 
+											type="button" 
+											class="btn btn-danger btn-xs" 
+											@click="removeIngrediente(ingrediente)">
 											<span class="glyphicon glyphicon-remove"></span>
-										</button>
+										</button>										
 									</td>
 								</tr>
 							</table>
+							<button class="btn" type="button" @click="test()">test</button>
 						</div>
 					</div><!-- box header -->
 				</div><!-- div row -->
 
 				<div class="box-body">
 					{{ csrf_field() }}
-					<button class="btn btn-primary" type="submit" id="btn-submit"><span class="glyphicon glyphicon-floppy-disk"></span> Registrar Plato</button>
+					<button :disabled="inProcess" class="btn btn-primary" type="submit" id="btn-submit"><span class="glyphicon glyphicon-floppy-disk"></span> Registrar Plato</button>
 				</div>
 			</form>
-
 		</div><!-- box primary -->		
 	</div>
 </div>
@@ -123,7 +126,8 @@
 			error: '',
 			nombreRubro: '',
 			nombrePlato: '',
-			ingredientes: []
+			ingredientes: [],
+			inProcess: false
 		},
 		methods:
 		{
@@ -155,6 +159,12 @@
 				this.gramos = ''
 
 			},
+			test: function(){
+				console.log(this.ingredientes[0]['rubro_id']);
+			},
+			removeIngrediente: function(ingrediente){				
+				this.ingredientes.$remove(ingrediente);
+			},
 			getRubroName: function()
 			{
 				for (var i = 0; i < this.rubros.length; i++)
@@ -183,12 +193,12 @@
 						categoria_plato_id: this.categoria_plato_id, 
 						ingredientes: this.ingredientes
 					};			
-
+					this.inProcess = true;
 					this.$http.post('/platos/postCreatePlato/', data)
 					.then(function(response)
 					{
 						if(response.data.created) { 
-							window.location = '/platos';
+							window.location = '/platos/' + response.data.plato_id;
 						}
 			        });			        
 				}
