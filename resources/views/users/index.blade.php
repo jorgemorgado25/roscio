@@ -15,7 +15,7 @@
 		Hay <span id="total-users">{{ count($users) }}</span> usuarios registrados
 	</div>
 	<div class="box-body">
-		<table class="table table-bordered" id="">
+		<table class="table table-bordered" id="table">
 			<thead>
 			<tr>
 				<th>#</th>
@@ -66,4 +66,5 @@
 
 @section('scripts')
 	<script src="{{ asset('/js/users-index.js') }}" type="text/javascript"></script>
+	<script src="{{ asset('/js/set-datatable.js') }}"></script>
 @endsection

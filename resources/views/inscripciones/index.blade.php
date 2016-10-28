@@ -38,7 +38,7 @@
 							@{{ value }}
 						</option>
 						</select>
-					</div>				
+					</div>
 				</di>
 				<div class="col-xs-2">
 					<div class="form-group">
@@ -64,38 +64,58 @@
 				</div>
 			</div>		
 		</div>
-	</div>
+		<div class="box-body with-border">
+			<p v-if="error" class="alert alert-danger text-center">@{{ error }}</p>
+			<p class="text-center" v-if="buscando">
+				<i class=" text-center fa fa-spinner fa-spin fa-4x"></i>
+			</p>
+			<div v-if="estudiantes" v-if="estudiantes.length > 1">		
+				<h4>Estudiantes Inscritos</h4>		
+				<table class="table table-striped" id="table">
+					<thead>
+					<tr>
+						<th>Cédula</th>
+						<th>Nombre y Apellido</th>
+						<th class="text-center" width="120px">Acciones</th>
+					</tr>
+					</thead>
+					<tbody>
+					<tr v-for="estudiante in estudiantes">
+						<td>@{{ estudiante.cedula }}</td>
+						<td>@{{ estudiante.nombre }} @{{ estudiante.apellido }}</td>
+						<td class="text-center">
+							<a title="Ver Estudiante" class="btn btn-default btn-sm"
+							 href="{{route('estudiantes.index')}}/@{{ estudiante.id }}">
+								<span class="glyphicon glyphicon-search"></span>
+							</a>
+							<a title="Carnet del Estudiante" href="#" class="btn btn-default btn-sm">
+								<span class="glyphicon glyphicon-credit-card"></span>
+							</a>
+						</td>							
+					</tr>
+					</tbody>
+				</table>
+				<span class="pull-right">
+					<button class="btn btn-primary">
+						<span class="glyphicon glyphicon-print"></span>
+						Imprimir
+					</button>
+					<button class="btn btn-primary">
+						<span class="glyphicon glyphicon-credit-card"></span>
+						Listado de Carnets
+					</button>	
+				</span>
+				
+			</div>
 
-	<p v-if="error" class="alert alert-danger text-center">@{{ error }}</p>
-
-	<div class="box box-info" v-if="estudiantes" v-if="estudiantes.length > 1">
-		<div class="box-header with-border">
-			<h4>Listado de Estudiantes</h4>	
 		</div>
-		<div class="box-body">
-			<table class="table">
-				<tr>
-					<th>Cédula</th>
-					<th>Nombre y Apellido</th>
-					<th>Acciones</th>
-				</tr>
-				<tr v-for="estudiante in estudiantes">
-					<td>@{{ estudiante.cedula }}</td>
-					<td>@{{ estudiante.nombre }} @{{ estudiante.apellido }}</td>
-					<td>
-						<a class="btn btn-default btn-sm"
-						 href="{{route('estudiantes.index')}}/@{{ estudiante.id }}">
-							<span class="glyphicon glyphicon-search"></span>
-						</a></td>
-				</tr>
-			</table>
-		</div>
-	</div>
+	</div>	
 </div>
 @endsection
 
 @section('scripts')
 <script src="{{ asset('/js/vue-functions.js') }}"></script>
+<script src="{{ asset('/js/set-datatable.js') }}"></script>
 <script>
 	vm = new Funciones({
 		el: 'body',
@@ -140,7 +160,11 @@
 			{
 				this.error = '';
 				this.estudiantes = '';
-				this.buscarInscripcionesSeccion(this.mencion_id, this.seccion_id).then(function(response){
+				this.buscando = true;
+				this.buscarInscripcionesSeccion(this.mencion_id, this.seccion_id)
+				.then(function(response)
+				{
+					this.buscando = false;
 					console.log(response.data.estudiantes);
 					this.estudiantes = response.data.estudiantes;
 					response.data.estudiantes ? this.error = '' : this.error = 'No hay estudiantes inscritos'

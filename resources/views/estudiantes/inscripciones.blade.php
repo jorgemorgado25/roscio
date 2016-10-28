@@ -37,6 +37,9 @@
 					<td>{{ $inscripcion->seccion->seccion }}</td>
 					<td>
 						<a target="_blank" title="Imprimir Ficha de Inscripción" class="btn btn-default btn-sm" href="{{ route('estudiantes.ficha_inscripcion', $inscripcion->id) }}"><span class="glyphicon glyphicon-print"></span></a>
+						<a title="Carnet del Estudiante" href="#" class="btn btn-default btn-sm">
+							<span class="glyphicon glyphicon-credit-card"></span>
+						</a>
 					</td>
 				</tr>
 			@endforeach

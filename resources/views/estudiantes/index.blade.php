@@ -62,6 +62,7 @@
 @endsection
 
 @section('scripts')
+	<script src="{{ asset('/js/set-datatable.js') }}"></script>
 	<script>
 	$(document).ready(function()
 	{

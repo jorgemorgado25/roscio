@@ -8,7 +8,7 @@
 <body class="login-page">
     <div class="login-box">
         <div class="login-logo">
-            <b>Sistema</b> Web
+            <b>Control de Comedor</b>
         </div><!-- /.login-logo -->
         @include('partials.error-message')
         @include('partials.success-message')

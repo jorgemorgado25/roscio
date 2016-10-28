@@ -71,9 +71,11 @@
 								</button>
 							</span>
 							<br>
-							<p v-if="error" class="alert alert-danger text-center">@{{ error }}</p>
-							<hr>					
-							
+							<div v-if="error" onclick="emptyError()" class="alert alert-danger alert-dismissible">
+								<button type="button" class="close" aria-hidden="true">&times;</button>
+								<p class="text-center">@{{ error }}</p>
+							</div>
+							<hr>							
 						</div>
 						<div class="col-md-12">
 							<div v-if="ingredientes.length == 0" class="alert alert-info text-center" role="alert">Añada ingredientes al plato</div>
@@ -92,7 +94,7 @@
 											class="btn btn-danger btn-xs" 
 											@click="removeIngrediente(ingrediente)">
 											<span class="glyphicon glyphicon-remove"></span>
-										</button>										
+										</button>
 									</td>
 								</tr>
 							</table>
@@ -106,7 +108,7 @@
 					<i v-if="inProcess" class="fa fa-spinner fa-spin fa"></i>
 				</div>
 			</form>
-		</div><!-- box primary -->		
+		</div><!-- box primary -->
 	</div>
 </div>
 @endsection
@@ -114,6 +116,23 @@
 @section('scripts')
 	<script src="{{ asset('/js/vue-functions.js') }}"></script>
 	<script>
+
+	function verifyItem(items, id)
+	{
+		for (i in items)
+		{
+			if(items[i].rubro_id == id)
+			{
+				return true;
+			}
+		}
+		return false;		
+	};
+
+	function emptyError(){
+		vm.error = '';
+	};
+
 	vm = new Funciones({
 		el: 'body',
 		data:
@@ -140,30 +159,35 @@
 				this.getRubros(this.categoria_rubro_id).then(function(response)
 				{
 					this.cargando = false;
-					console.log(response.data.rubros);
 					this.rubros = response.data.rubros;
 					response.data.rubros ? this.error = '' : this.error = 'No hay rubros en la categoría seleccionada';
 				});
 			},
 			addIngrediente: function()
 			{
-				console.log(this.ingredientes.length);
 				this.error = '';
 				nombre = this.getRubroName(this.rubro_id);
-				this.ingredientes.push({
-					rubro_id: this.rubro_id, 
-					nombre: nombre,
-					gramos: this.gramos
-				});
-				this.rubro_id = '',
-				this.gramos = ''
-
+				if (verifyItem(this.ingredientes, this.rubro_id))
+				{
+					this.error = 'El ingrediente ' + nombre + ' ya está agregado';
+				}else
+				{
+					this.ingredientes.push({
+						rubro_id: this.rubro_id, 
+						nombre: nombre,
+						gramos: this.gramos
+					});
+					this.rubro_id = '',
+					this.gramos = ''
+				}
 			},
 			test: function(){
 				console.log(this.ingredientes[0]['rubro_id']);
 			},
-			removeIngrediente: function(ingrediente){				
+			removeIngrediente: function(ingrediente)
+			{				
 				this.ingredientes.$remove(ingrediente);
+				this.error = '';
 			},
 			getRubroName: function()
 			{
