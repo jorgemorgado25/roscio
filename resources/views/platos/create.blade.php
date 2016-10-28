@@ -80,7 +80,7 @@
 							<table v-if="ingredientes.length > 0" class="table table-bordered">
 								<tr>
 									<th>Rubro</th>
-									<th>Gramos</th>
+									<th>Gramos x 10 personas</th>
 									<th width="80px">Acción</th>
 								</tr>								
 								<tr v-for="ingrediente in ingredientes">
@@ -96,14 +96,14 @@
 									</td>
 								</tr>
 							</table>
-							<button class="btn" type="button" @click="test()">test</button>
 						</div>
 					</div><!-- box header -->
 				</div><!-- div row -->
 
 				<div class="box-body">
 					{{ csrf_field() }}
-					<button :disabled="inProcess" class="btn btn-primary" type="submit" id="btn-submit"><span class="glyphicon glyphicon-floppy-disk"></span> Registrar Plato</button>
+					<button :disabled="inProcess" class="btn btn-primary" type="submit" id="btn-submit"><span class="glyphicon glyphicon-floppy-disk"></span> Registrar Plato</button>&nbsp;&nbsp;
+					<i v-if="inProcess" class="fa fa-spinner fa-spin fa"></i>
 				</div>
 			</form>
 		</div><!-- box primary -->		
