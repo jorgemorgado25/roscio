@@ -22,7 +22,7 @@
 			<a class="btn btn-app" href="{{ route('comedor.acceso') }}">
 				<i class="glyphicon glyphicon-log-in"></i> Acceso
 			</a>
-			<a class="btn btn-app" href="{{ route('comedor.acceso') }}">
+			<a class="btn btn-app" href="{{ route('menu.index') }}">
 				<i class="glyphicon glyphicon-calendar"></i> Menú del día
 			</a>
 			<a class="btn btn-app" href="{{ route('platos.index') }}">

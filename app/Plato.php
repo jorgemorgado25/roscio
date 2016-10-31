@@ -18,4 +18,9 @@ class Plato extends Model
     {
     	return $this->hasMany('Roscio\PlatoRubro', 'plato_id');
     }
+
+    public function menus()
+    {
+        return $this->hasMany('Roscio\Menu', 'plato_id');
+    }
 }

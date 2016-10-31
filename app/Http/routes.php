@@ -76,6 +76,7 @@ Route::group(['middleware' => ['auth', 'check_role'], 'roles' => 'Comedor'], fun
 	]);
 	Route::resource('rubros', 'RubrosController');
 	Route::resource('platos', 'PlatosController');
+	Route::resource('menu', 'MenuController');
 });
 
 #RUTAS CON CHECK ROLE 'Inscripciones'
