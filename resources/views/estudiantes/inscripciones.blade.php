@@ -3,7 +3,12 @@
 	Listado de Inscripciones
 @endsection
 @section('main-content')
-<h3>Listado de Inscripciones del Estudiante</h3><br>
+<h3>Listado de Inscripciones del Estudiante</h3>
+<p>
+	<a title="Ver" class="btn btn-default btn-sm" href="{{ route('estudiantes.show', $estudiante) }}"><span class="glyphicon glyphicon-search"></span> Ver Estudiante</a>
+
+	<a title="Inscribir Estudiante" class="btn btn-default btn-sm" href="{{ route('inscripciones.create', 'cedula=' . $estudiante->cedula) }}"><span class="glyphicon glyphicon-star"></span> Inscribir</a>
+</p>
 <div class="box box-primary">
 	<div class="box-header with-border">
 		Datos del Estudiante
@@ -36,8 +41,16 @@
 					<td>{{ $inscripcion->ano->ano }}</td>
 					<td>{{ $inscripcion->seccion->seccion }}</td>
 					<td>
-						<a target="_blank" title="Imprimir Ficha de Inscripción" class="btn btn-default btn-sm" href="{{ route('estudiantes.ficha_inscripcion', $inscripcion->id) }}"><span class="glyphicon glyphicon-print"></span></a>
-						<a title="Carnet del Estudiante" href="#" class="btn btn-default btn-sm">
+						<a 
+							target="_blank" 
+							title="Imprimir Ficha de Inscripción" 
+							class="btn btn-default btn-sm" 
+							href="{{ route('estudiantes.ficha_inscripcion', $inscripcion->id) }}"><span class="glyphicon glyphicon-print"></span></a>
+						<a 
+							target="_blank"
+							title="Carnet del Estudiante" 
+							href="{{ route('estudiantes.carnet', $inscripcion->id) }}" 
+							class="btn btn-default btn-sm">
 							<span class="glyphicon glyphicon-credit-card"></span>
 						</a>
 					</td>

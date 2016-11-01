@@ -4,11 +4,14 @@
 @endsection
 @section('main-content')
 
-<h3>
-<div class="pull-right">
-			<a title="Inscribir Estudiante" class="btn btn-primary" href="{{ route('inscripciones.create', 'cedula=' . $estudiante->cedula) }}"><span class="glyphicon glyphicon-star"></span> Inscribir Estudiante</a>
-		</div>
-Ver Estudiante</h3><br>
+<h3>Ver Estudiante</h3>
+
+<p>
+	<a title="Inscribir Estudiante" class="btn btn-default btn-sm" href="{{ route('inscripciones.create', 'cedula=' . $estudiante->cedula) }}"><span class="glyphicon glyphicon-star"></span> Inscribir</a>
+
+	<a title="Listado de Inscripciones" class="btn btn-default btn-sm" href="{{ route('estudiante.inscripciones', $estudiante) }}"><span class="glyphicon glyphicon-list"></span> Listado de Inscripciones</a>
+</p>
+
 @include('partials.success-message')
 <div class="box box-primary">
 	<div class="box-header with-border">

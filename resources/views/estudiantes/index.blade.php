@@ -37,9 +37,11 @@
 					<?php $representantes = $estudiante->representantes->reverse(); ?>
 					<td>{{ $representantes[0]->persona->full_name }}</td>
 					<td>
-						<a title="Ficha del Estudiante" class="btn btn-default btn-sm" href="{{ route('estudiantes.show', $estudiante) }}"><span class="glyphicon glyphicon-search"></span></a>
+						<a title="Ver" class="btn btn-default btn-sm" href="{{ route('estudiantes.show', $estudiante) }}"><span class="glyphicon glyphicon-search"></span></a>
 						<a title="Listado de Inscripciones" class="btn btn-default btn-sm" href="{{ route('estudiante.inscripciones', $estudiante) }}"><span class="glyphicon glyphicon-list"></span></a>
+						
 						<a title="Inscribir Estudiante" class="btn btn-default btn-sm" href="{{ route('inscripciones.create', 'cedula=' . $estudiante->cedula) }}"><span class="glyphicon glyphicon-star"></span></a>
+
 						<a title="Editar" class="btn btn-default btn-sm" href="{{ route('estudiantes.edit', $estudiante) }}"><span class="glyphicon glyphicon-pencil"></span></a>
 						<a title="Modificar Representante" class="btn btn-default btn-sm" href="{{ route('get_estudiante.modificar_representante', $estudiante) }}"><span class="glyphicon glyphicon-refresh"></span></a>
 					</td>

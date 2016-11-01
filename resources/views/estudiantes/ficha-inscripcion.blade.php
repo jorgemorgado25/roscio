@@ -53,6 +53,9 @@
 	}
 </style>
 	<body style="margin: 50px 80px 50px 80px">
+
+		<img style="position:absolute" width="100px" src="img/logo.png" alt="">
+
 		<header>
 			<p>REPUBLICA BOLIVARIANA DE VENEZUELA</p>
 			<p>MINISTERIO DEL PODER POPULAR PARA LA EDUCACION</p>
@@ -241,8 +244,8 @@
 		<table style="width:100%">
 			<tr>
 				<td width="80px"><b>Dirección:</b></td>
-				<td width="">{{ $inscripcion->representante->persona->direccion }}</td>
-				
+				<td width="">{{ $inscripcion->representante->persona->direccion }}
+				</td>				
 			</tr>
 		</table>
 	</body>

@@ -108,6 +108,11 @@ Route::group(['middleware' => ['auth', 'check_role'], 'roles' => 'Inscripciones'
 		'as'   => 'estudiantes.ficha_inscripcion'
 		]
 	);
+	Route::get('estudiantes/carnet/{inscripcion_id}',
+	[
+		'uses' => 'EstudiantesController@carnet',
+		'as'   => 'estudiantes.carnet'
+	]);
 	Route::resource('personas', 'PersonasController');
 });
 

@@ -57,6 +57,17 @@ class EstudiantesController extends Controller
         return $pdf->stream('Ficha de Inscripcion');        
     }
 
+
+    public function carnet($inscripcion_id)
+    {
+        $inscripcion = Inscripcion::find($inscripcion_id);
+        $view =  \View::make('estudiantes.carnet', (['inscripcion' => $inscripcion]))->render();
+        $pdf = \App::make('dompdf.wrapper');
+        $pdf->loadHTML($view)->setPaper('letter');
+        //$pdf->loadHTML($view)->setPaper('a4')->setOrientation('landscape');
+        return $pdf->stream('Ficha de Inscripcion'); 
+    }
+
     public function get_modificar_representante()
     {
         return view('estudiantes.modificar-representante');
