@@ -33,6 +33,10 @@
 
 <script src="{{ asset('/plugins/datatables/dataTables.bootstrap.min.js') }}" type="text/javascript"></script>
 
+<!-- DatePicker -->
+<script src="{{ asset('/plugins/datepicker/bootstrap-datepicker.js') }}" type="text/javascript"></script>
+<script src="{{ asset('/plugins/datepicker/locales/bootstrap-datepicker.es.js') }}" type="text/javascript"></script>
+
 <!-- Troast -->
 <script src="{{ asset('/bower_components/jquery-toast-plugin/dist/jquery.toast.min.js') }}" type="text/javascript"></script>
 

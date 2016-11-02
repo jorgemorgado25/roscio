@@ -86,6 +86,16 @@ var Funciones = Vue.extend({
 			}).catch(function(response){
 				return Promise.resolve(response);
 			});
+		},
+		getMenu: function(fecha)
+		{
+			return this.$http.get('/menu/getMenu/' + fecha)
+			.then(function(response)
+			{
+				return Promise.resolve(response);
+			}).catch(function(response){
+				return Promise.resolve(response);
+			});
 		}
 	}
 });

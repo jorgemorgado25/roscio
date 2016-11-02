@@ -34,7 +34,7 @@ class RubrosController extends Controller
     }
 
     public function getRubros($categoria_id, Request $request)
-    {        
+    {
         $rubros = Rubro::where('categoria_rubro_id', $categoria_id)->get();
         if ($rubros->toArray())
         {
@@ -47,7 +47,7 @@ class RubrosController extends Controller
                 ];
             }
             return response()->json(['rubros' => $result]);
-        }        
+        }
     }
 
     /**

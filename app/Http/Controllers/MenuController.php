@@ -6,7 +6,9 @@ use Illuminate\Http\Request;
 
 use Roscio\Http\Requests;
 use Roscio\Http\Controllers\Controller;
-
+use Roscio\Menu;
+use Roscio\Plato;
+use Carbon\Carbon;
 class MenuController extends Controller
 {
     /**
@@ -14,6 +16,29 @@ class MenuController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
+
+    public function getMenu(Request $request, $fecha)
+    {
+        $fecha = Carbon::parse($fecha);
+        $fecha->format('Y-m-d');
+        $platos = Plato::all();
+        $desayuno = Menu::where('fecha', $fecha)->where('tipo_ingreso_id', 1)->get();
+        $almuerzo = Menu::where('fecha', $fecha)->where('tipo_ingreso_id', 2)->get();
+        return response()->json(['desayuno' => $desayuno, 'almuerzo' => $almuerzo, 'platos' => $platos]);
+        //dd($menu);
+
+        /*foreach($desayuno as $d)
+        {
+            echo $d->plato->plato;
+            echo '<br>';
+        }
+        foreach($almuerzo as $a)
+        {
+            echo $a->plato->plato;
+            echo '<br>';
+        }*/
+    }
+
     public function index()
     {
         return view('menu.index');

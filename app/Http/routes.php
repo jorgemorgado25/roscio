@@ -131,6 +131,8 @@ Route::group(['middleware' => ['auth', 'check_role'], 'roles' => 'Inscripciones'
 	Route::get('getPlatos/{categoria_id}', 'PlatosController@getPlatos');
 	Route::get('getPlato/{id}', 'PlatosController@getPlato');
 
+	Route::get('menu/getMenu/{fecha}', 'MenuController@getMenu');
+
 	Route::post('platos/updatePlato', 'PlatosController@update'); // update Plato
 	Route::post('escolaridades/activar', 'EscolaridadesController@activar');
 	Route::post('comedor/postRegistrarIngreso', 'ComedorController@postRegistrarIngreso');
