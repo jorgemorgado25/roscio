@@ -11,6 +11,7 @@ class CategoriaPlatoSeeder extends Seeder
      */
     public function run()
     {
+        DB::Table('categoria_platos')->truncate();
         $categorias = array(
         	['nombre' => 'Sopa'],
         	['nombre' => 'Plato Principal'],

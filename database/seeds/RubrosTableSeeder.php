@@ -15,6 +15,7 @@ class RubrosTableSeeder extends Seeder
     	DB::Table('rubros')->truncate();
 
         $categorias = [
+            ['nombre' => 'Harinas'],
         	['nombre' => 'Pastas'],
         	['nombre' => 'Cereales y Legumbres'],
         	['nombre' => 'Carnes'],
@@ -28,6 +29,21 @@ class RubrosTableSeeder extends Seeder
         	DB::Table('categoria_rubros')->insert([
         		'categoria' => $categoria['nombre']
         	]);
+        }
+
+        $categoriaHarinas = CategoriaRubro::where('categoria', 'Harinas')->first();
+
+        $harinas = array(
+            ['nombre' => 'Harina de Maíz'], 
+            ['nombre' => 'Harina de Trigo']
+        );
+
+        foreach($harinas as $harina)
+        {
+            db::Table('rubros')->insert([
+                'categoria_rubro_id' => $categoriaHarinas->id,
+                'rubro' => $harina['nombre']
+            ]);
         }
 
         $categoriaPasta = CategoriaRubro::where('categoria', 'Pastas')->first();
@@ -49,8 +65,7 @@ class RubrosTableSeeder extends Seeder
 
         $carnes = array(
         	['nombre' => 'Pollo'],
-        	['nombre' => 'Carne Molida'],
-        	['nombre' => 'Carne Mechada'],
+        	['nombre' => 'Carne de Res']
         );
         foreach($carnes as $carne)
         {

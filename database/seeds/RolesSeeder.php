@@ -11,6 +11,8 @@ class RolesSeeder extends Seeder
      */
     public function run()
     {
+        DB::Table('roles')->truncate();
+        DB::Table('user_role')->truncate();
     	$roles = ['Inscripciones', 'Comedor'];
     	for ($i = 0; $i < count($roles) ; $i++)
         { 
