@@ -14,7 +14,7 @@
 			{{ csrf_field() }}
 			<button class="btn btn-primary" type="submit" id="btn-submit"><span class="glyphicon glyphicon-floppy-disk"></span> Registrar</button>
 			</form>
-		</div>		
+		</div>
 	</div>
 </div>
 @stop

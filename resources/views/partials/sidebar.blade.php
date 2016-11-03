@@ -9,7 +9,7 @@
             <!-- Optionally, you can add icons to the links -->
 
             <li @if(Request::segment(1)=='dashboard')class="active"@endif>
-                <a href="{{ route('prueba.index') }}"><i class='glyphicon glyphicon-home'></i> <span>Inicio</span></a>
+                <a href="{{ route('prueba.index') }}"><i class='glyphicon glyphicon-home'></i> <span>Panel de Administración</span></a>
             </li>
 
             @if(Auth::user()->hasRole('inscripciones'))

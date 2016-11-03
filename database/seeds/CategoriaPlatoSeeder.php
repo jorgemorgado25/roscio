@@ -16,7 +16,8 @@ class CategoriaPlatoSeeder extends Seeder
         	['nombre' => 'Sopa'],
         	['nombre' => 'Plato Principal'],
         	['nombre' => 'Ensalada'],
-        	['nombre' => 'Jugo']
+            ['nombre' => 'Jugo'],
+        	['nombre' => 'Fruta']
         );
         foreach($categorias as $categoria)
         {

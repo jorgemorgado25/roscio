@@ -25,23 +25,16 @@ class MenuController extends Controller
         $desayuno = Menu::where('fecha', $fecha)->where('tipo_ingreso_id', 1)->get();
         $almuerzo = Menu::where('fecha', $fecha)->where('tipo_ingreso_id', 2)->get();
         return response()->json(['desayuno' => $desayuno, 'almuerzo' => $almuerzo, 'platos' => $platos]);
-        //dd($menu);
-
-        /*foreach($desayuno as $d)
-        {
-            echo $d->plato->plato;
-            echo '<br>';
-        }
-        foreach($almuerzo as $a)
-        {
-            echo $a->plato->plato;
-            echo '<br>';
-        }*/
     }
 
     public function index()
     {
-        return view('menu.index');
+        $sopas = Plato::where('categoria_plato_id', 1)->lists('plato', 'id');
+        $principales = Plato::where('categoria_plato_id', 2)->lists('plato', 'id');
+        $ensaladas = Plato::where('categoria_plato_id', 3)->lists('plato', 'id');
+        $jugos = Plato::where('categoria_plato_id', 4)->lists('plato', 'id');
+        $frutas = Plato::where('categoria_plato_id', 5)->lists('plato', 'id');
+        return view('menu.index', compact('sopas', 'principales', 'ensaladas', 'jugos', 'frutas'));
     }
 
     /**
