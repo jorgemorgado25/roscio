@@ -37,6 +37,22 @@ class MenuController extends Controller
         return view('menu.index', compact('sopas', 'principales', 'ensaladas', 'jugos', 'frutas'));
     }
 
+    public function saveDesayuno(Request $request)
+    {
+        $fecha = Carbon::parse($request['fecha']);
+        $fecha->format('Y-m-d');
+        if ($request['platoPrincipal'] != '')
+        {
+            $menu = new Menu();
+            $menu->plato_id = $request['platoPrincipal'];
+            $menu->tipo_ingreso_id = 1;
+            $menu->cantidad = $request['cantidad'];
+            $menu->fecha = $fecha;
+            $menu->save();
+        }
+        return response()->json(['created' => true]);
+    }
+
     /**
      * Show the form for creating a new resource.
      *

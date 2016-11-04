@@ -36,9 +36,9 @@ Menú del Día</h3><br>
 				
 				<div v-if="!fecha" class="alert alert-info text-center" role="alert">Seleccione una Fecha</div>
 
-				<div v-if="fecha">			
+				<div v-if="fecha">
 
-					<div class="row">
+					<div class="row" v-if="!buscando">
 						<div class="col-md-6">
 							<div v-if="!hayDesayuno()">
 								<p class="alert alert-danger text-center">No hay desayuno</p>
@@ -144,7 +144,7 @@ Menú del Día</h3><br>
 				<form class="form-inline">
 				<div class="form-group">
 				<label for="exampleInputName2">Cantidad de Platos: &nbsp;</label>
-				<input type="text" class="form-control" v-model="desayuno.cantidad">
+				<input type="text" class="form-control" v-model="desayuno.cantidad" maxlength=4>
 				</div>
 				</form>
 			</div>
@@ -152,8 +152,8 @@ Menú del Día</h3><br>
 	</div>
 	<div class="box-footer">
 		<span class="pull-right">
-			<button class="btn btn-primary" @click="saveDesayuno()"><span class="glyphicon glyphicon-floppy-disk"></span> Guardar</button>
-			<button class="btn btn-danger" @click="showAddDesayuno()"><span class="glyphicon glyphicon-remove"></span> Cancelar</button>
+			<button class="btn btn-primary btn-sm" @click="saveDesayuno()"><span class="glyphicon glyphicon-floppy-disk"></span> Guardar</button>
+			<button class="btn btn-danger btn-sm" @click="showAddDesayuno()"><span class="glyphicon glyphicon-remove"></span> Cancelar</button>
 		</span>
 	</div>
 </div>
@@ -220,7 +220,7 @@ Menú del Día</h3><br>
 				<form class="form-inline">
 				<div class="form-group">
 				<label for="exampleInputName2">Cantidad de Platos: &nbsp;</label>
-				<input type="text" class="form-control" v-model="almuerzo.cantidad">
+				<input type="text" class="form-control" v-model="almuerzo.cantidad" maxlength=4>
 				</div>
 				</form>
 			</div>
@@ -264,22 +264,26 @@ Menú del Día</h3><br>
 
 			desayuno:
 			{
-				'adding': false, 
-				'platoPrincipal': '', 
-				'jugo': '', 
-				'fruta': '', 
+				adding: false, 
+				platoPrincipal: '', 
+				jugo: '', 
+				fruta: '', 
 				cantidad: '',
-				error: ''
+				error: '',
+				tipo_ingreso_id: 1,
+				fecha: ''
 			},
 			almuerzo: {
-				'adding': false,
-				'sopa': '',
-				'platoPrincipal': '', 
-				'ensalada': '',
-				'jugo': '', 
-				'fruta': '', 
+				adding: false,
+				sopa: '',
+				platoPrincipal: '', 
+				ensalada: '',
+				jugo: '', 
+				fruta: '', 
 				cantidad: '',
-				error: ''
+				error: '',
+				tipo_ingreso_id: 1,
+				fecha: ''
 			},
 			desayunoPlato: {},
 			almuerzoPlato: {},
@@ -377,6 +381,7 @@ Menú del Día</h3><br>
 			saveDesayuno: function()
 			{
 				this.desayuno.error = '';
+				this.desayuno.fecha = this.fecha;
 				if (!this.desayuno.platoPrincipal)
 				{
 					this.desayuno.error = 'Seleccione un plato principal';
@@ -387,20 +392,28 @@ Menú del Día</h3><br>
 					this.desayuno.error = 'Escriba la cantidad de platos';
 					return false;
 				}
+				this.$http.post('/menu/saveDesayuno/', this.desayuno)
+				.then(function(response)
+				{
+					/*if(response.data.created) { 
+						window.location = '/platos/' + response.data.plato_id;
+					}*/
+					console.log(response.data.desayuno);
+		        });
 			},
 			saveAlmuerzo: function()
 			{
 				this.almuerzo.error = '';
-				if (!this.almuerzo.platoPrincipal)
+				/*if (!this.almuerzo.platoPrincipal)
 				{
 					this.almuerzo.error = 'Seleccione un plato principal';
-					return false;
+					//return false;
 				}
 				if (!this.almuerzo.cantidad)
 				{
 					this.almuerzo.error = 'Escriba la cantidad de platos';
-					return false;
-				}
+					//return false;
+				}*/
 			}
 		}
 	});

@@ -137,3 +137,5 @@ Route::group(['middleware' => ['auth', 'check_role'], 'roles' => 'Inscripciones'
 	Route::post('escolaridades/activar', 'EscolaridadesController@activar');
 	Route::post('comedor/postRegistrarIngreso', 'ComedorController@postRegistrarIngreso');
 	Route::post('platos/postCreatePlato', 'PlatosController@store');
+
+	Route::post('menu/saveDesayuno', 'MenuController@saveDesayuno');

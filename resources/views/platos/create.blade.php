@@ -224,7 +224,7 @@
 						if(response.data.created) { 
 							window.location = '/platos/' + response.data.plato_id;
 						}
-			        });			        
+			        });
 				}
 			}
 		}
