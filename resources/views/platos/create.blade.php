@@ -56,10 +56,14 @@
 							</div>
 						</div>
 						<div class="col-md-4">
-							<label for="">Gramos x 10 personas</label>
-							<input type="text" class="form-control" maxlength="4" v-model="gramos">
+							<label for="">Gramos o Cantidad</label>
+							<input type="text" class="form-control" maxlength="4" v-model="cantidad" id="txt-cantidad">
+
+							<input type="radio" name="medida" value="gramos" v-model="medida"> Gramos x 10 Personas <br>
+							<input type="radio" name="medida" value="cantidad" v-model="medida"> Cantidad por persona
 						</div>
 						<div class="col-md-12">
+							<br>
 							<span class="clearfix">
 								<button 
 									type="button" 
@@ -82,12 +86,14 @@
 							<table v-if="ingredientes.length > 0" class="table table-bordered">
 								<tr>
 									<th>Rubro</th>
-									<th>Gramos x 10 personas</th>
+									<th>Gramos o Cantidad</th>
+									<th>Medida</th>
 									<th width="80px">Acción</th>
 								</tr>								
 								<tr v-for="ingrediente in ingredientes">
 									<td>@{{ ingrediente.nombre }}</td>
-									<td>@{{ ingrediente.gramos }}</td>
+									<td>@{{ ingrediente.cantidad }}</td>
+									<td>@{{ ingrediente.medida }}</td>
 									<td>
 										<button 
 											type="button" 
@@ -116,6 +122,12 @@
 @section('scripts')
 	<script src="{{ asset('/js/vue-functions.js') }}"></script>
 	<script>
+	/* -------- ALPHANUM INTEGER --------- */
+	$('#txt-cantidad').numeric({
+    	allowMinus   : false,
+    	allowThouSep : false,
+    	allowDecSep: false
+    });
 
 	function verifyItem(items, id)
 	{
@@ -141,7 +153,8 @@
 			categoria_rubro_id: '',
 			rubros: '',
 			rubro_id: '',
-			gramos: '',
+			cantidad: '',
+			medida: '',
 			error: '',
 			nombreRubro: '',
 			nombrePlato: '',
@@ -175,10 +188,12 @@
 					this.ingredientes.push({
 						rubro_id: this.rubro_id, 
 						nombre: nombre,
-						gramos: this.gramos
+						cantidad: this.cantidad,
+						medida: this.medida
 					});
 					this.rubro_id = '',
-					this.gramos = ''
+					this.cantidad = '',
+					this.medida = ''
 				}
 			},
 			test: function(){
@@ -200,7 +215,7 @@
 			},
 			enableAddButtom: function()
 			{
-				if(this.categoria_rubro_id && this.rubro_id && this.gramos){
+				if(this.categoria_rubro_id && this.rubro_id && this.cantidad && this.medida){
 					return false;
 				}else{
 					return true;
@@ -209,8 +224,8 @@
 			savePlato: function()
 			{
 				//window.location = '/platos';
-				if(this.ingredientes.length <= 1){
-					this.error = "Debe seleccionar al menos dos ingredientes para el plato";
+				if(this.ingredientes.length == 0){
+					this.error = "Debe seleccionar un ingrediente para el plato";
 				}else {
 					data = {
 						plato: this.nombrePlato, 

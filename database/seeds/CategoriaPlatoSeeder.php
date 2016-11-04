@@ -13,10 +13,11 @@ class CategoriaPlatoSeeder extends Seeder
     {
         DB::Table('categoria_platos')->truncate();
         $categorias = array(
+            ['nombre' => 'Desayuno'],
         	['nombre' => 'Sopa'],
         	['nombre' => 'Plato Principal'],
         	['nombre' => 'Ensalada'],
-            ['nombre' => 'Jugo'],
+            ['nombre' => 'Bebida'],
         	['nombre' => 'Fruta']
         );
         foreach($categorias as $categoria)

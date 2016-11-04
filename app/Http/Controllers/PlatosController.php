@@ -86,7 +86,8 @@ class PlatosController extends Controller
             PlatoRubro::create([
                 'plato_id' => $plato->id, 
                 'rubro_id' => $i['rubro_id'], 
-                'gramos' => $i['gramos']
+                'cantidad' => $i['cantidad'],
+                'medida'   => $i['medida']
             ]);
         }
         Session::flash('success-message', 'El plato ha sido registrado exitosamente');

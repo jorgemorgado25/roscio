@@ -139,3 +139,4 @@ Route::group(['middleware' => ['auth', 'check_role'], 'roles' => 'Inscripciones'
 	Route::post('platos/postCreatePlato', 'PlatosController@store');
 
 	Route::post('menu/saveDesayuno', 'MenuController@saveDesayuno');
+	Route::post('menu/saveAlmuerzo', 'MenuController@saveAlmuerzo');

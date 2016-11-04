@@ -58,9 +58,9 @@ Menú del Día</h3><br>
 									</button>
 								</div>
 								<div class="panel-body">
-									<p><b>Plato Principal: </b>@{{ desayunoPlato[2] }}</p>
-									<p><b>Jugo: </b>@{{ desayunoPlato[4] }}</p>
-									<p><b>Fruta: </b>@{{ desayunoPlato[5] }}</p>
+									<p><b>Desayuno: </b>@{{ desayunoPlato[1] }}</p>
+									<p><b>Bebida: </b>@{{ desayunoPlato[5] }}</p>
+									<p><b>Fruta: </b>@{{ desayunoPlato[6] }}</p>
 								</div>
 							</div>
 						</div>
@@ -85,11 +85,11 @@ Menú del Día</h3><br>
 									</button>
 								</div>
 								<div class="panel-body">
-									<p><b>Sopa: </b> @{{ almuerzoPlato[1] }}</p>
-									<p><b>Plato Principal: </b>@{{ almuerzoPlato[2] }}</p>
-									<p><b>Ensalada: </b>@{{ almuerzoPlato[3] }}</p>
-									<p><b>Jugo: </b> @{{ almuerzoPlato[4] }}</p>
-									<p><b>Fruta: </b> @{{ almuerzoPlato[5] }}</p>
+									<p><b>Sopa: </b> @{{ almuerzoPlato[2] }}</p>
+									<p><b>Plato Principal: </b>@{{ almuerzoPlato[3] }}</p>
+									<p><b>Ensalada: </b>@{{ almuerzoPlato[4] }}</p>
+									<p><b>Bebida: </b> @{{ almuerzoPlato[5] }}</p>
+									<p><b>Fruta: </b> @{{ almuerzoPlato[6] }}</p>
 								</div>
 							</div>
 						</div>
@@ -100,7 +100,7 @@ Menú del Día</h3><br>
 	</div>
 </div>
 
-<div class="box box-primary" v-if="desayuno.adding">
+<div class="box box-primary" v-show="desayuno.adding">
 	<div class="box-header with-border">
 		Agregar Desayuno
 	</div>
@@ -111,18 +111,18 @@ Menú del Día</h3><br>
 			</div>
 			<div class="col-md-4">
 				<div class="form-group">
-					<label for="">Plato Principal</label>
-					{!! Form::select('platoPrincipal', $principales, NULL, [
+					<label for="">Desayuno</label>
+					{!! Form::select('desayuno', $desayunos, NULL, [
 						'class' => 'form-control',
 						'placeholder' => 'Ninguno', 
-						'v-model' => 'desayuno.platoPrincipal'] 
+						'v-model' => 'desayuno.desayuno'] 
 					) !!}
 				</div>
 			</div>
 			<div class="col-md-4">
 				<div class="form-group">
-					<label for="">Jugo</label>
-					{!! Form::select('jugo', $jugos, NULL, [
+					<label for="">Bebida</label>
+					{!! Form::select('jugo', $bebidas, NULL, [
 						'class' => 'form-control',
 						'placeholder' => 'Ninguno',  
 						'v-model' => 'desayuno.jugo'] 
@@ -144,7 +144,7 @@ Menú del Día</h3><br>
 				<form class="form-inline">
 				<div class="form-group">
 				<label for="exampleInputName2">Cantidad de Platos: &nbsp;</label>
-				<input type="text" class="form-control" v-model="desayuno.cantidad" maxlength=4>
+				<input type="text" class="form-control" v-model="desayuno.cantidad" maxlength="4" id="txt-cantidad-1">
 				</div>
 				</form>
 			</div>
@@ -158,19 +158,22 @@ Menú del Día</h3><br>
 	</div>
 </div>
 
-<div class="box box-primary" v-if="almuerzo.adding">
+<div class="box box-primary" v-show="almuerzo.adding">
 	<div class="box-header with-border">
 		Agregar Almuerzo
 	</div>
 	<div class="box-body">
 		<div class="row">
+			<div class="col-md-12">
+				<p v-if="almuerzo.error" class="alert alert-danger text-center">@{{ almuerzo.error }}</p>
+			</div>
 			<div class="col-md-2">
 				<div class="form-group">
 					<label for="">Sopa</label>
 					{!! Form::select('sopas', $sopas, NULL, [
 						'class' => 'form-control',
 						'placeholder' => 'Ninguno', 
-						'v-model' => 'desayuno.sopa'] 
+						'v-model' => 'almuerzo.sopa'] 
 					) !!}
 				</div>
 			</div>
@@ -180,7 +183,7 @@ Menú del Día</h3><br>
 					{!! Form::select('platoPrincipal', $principales, NULL, [
 						'class' => 'form-control',
 						'placeholder' => 'Ninguno', 
-						'v-model' => 'desayuno.platoPrincipal'] 
+						'v-model' => 'almuerzo.platoPrincipal'] 
 					) !!}
 				</div>
 			</div>
@@ -190,17 +193,17 @@ Menú del Día</h3><br>
 					{!! Form::select('jugo', $ensaladas, NULL, [
 						'class' => 'form-control',
 						'placeholder' => 'Ninguna',  
-						'v-model' => 'desayuno.ensalada'] 
+						'v-model' => 'almuerzo.ensalada'] 
 					) !!}
 				</div>
 			</div>
 			<div class="col-md-2">
 				<div class="form-group">
-					<label for="">Jugo</label>
-					{!! Form::select('jugo', $jugos, NULL, [
+					<label for="">Bebida</label>
+					{!! Form::select('jugo', $bebidas, NULL, [
 						'class' => 'form-control',
 						'placeholder' => 'Ninguno',  
-						'v-model' => 'desayuno.jugo'] 
+						'v-model' => 'almuerzo.jugo'] 
 					) !!}
 				</div>
 			</div>
@@ -210,7 +213,7 @@ Menú del Día</h3><br>
 					{!! Form::select('jugo', $frutas, NULL, [
 						'class' => 'form-control',
 						'placeholder' => 'Ninguno',  
-						'v-model' => 'desayuno.fruta'] 
+						'v-model' => 'almuerzo.fruta'] 
 					) !!}
 				</div>
 			</div>
@@ -220,7 +223,7 @@ Menú del Día</h3><br>
 				<form class="form-inline">
 				<div class="form-group">
 				<label for="exampleInputName2">Cantidad de Platos: &nbsp;</label>
-				<input type="text" class="form-control" v-model="almuerzo.cantidad" maxlength=4>
+				<input type="text" class="form-control" v-model="almuerzo.cantidad" maxlength=4 id="txt-cantidad-2">
 				</div>
 				</form>
 			</div>
@@ -228,7 +231,7 @@ Menú del Día</h3><br>
 	</div>
 	<div class="box-footer">
 		<span class="pull-right">
-			<button class="btn btn-primary btn-sm"><span class="glyphicon glyphicon-floppy-disk"></span> Guardar</button>
+			<button class="btn btn-primary btn-sm" @click="saveAlmuerzo()"><span class="glyphicon glyphicon-floppy-disk"></span> Guardar</button>
 			<button class="btn btn-danger btn-sm" @click="showAddAlmuerzo()"><span class="glyphicon glyphicon-remove"></span> Cancelar</button>
 		</span>
 	</div>
@@ -238,12 +241,19 @@ Menú del Día</h3><br>
 @section('scripts')
 <script src="{{ asset('/js/vue-functions.js') }}"></script>
 <script>
+
 	$('#datepicker').datepicker({
 		format: 'dd-mm-yyyy',
 		language: 'es',
 		todayHighlight: true,
 		daysOfWeekDisabled: "0,6",
-	});
+	});	
+		
+	$('#txt-cantidad-1, #txt-cantidad-2').numeric({
+    	allowMinus   : false,
+    	allowThouSep : false,
+    	allowDecSep: false
+    });	
 
 	function getItem(id, items)
 	{
@@ -265,7 +275,7 @@ Menú del Día</h3><br>
 			desayuno:
 			{
 				adding: false, 
-				platoPrincipal: '', 
+				desayuno: '', 
 				jugo: '', 
 				fruta: '', 
 				cantidad: '',
@@ -298,16 +308,20 @@ Menú del Día</h3><br>
 		methods: {
 			buscarMenu: function(){
 				this.buscando = true;
-				this.desayunoPlato[2] = '-';
-				this.desayunoPlato[4] = '-';
+				this.desayunoPlato[1] = '-';
 				this.desayunoPlato[5] = '-';
-				this.almuerzoPlato[1] = '-';
+				this.desayunoPlato[6] = '-';
+
 				this.almuerzoPlato[2] = '-';
 				this.almuerzoPlato[3] = '-';
 				this.almuerzoPlato[4] = '-';
 				this.almuerzoPlato[5] = '-';
+				this.almuerzoPlato[6] = '-';
+
 				res_desayuno = [];
 				res_almuerzo = [];
+
+				this.limpiarSelects();
 
 				this.desayuno.adding = false;
 				this.almuerzo.adding = false;
@@ -318,7 +332,6 @@ Menú del Día</h3><br>
 					var desayuno = response.data.desayuno;
 					this.res_desayuno = desayuno;
 
-					console.log(this.res_desayuno.length);
 					for (var i = 0; i < desayuno.length; i++)
 					{
 						var plato = getItem(desayuno[i]['plato_id'], response.data.platos);
@@ -355,14 +368,22 @@ Menú del Día</h3><br>
 			showAddDesayuno: function()
 			{
 				this.desayuno.adding = !this.desayuno.adding;
-				this.desayuno.platoPrincipal = '';
-				this.desayuno.jugo = '';
-				this.desayuno.fruta = '';
-				this.desayuno.cantidad = '';
+				this.limpiarSelects();
+				
 			},
 			showAddAlmuerzo: function()
 			{
 				this.almuerzo.adding = !this.almuerzo.adding;
+				this.limpiarSelects();
+			},
+
+			limpiarSelects: function()
+			{
+				this.desayuno.desayuno = '';
+				this.desayuno.jugo = '';
+				this.desayuno.fruta = '';
+				this.desayuno.cantidad = '';
+
 				this.almuerzo.sopa = '';
 				this.almuerzo.platoPrincipal = '';
 				this.almuerzo.ensalada = '';
@@ -370,6 +391,7 @@ Menú del Día</h3><br>
 				this.almuerzo.fruta = '';
 				this.almuerzo.cantidad = '';
 			},
+
 			activarBotonesAdd: function()
 			{
 				if(this.desayuno.adding || this.almuerzo.adding){
@@ -382,9 +404,9 @@ Menú del Día</h3><br>
 			{
 				this.desayuno.error = '';
 				this.desayuno.fecha = this.fecha;
-				if (!this.desayuno.platoPrincipal)
+				if (!this.desayuno.desayuno)
 				{
-					this.desayuno.error = 'Seleccione un plato principal';
+					this.desayuno.error = 'Seleccione un plato para el desayuno';
 					return false;
 				}
 				if (!this.desayuno.cantidad)
@@ -392,28 +414,36 @@ Menú del Día</h3><br>
 					this.desayuno.error = 'Escriba la cantidad de platos';
 					return false;
 				}
-				this.$http.post('/menu/saveDesayuno/', this.desayuno)
+				data = this.desayuno;
+
+				this.$http.post('/menu/saveDesayuno/', data)
 				.then(function(response)
 				{
-					/*if(response.data.created) { 
-						window.location = '/platos/' + response.data.plato_id;
-					}*/
-					console.log(response.data.desayuno);
+					//console.log(response.data.desayuno['cantidad'])
+					this.buscarMenu();
 		        });
+		        
 			},
 			saveAlmuerzo: function()
 			{
 				this.almuerzo.error = '';
-				/*if (!this.almuerzo.platoPrincipal)
+				this.almuerzo.fecha = this.fecha;
+				if (!this.almuerzo.platoPrincipal)
 				{
-					this.almuerzo.error = 'Seleccione un plato principal';
-					//return false;
+					this.almuerzo.error = 'Seleccione un plato principal para el almuerzo';
+					return false;
 				}
 				if (!this.almuerzo.cantidad)
 				{
 					this.almuerzo.error = 'Escriba la cantidad de platos';
-					//return false;
-				}*/
+					return false;
+				}
+				data = this.almuerzo;
+				this.$http.post('/menu/saveAlmuerzo/', data)
+				.then(function(response)
+				{
+					this.buscarMenu();
+		        });
 			}
 		}
 	});

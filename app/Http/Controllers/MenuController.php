@@ -29,15 +29,51 @@ class MenuController extends Controller
 
     public function index()
     {
-        $sopas = Plato::where('categoria_plato_id', 1)->lists('plato', 'id');
-        $principales = Plato::where('categoria_plato_id', 2)->lists('plato', 'id');
-        $ensaladas = Plato::where('categoria_plato_id', 3)->lists('plato', 'id');
-        $jugos = Plato::where('categoria_plato_id', 4)->lists('plato', 'id');
-        $frutas = Plato::where('categoria_plato_id', 5)->lists('plato', 'id');
-        return view('menu.index', compact('sopas', 'principales', 'ensaladas', 'jugos', 'frutas'));
+        $desayunos = Plato::where('categoria_plato_id', 1)->lists('plato', 'id');
+        $sopas = Plato::where('categoria_plato_id', 2)->lists('plato', 'id');
+        $principales = Plato::where('categoria_plato_id', 3)->lists('plato', 'id');
+        $ensaladas = Plato::where('categoria_plato_id', 4   )->lists('plato', 'id');
+        $bebidas = Plato::where('categoria_plato_id', 5)->lists('plato', 'id');
+        $frutas = Plato::where('categoria_plato_id', 6)->lists('plato', 'id');
+        return view('menu.index', compact('desayunos', 'sopas', 'principales', 'ensaladas', 'bebidas', 'frutas'));
     }
 
     public function saveDesayuno(Request $request)
+    {
+        $fecha = Carbon::parse($request['fecha']);
+        $fecha->format('Y-m-d');
+        if ($request['desayuno'] != '')
+        {
+            $menu = new Menu();
+            $menu->plato_id = $request['desayuno'];
+            $menu->tipo_ingreso_id = 1;
+            $menu->cantidad = $request['cantidad'];
+            $menu->fecha = $fecha;
+            $menu->save();
+        }
+
+        if ($request['jugo'] != '')
+        {
+            $menu = new Menu();
+            $menu->plato_id = $request['jugo'];
+            $menu->tipo_ingreso_id = 1;
+            $menu->cantidad = $request['cantidad'];
+            $menu->fecha = $fecha;
+            $menu->save();
+        }
+        if ($request['fruta'] != '')
+        {
+            $menu = new Menu();
+            $menu->plato_id = $request['fruta'];
+            $menu->tipo_ingreso_id = 1;
+            $menu->cantidad = $request['cantidad'];
+            $menu->fecha = $fecha;
+            $menu->save();
+        }
+        return response()->json(['created' => true, 'desayuno' => $request->all()]);
+    }
+
+    public function saveAlmuerzo(Request $request)
     {
         $fecha = Carbon::parse($request['fecha']);
         $fecha->format('Y-m-d');
@@ -45,11 +81,48 @@ class MenuController extends Controller
         {
             $menu = new Menu();
             $menu->plato_id = $request['platoPrincipal'];
-            $menu->tipo_ingreso_id = 1;
+            $menu->tipo_ingreso_id = 2;
             $menu->cantidad = $request['cantidad'];
             $menu->fecha = $fecha;
             $menu->save();
         }
+        if ($request['ensalada'] != '')
+        {
+            $menu = new Menu();
+            $menu->plato_id = $request['ensalada'];
+            $menu->tipo_ingreso_id = 2;
+            $menu->cantidad = $request['cantidad'];
+            $menu->fecha = $fecha;
+            $menu->save();
+        }
+        if ($request['sopa'] != '')
+        {
+            $menu = new Menu();
+            $menu->plato_id = $request['sopa'];
+            $menu->tipo_ingreso_id = 2;
+            $menu->cantidad = $request['cantidad'];
+            $menu->fecha = $fecha;
+            $menu->save();
+        }
+        if ($request['jugo'] != '')
+        {
+            $menu = new Menu();
+            $menu->plato_id = $request['jugo'];
+            $menu->tipo_ingreso_id = 2;
+            $menu->cantidad = $request['cantidad'];
+            $menu->fecha = $fecha;
+            $menu->save();
+        }
+        if ($request['fruta'] != '')
+        {
+            $menu = new Menu();
+            $menu->plato_id = $request['fruta'];
+            $menu->tipo_ingreso_id = 2;
+            $menu->cantidad = $request['cantidad'];
+            $menu->fecha = $fecha;
+            $menu->save();
+        }
+        
         return response()->json(['created' => true]);
     }
 

@@ -16,7 +16,8 @@ class CreatePlatoRubrosTable extends Migration
             $table->increments('id');
             $table->integer('plato_id');
             $table->integer('rubro_id');
-            $table->integer('gramos');
+            $table->integer('cantidad');
+            $table->string('medida', 10);
             $table->timestamps();
         });
     }

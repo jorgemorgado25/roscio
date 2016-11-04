@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 class PlatoRubro extends Model
 {
     protected $table = 'plato_rubro';
-    protected $fillable = ['plato_id', 'rubro_id', 'gramos'];
+    protected $fillable = ['plato_id', 'rubro_id', 'cantidad', 'medida'];
 
     public function plato()
     {
