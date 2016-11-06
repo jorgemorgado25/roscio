@@ -14,7 +14,7 @@ class CreateCategoriaRubrosTable extends Migration
     {
         Schema::create('categoria_rubros', function (Blueprint $table) {
             $table->increments('id');
-            $table->string('categoria');
+            $table->string('categoria', 30);
             $table->timestamps();
         });
     }

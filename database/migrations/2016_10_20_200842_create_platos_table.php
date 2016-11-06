@@ -15,7 +15,7 @@ class CreatePlatosTable extends Migration
         Schema::create('platos', function (Blueprint $table) {
             $table->increments('id');
             $table->integer('categoria_plato_id');
-            $table->string('plato');
+            $table->string('plato', 80);
             $table->timestamps();
         });
     }

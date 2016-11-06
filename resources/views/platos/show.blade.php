@@ -6,8 +6,17 @@
 
 <div class="row">
 	<div class="col-md-12 ">
-		<h3>Ver Plato</h3>		
-		<br>
+		<h3>Ver Plato</h3>
+		
+		<span>
+			<a href="{{ route('platos.index') }}" class="btn btn-xs btn-default">&nbsp;
+			<span class="glyphicon glyphicon-list"></span>
+			Platos
+		</a>&nbsp;
+		<a href="{{ route('platos.create') }}" class="btn btn-xs btn-default">
+			<span class="glyphicon glyphicon-plus"></span> Nuevo Plato
+		</a>
+		</span><br><br>
 		@include('partials.success-message')
 		<div class="box box-primary">
 			<div class="box-header with-border">
@@ -44,13 +53,15 @@
 					<tr>
 						<th>Rubro</th>
 						<th>Categoría</th>
-						<th>Gramos x 10 personas</th>
+						<th>Medida</th>
+						<th>Cantidad</th>
 					</tr>					
 					@foreach($plato->PlatoRubro as $platoRubro)
 					<tr>
 						<td>{{ $platoRubro->rubro->rubro }}</td>
 						<td width="40%">{{ $platoRubro->rubro->categoriaRubro->categoria }}</td>
-						<td width="20%">{{ $platoRubro->gramos }}</td>						
+						<td width="20%">{{ $platoRubro->medida }}</td>		
+						<td width="20%">{{ $platoRubro->cantidad }}</td>						
 					</tr>
 					@endforeach
 				</table>

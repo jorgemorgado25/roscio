@@ -28,10 +28,9 @@ class CreateEstudiantesTable extends Migration
             $table->double('peso');
             $table->string('grupo_sanguineo', 3);
             $table->string('enf_aler', 80);
-            $table->text('direccion');
+            $table->string('direccion', 250);
             $table->boolean('vive_con_madre');
             $table->boolean('vive_con_padre');
-            $table->string('representante', 1);
             $table->timestamps();
         });
     }

@@ -17,7 +17,7 @@ class CreateMenusTable extends Migration
             $table->increments('id');
             $table->integer('plato_id');
             $table->integer('tipo_ingreso_id');
-            $table->integer('cantidad');
+            $table->unsignedSmallInteger('cantidad');
             $table->date('fecha');
             $table->timestamps();
         });
