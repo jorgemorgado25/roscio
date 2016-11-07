@@ -68,7 +68,6 @@ class EstudianteSeeder extends Seeder
 		$estudiante->enf_aler = '';
 		$estudiante->vive_con_madre = 0;
 		$estudiante->vive_con_padre = 0;
-		$estudiante->representante = '1';
 
 		$estudiante->madre_id = $madre->id;
 		$estudiante->padre_id = $padre->id;

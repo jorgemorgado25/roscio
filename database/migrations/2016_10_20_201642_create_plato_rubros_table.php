@@ -16,7 +16,7 @@ class CreatePlatoRubrosTable extends Migration
             $table->increments('id');
             $table->integer('plato_id');
             $table->integer('rubro_id');
-            $table->smallint('cantidad');
+            $table->smallInteger('cantidad');
             $table->string('medida', 10);
             $table->timestamps();
         });
@@ -29,6 +29,6 @@ class CreatePlatoRubrosTable extends Migration
      */
     public function down()
     {
-        Schema::drop('plato_rubros');
+        Schema::drop('plato_rubro');
     }
 }

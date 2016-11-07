@@ -14,7 +14,7 @@
         @include('partials.success-message')
         @include('partials.validation-errors')
     <div class="login-box-body">
-    <p class="login-box-msg">Ingrese sus datos</p>
+    <br>
     {!!Form::open(['route'=>'login', 'method'=>'POST'])!!}
         <input type="hidden" name="_token" value="{{ csrf_token() }}">
         <div class="form-group has-feedback">

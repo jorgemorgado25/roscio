@@ -16,7 +16,7 @@ class CreateRubrosTable extends Migration
         {
             $table->increments('id');
             $table->integer('categoria_rubro_id');
-            $table->string('rubro');
+            $table->string('rubro', 80);
             $table->timestamps();
         });
     }
