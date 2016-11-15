@@ -4,6 +4,7 @@ namespace Roscio\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Excel;
+use Carbon\Carbon;
 use Roscio\Escolaridad;
 use Roscio\Mencion;
 use Roscio\Http\Requests;
@@ -30,18 +31,31 @@ class MatriculaController extends Controller
      */
     public function create()
     {
-        /*
-        0 => 
-        */
+        /**
+        1 => Nombre
+        2 => Cédula
+        4 => lugar de Nacimiento
+        5 => Fecha de Nacimiento
+        6 => Género
+        10 => Cédula del Representante
+        11 => Nombre del Representante
+        12 => Teléfono del Representante
+        13 => Dirección del Representante
+        **/
         Excel::load('1-A.xlsx', function($reader)
         {            
             $results = $reader->get();
-            dd($results);
+            //dd($results);
 
-            /*foreach($results as $result)
+            foreach($results as $result)
             {
-                echo $result. '<br/>';
-            } */           
+                echo intval($result[2]) . ' ' . 
+                $result[1] . ' ' . 
+                $result[5]->format('Y-m-d') . ' ' .
+                $result[4] . ' ' .
+                $result[6] . ' ' . 
+                '<br/>';
+            }
         });
     }
 
