@@ -1,5 +1,7 @@
 <?php
 
+Route::resource('matricula', 'MatriculaController');
+
 #Impido el acceso a estas rutas si esta logueado
 Route::group(['middleware' => 'guest'], function()
 {

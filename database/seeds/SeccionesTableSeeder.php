@@ -14,7 +14,7 @@ class SeccionesTableSeeder extends Seeder
 
         DB::table('secciones')->truncate();
         $anos = Ano::all();
-        $secciones = ['A', 'B'];
+        $secciones = ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J'];
         foreach($anos as $ano)
         {
             foreach($secciones as $seccion)

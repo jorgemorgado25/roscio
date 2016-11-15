@@ -17,7 +17,7 @@ class MencionesTableSeeder extends Seeder
             ['nombre' => 'Ciencias', 'descripcion' => 'Educación Diversificada'],
             ['nombre' => 'Humanidades', 'descripcion' => 'Educación Diversificada']
         ];
-        foreach($menciones as $mencion)
+        foreach ($menciones as $mencion)
         {
         	DB::Table('menciones')->insert([
         		'mencion'     => $mencion['nombre'],
