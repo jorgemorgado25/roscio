@@ -96,6 +96,15 @@ var Funciones = Vue.extend({
 			}).catch(function(response){
 				return Promise.resolve(response);
 			});
+		},
+		//Registers - Matriculas
+		getRegister: function()
+		{
+
+		},
+		sendExcel: function()
+		{
+			
 		}
 	}
 });

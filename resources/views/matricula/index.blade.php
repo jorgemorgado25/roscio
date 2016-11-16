@@ -9,15 +9,15 @@
 	<div class="box box-primary">
 		<div class="box-header with-border">
 			<div class="row">
-				<di class="col-xs-3">
+				<div class="col-xs-3">
 					<div class="form-group">
 						<label for="">Escolaridad</label>
 						{!! Form::select('escolaridad_id', $escolaridades, NULL, [
 						'class' => 'form-control', 
 						'v-model' => 'escolaridad_id']) !!}	
 					</div>				
-				</di>
-				<di class="col-xs-3">
+				</div>
+				<div class="col-xs-3">
 					<div class="form-group">
 						<label for="">Mención</label>
 						{!! Form::select('mencion_id', $menciones, NULL, [
@@ -27,8 +27,8 @@
 							'@change' => 'buscarAno()']
 							) !!}
 					</div>				
-				</di>
-				<di class="col-xs-3">
+				</div>
+				<div class="col-xs-3">
 					<div class="form-group">
 						<label for="">Año</label>
 						<select name="ano_id" id="sel_ano" class="form-control" v-model="ano_id" @change='buscarSeccion()'>
@@ -39,7 +39,7 @@
 						</option>
 						</select>
 					</div>
-				</di>
+				</div>
 				<div class="col-xs-2">
 					<div class="form-group">
 						<label for="">Sección</label>

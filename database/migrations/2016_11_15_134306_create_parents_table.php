@@ -12,12 +12,12 @@ class CreateParentsTable extends Migration
      */
     public function up()
     {
-        Schema::create('parents', function (Blueprint $table) {
+        Schema::create('persons', function (Blueprint $table) {
             $table->increments('id');
             $table->string('ci', 15);
             $table->string('full_name', 200);
-            $table->string('phone', 30);
-            $table->string('address', 200);
+            $table->string('phone', 30)->nullable();
+            $table->string('address', 200)->nullable();
             $table->timestamps();
         });
     }
@@ -29,6 +29,6 @@ class CreateParentsTable extends Migration
      */
     public function down()
     {
-        Schema::drop('parents');
+        Schema::drop('persons');
     }
 }

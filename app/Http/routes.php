@@ -1,7 +1,5 @@
 <?php
 
-Route::resource('matricula', 'MatriculaController');
-
 #Impido el acceso a estas rutas si esta logueado
 Route::group(['middleware' => 'guest'], function()
 {
@@ -88,6 +86,13 @@ Route::group(['middleware' => ['auth', 'check_role'], 'roles' => 'Inscripciones'
 	Route::resource('inscripciones', 'InscripcionesController');
 	Route::resource('escolaridades', 'EscolaridadesController');
 
+	/* MATRICULA */
+	Route::resource('matricula', 'MatriculaController');
+	Route::get('matricula/comprobar/', [
+		'uses' => 'MatriculaController@comprueba',
+		'as'   => 'matricula.comprobar'
+	]);
+
 	/* ESTUDIANTES */
 	Route::resource('estudiantes', 'EstudiantesController');
 	Route::get('estudiante/inscripciones/{estudiante_id}',
@@ -142,3 +147,4 @@ Route::group(['middleware' => ['auth', 'check_role'], 'roles' => 'Inscripciones'
 
 	Route::post('menu/saveDesayuno', 'MenuController@saveDesayuno');
 	Route::post('menu/saveAlmuerzo', 'MenuController@saveAlmuerzo');
+	Route::post('matricula/postSendExcel', 'MatriculaController@postSendExcel');

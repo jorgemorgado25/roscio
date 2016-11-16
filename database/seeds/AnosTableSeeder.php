@@ -14,7 +14,7 @@ class AnosTableSeeder extends Seeder
     	DB::Table('anos')->truncate();
         $mencion = Mencion::where('mencion', 'Media')->first();
         
-        $anos = ['1ro', '2do', '3ro'];
+        $anos = ['1ro', '2do', '3ro', '4to', '5to'];
         foreach($anos as $a)
         {
 			DB::Table('anos')->insert([
