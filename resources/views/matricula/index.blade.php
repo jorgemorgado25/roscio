@@ -58,14 +58,19 @@
 					</div>
 				</div>
 				<div class="col-xs-1">
-					<button :disabled="formValid()" style="margin-top:2.2em" class="btn btn-sm btn-primary" @click="buscarInscripcion()">
+					<button :disabled="formValid()" style="margin-top:2.2em" class="btn btn-sm btn-primary" @click="buscarMatricula()">
 						<span class="glyphicon glyphicon-search"></span>
 					</button>				
 				</div>
 			</div>		
 		</div>
 		<div class="box-body with-border">
-			<p v-if="error" class="alert alert-danger text-center">@{{ error }}</p>
+			<div v-if="error">
+				<p  class="alert alert-danger text-center">@{{ error }}</p>
+				<span>
+					<button @click="createMatricula()" class="btn btn-default pull-right"><span class="glyphicon glyphicon-upload"></span> &nbsp;Cargar Matrícula</button>
+				</span>				
+			</div>			
 			<p class="text-center" v-if="buscando">
 				<i class=" text-center fa fa-spinner fa-spin fa-4x"></i>
 			</p>
@@ -75,7 +80,7 @@
 					<thead>
 					<tr>
 						<th>Cédula</th>
-						<th>Nombre y Apellido</th>
+						<th>Nombre del Estudiante</th>
 						<th class="text-center" width="120px">Acciones</th>
 					</tr>
 					</thead>
@@ -104,10 +109,11 @@
 						<span class="glyphicon glyphicon-credit-card"></span>
 						Listado de Carnets
 					</button>	
-				</span>
-				
+				</span>				
 			</div>
-
+			<div id="div-message">
+				<p class="alert alert-info text-center">Seleccione una Sección</p>
+			</div>
 		</div>
 	</div>	
 </div>
@@ -128,10 +134,6 @@
 			secciones: {},
 			buscando: false,
 			error: '',
-			/*estudiantes: [
-				{cedula: '15392404', nombre: 'Jorge', apellido: 'Morgado', id: '1'},
-				{cedula: '15392404', nombre: 'Jorge', apellido: 'Morgado', id: '1'}
-			]*/
 			estudiantes: ''
 		},
 		methods: {
@@ -156,25 +158,29 @@
 					this.secciones = response.data.secciones;
 				});
 			},
-			buscarInscripcion: function()
+			buscarMatricula: function()
 			{
+				$("#div-message").hide();
 				this.error = '';
 				this.estudiantes = '';
 				this.buscando = true;
-				this.buscarInscripcionesSeccion(this.mencion_id, this.seccion_id)
+				this.getBuscarMatriculaSeccion(this.escolaridad_id, this.seccion_id)
 				.then(function(response)
 				{
 					this.buscando = false;
-					console.log(response.data.estudiantes);
-					this.estudiantes = response.data.estudiantes;
-					response.data.estudiantes ? this.error = '' : this.error = 'No hay estudiantes inscritos'
+					console.log(response.data.matricula);
+					this.estudiantes = response.data.matricula;
+					response.data.matricula ? this.error = '' : this.error = 'No se ha cargado la Matrícula'
 				});
 			},
-			formValid: function(){
+			formValid: function() {
 				if (this.seccion_id && this.escolaridad_id) { return false } else { return true};
 			},
 			clearEstudiantes: function(){
 				this.estudiantes = '';
+			},
+			createMatricula: function(){
+				window.location = '/matricula/cargar/' + this.escolaridad_id +'/'+ this.mencion_id +'/'+ this.ano_id +'/'+ this.seccion_id;
 			}
 		}
 	});

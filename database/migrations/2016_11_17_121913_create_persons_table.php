@@ -3,7 +3,7 @@
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateParentsTable extends Migration
+class CreatePersonsTable extends Migration
 {
     /**
      * Run the migrations.
@@ -12,7 +12,8 @@ class CreateParentsTable extends Migration
      */
     public function up()
     {
-        Schema::create('persons', function (Blueprint $table) {
+        Schema::create('persons', function (Blueprint $table)
+        {
             $table->increments('id');
             $table->string('ci', 15);
             $table->string('full_name', 200);

@@ -23,4 +23,9 @@ class Ano extends Model
     {
         return $this->hasMany('Roscio\Inscripcion', 'ano_id');
     }
+
+    public function registers()
+    {
+        return $this->hasMany('Roscio\Register', 'ano_id');
+    }
 }

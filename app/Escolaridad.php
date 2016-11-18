@@ -14,6 +14,11 @@ class Escolaridad extends Model
         return $this->hasMany('Roscio\Inscripcion', 'escolaridad_id');
     }
 
+    public function registers()
+    {
+        return $this->hasMany('Roscio\Register', 'escolaridad_id');
+    }
+
     public function scopeOrderIdDesc($query)
     {
     	return $query->orderBy('id', 'desc');

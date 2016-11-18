@@ -18,4 +18,9 @@ class Mencion extends Model
     {
         return $this->hasMany('Roscio\Inscripcion', 'mencion_id');
     }
+
+    public function registers()
+    {
+        return $this->hasMany('Roscio\Register', 'mencion_id');
+    }
 }

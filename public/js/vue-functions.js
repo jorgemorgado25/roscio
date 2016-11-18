@@ -98,9 +98,13 @@ var Funciones = Vue.extend({
 			});
 		},
 		//Registers - Matriculas
-		getRegister: function()
+		getBuscarMatriculaSeccion: function(escolaridad, seccion)
 		{
-
+			return this.$http.get('/matricula/getMatriculaSeccion/' + escolaridad +'/'+ seccion)
+			.then(function(response)
+			{
+				return Promise.resolve(response);
+			});
 		},
 		sendExcel: function()
 		{

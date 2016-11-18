@@ -92,6 +92,7 @@ Route::group(['middleware' => ['auth', 'check_role'], 'roles' => 'Inscripciones'
 		'uses' => 'MatriculaController@comprueba',
 		'as'   => 'matricula.comprobar'
 	]);
+	Route::get('matricula/cargar/{escolaridad_id}/{mencion_id}/{ano_id}/{seccion_id}', 'MatriculaController@cargar');
 
 	/* ESTUDIANTES */
 	Route::resource('estudiantes', 'EstudiantesController');
@@ -147,4 +148,6 @@ Route::group(['middleware' => ['auth', 'check_role'], 'roles' => 'Inscripciones'
 
 	Route::post('menu/saveDesayuno', 'MenuController@saveDesayuno');
 	Route::post('menu/saveAlmuerzo', 'MenuController@saveAlmuerzo');
+
 	Route::post('matricula/postSendExcel', 'MatriculaController@postSendExcel');
+	Route::get('matricula/getMatriculaSeccion/{escolaridad_id}/{seccion_id}', 'MatriculaController@getMatriculaSeccion');

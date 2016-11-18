@@ -44,7 +44,10 @@
 			</a>
 			<a class="btn btn-app" href="{{ route('inscripciones.create') }}">
 				<i class="glyphicon glyphicon-star"></i> Inscribir
-			</a>			
+			</a>
+			<a class="btn btn-app" href="{{ route('matricula.index') }}">
+				<i class="glyphicon glyphicon-star"></i> Matrícula
+			</a>
 		</div>
 		<div class="box-header with-border">
 			<h4 class="text-primary">Administración del Sistema</h4>

@@ -4,22 +4,38 @@
 @endsection
 @section('main-content')
 <div class="col-md-12">
-	<h3>Crear Matrícula</h3><br>
+	<h3>Cargar Matrícula</h3><br>
 	@include('partials.error-message')
 	<div class="box box-primary">
 		<div class="box-header with-border">
+			Seleccione un archivo
+		</div>
+		<form action="{{ route('matricula.store') }}" method="POST" id="form-create"  enctype="multipart/form-data">
+		<div class="box-body with-border">
 			<div class="row">
-				
-			</div>		
-		</div>
-		<div class="box-body with-border">			
-			<form action="{{ route('matricula.store') }}" method="POST" id="form-create"  enctype="multipart/form-data">
-				<input type="file" name="excel" id="excel" @change="inputFileChange">
+				<div class="col-md-3">
+					<b>Escolaridad: </b> {{ $escolaridad->escolaridad }}
+				</div>
+				<div class="col-md-3">
+					<b>Mención: </b> {{ $mencion->mencion }}
+				</div>
+				<div class="col-md-3">
+					<b>Año: </b> {{ $ano->ano }}
+				</div>
+				<div class="col-md-3">
+					<b>Sección: </b> {{ $seccion->seccion }}
+				</div>		
+				<br><br>
+				<div class="col-md-12">
+					<input type="file" name="excel" id="excel" @change="inputFileChange">
+				</div>				
 				{{ csrf_field() }}
-				<button class="btn-btn-primary">Examinar Matrícula</button>
-			</form>
-			
+			</div>			
 		</div>
+		<div class="box-footer">
+			<button class="btn btn-primary"><span class="glyphicon glyphicon-floppy-disk"></span> Guardar Matrícula</button>
+		</div>
+		</form>
 	</div>	
 </div>
 @endsection

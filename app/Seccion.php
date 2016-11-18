@@ -18,4 +18,9 @@ class Seccion extends Model
     {
         return $this->hasMany('Roscio\Inscripcion', 'seccion_id');
     }
+
+    public function registers()
+    {
+        return $this->hasMany('Roscio\Register', 'seccion_id');
+    }
 }
