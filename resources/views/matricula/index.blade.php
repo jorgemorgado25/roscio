@@ -3,6 +3,7 @@
 	Listado de Matricula
 @endsection
 @section('main-content')
+<div class="row">
 <div class="col-md-12">
 	<h3>Listado de Matrículas</h3><br>
 	@include('partials.error-message')
@@ -74,26 +75,27 @@
 			<p class="text-center" v-if="buscando">
 				<i class=" text-center fa fa-spinner fa-spin fa-4x"></i>
 			</p>
-			<div v-if="estudiantes" v-if="estudiantes.length > 1">		
-				<h4>Estudiantes Inscritos</h4>		
+			<div v-if="matriculas" v-if="matriculas.length > 1">		
 				<table class="table table-striped" id="table">
 					<thead>
 					<tr>
+						<th>N.</th>
 						<th>Cédula</th>
 						<th>Nombre del Estudiante</th>
 						<th class="text-center" width="120px">Acciones</th>
 					</tr>
 					</thead>
 					<tbody>
-					<tr v-for="estudiante in estudiantes">
-						<td>@{{ estudiante.cedula }}</td>
-						<td>@{{ estudiante.nombre }} @{{ estudiante.apellido }}</td>
+					<tr v-for="matricula in matriculas">
+						<td>@{{ matricula.n }}</td>
+						<td>@{{ matricula.cedula }}</td>
+						<td>@{{ matricula.nombre }}</td>
 						<td class="text-center">
 							<a title="Ver Estudiante" class="btn btn-default btn-sm"
-							 href="{{route('estudiantes.index')}}/@{{ estudiante.id }}">
+							 href="{{ route('students.index') }}/@{{ matricula.estudiante_id }}">
 								<span class="glyphicon glyphicon-search"></span>
 							</a>
-							<a title="Carnet del Estudiante" href="#" class="btn btn-default btn-sm">
+							<a title="Carnet del Estudiante" href="/matricula/carnet/@{{ matricula.id }}" class="btn btn-default btn-sm">
 								<span class="glyphicon glyphicon-credit-card"></span>
 							</a>
 						</td>							
@@ -117,6 +119,7 @@
 		</div>
 	</div>	
 </div>
+</div>
 @endsection
 
 @section('scripts')
@@ -134,7 +137,7 @@
 			secciones: {},
 			buscando: false,
 			error: '',
-			estudiantes: ''
+			matriculas: ''
 		},
 		methods: {
 			buscarAno: function ()
@@ -162,14 +165,14 @@
 			{
 				$("#div-message").hide();
 				this.error = '';
-				this.estudiantes = '';
+				this.matriculas = '';
 				this.buscando = true;
 				this.getBuscarMatriculaSeccion(this.escolaridad_id, this.seccion_id)
 				.then(function(response)
 				{
 					this.buscando = false;
 					console.log(response.data.matricula);
-					this.estudiantes = response.data.matricula;
+					this.matriculas = response.data.matricula;
 					response.data.matricula ? this.error = '' : this.error = 'No se ha cargado la Matrícula'
 				});
 			},

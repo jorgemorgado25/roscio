@@ -46,7 +46,7 @@
 				<i class="glyphicon glyphicon-star"></i> Inscribir
 			</a>
 			<a class="btn btn-app" href="{{ route('matricula.index') }}">
-				<i class="glyphicon glyphicon-star"></i> Matrícula
+				<i class="glyphicon glyphicon-th"></i> Matrícula
 			</a>
 		</div>
 		<div class="box-header with-border">

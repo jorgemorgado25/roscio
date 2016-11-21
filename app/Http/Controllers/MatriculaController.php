@@ -38,7 +38,7 @@ class MatriculaController extends Controller
      */
     public function create()
     {
-        return view('matricula.create');
+
     }
 
     public function cargar($escolaridad_id, $mencion_id, $ano_id, $seccion_id, Request $request)
@@ -50,27 +50,6 @@ class MatriculaController extends Controller
         return view('matricula.create', compact('escolaridad', 'mencion', 'ano', 'seccion'));
     }
 
-    public function postSendExcel(Request $request)
-    {
-        Excel::load($request->file('excel'), function($reader)
-        {         
-            $results = $reader->get();
-            return $results;
-            //dd($results);
-            
-            /*foreach($results as $result)
-            {
-                echo intval($result[2]) . ' ' . 
-                $result[1] . ' ' . 
-                $result[5]->format('Y-m-d') . ' ' .
-                $result[4] . ' ' .
-                $result[6] . ' ' . 
-                '<br/>';
-            }
-            */
-        });
-    }
-
     public function getMatriculaSeccion($escolaridad_id, $seccion_id, Request $request)
     {
         $matriculas = Register::where('escolaridad_id', $escolaridad_id)
@@ -78,17 +57,20 @@ class MatriculaController extends Controller
             ->get();
 
         $result = '';
-        foreach($matriculas as $m)
+        $n = 1;
+        foreach ($matriculas as $m)
         {
-            $result = array([
+            $result [] = array(
                 'id' => $m->id,
+                'n' => $n,
                 'estudiante_id' => $m->student->id,
                 'cedula' => $m->student->ci,
                 'nombre' => $m->student->full_name,
                 'representante' => $m->person->full_name
-            ]);
+            );
+            $n++;
         }
-        if($request->ajax())
+        if ($request->ajax())
         {
             return response()->json(['matricula' => $result]);
         }  
@@ -100,97 +82,113 @@ class MatriculaController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
+
+    public function getFile($file)
+    {
+        return Excel::load($file, function($reader)
+        {
+            
+        })->get();
+    }
+
     public function store(Request $request)
     {
         $file = $request->file('excel');
-        Excel::load($file, function($reader)
+        $results = $this->getFile($file);
+        
+        $i = 1;
+
+        #Verifico la nómina
+        foreach($results as $result)
         {
-            $results = $reader->get();
-            $i = 1;
-            /**
-            Verifico la nómina
-            **/
-            foreach($results as $result)
-            {
-                $verify = $i . ' ' . intval($result[2]) . ' ' . 
-                $result[1] . ' ' . 
-                $result[5]->format('Y-m-d') . ' ' .
-                $result[4] . ' ' .
-                $result[6] . ' ' .
-                //representante
-                $result[10] . ' ' .
-                $result[11] . ' ' .
-                $result[12] . ' ' .
-                $result[13] . ' ' ;
-                $i++;
-            }
-            /**
-            1 => Nombre del estudiante
-            2 => Cédula del estudiante
-            4 => lugar de Nacimiento
-            5 => Fecha de Nacimiento
-            6 => Género
-            10 => Cédula del Representante
-            11 => Nombre del Representante
-            12 => Teléfono del Representante
-            13 => Dirección del Representante
-            **/
+            $verify = $i . ' ' . intval($result[2]) . ' ' . 
+            $result[1] . ' ' . 
+            $result[5]->format('Y-m-d') . ' ' .
+            $result[4] . ' ' .
+            $result[6] . ' ' .
+            //representante
+            $result[10] . ' ' .
+            $result[11] . ' ' .
+            $result[12] . ' ' .
+            $result[13] . ' ' ;
+            $i++;
+        }
 
-            // Verifico si existen los estudiantes y los representante
-            // Los registro si no existen
-            foreach ($results as $result)
+        /**
+        1 => Nombre del estudiante
+        2 => Cédula del estudiante
+        4 => lugar de Nacimiento
+        5 => Fecha de Nacimiento
+        6 => Género
+        10 => Cédula del Representante
+        11 => Nombre del Representante
+        12 => Teléfono del Representante
+        13 => Dirección del Representante
+        **/
+
+        # Verifico si existen los estudiantes y los representante
+        # Los registro si no existen
+
+        $estudiante_id = '';
+        $representante_id = '';
+        foreach ($results as $result)
+        {            
+            $estudiante = Student::where('ci', $result[2])->first();
+            if (!$estudiante)
             {
-                $estudiante_id = '';
-                $representante_id = '';
-                $estudiante = Student::where('ci', $result[2])->first();
-                if (!$estudiante)
-                {
-                    $student = new Student;
-                    $student->ci = $result[2];
-                    $student->full_name = $result[1];
-                    $student->birth_place = $result[4];
-                    $student->birthday = $result[5];
-                    $student->gender = $result[6];
-                    $student->save();
-                    $estudiante_id = $student->id;
-                }else
-                {
-                    $estudiante_id = $estudiante->id;
-                }
-                $representante = Person::where('ci', $result[10])->first();
-                if (!$representante)
-                {
-                    $person = new Person;
-                    $person->ci = $result[10];
-                    $person->full_name = $result[11];
-                    $person->phone = $result[12];
-                    $person->address = $result[13];
-                    $person->save();
-                    $representante_id = $person->id;
-                }else
-                {
-                    $representante_id = $representante->id;
-                }
-                //Registro la inscripción
-                $inscripcion = Register::where('student_id', $estudiante_id);
-                if (!$inscripcion)
-                {
-                    $inscripcion = new Register;
-                    $inscripcion->student_id = $estudiante_id;
-                    $inscripcion->person_id = $representante_id;
-                    $inscripcion->save();
-                }                
+                $student = new Student;
+                $student->ci = $result[2];
+                $student->full_name = $result[1];
+                $student->birth_place = $result[4];
+                $student->birthday = $result[5];
+                $student->gender = $result[6];
+                $student->save();
+                $estudiante_id = $student->id;
+            }else
+            {
+                $estudiante_id = $estudiante->id;
+            }
+            $representante = Person::where('ci', $result[10])->first();
+            if (!$representante)
+            {
+                $person = new Person;
+                $person->ci = $result[10];
+                $person->full_name = $result[11];
+                $person->phone = $result[12];
+                $person->address = $result[13];
+                $person->save();
+                $representante_id = $person->id;
+            }else
+            {
+                $representante_id = $representante->id;
             }
 
-        });
+            # Registro la inscripción
+            
+            $inscripcion = Register::where('student_id', $estudiante_id)
+                ->where('escolaridad_id', $request->escolaridad_id)
+                ->first();
+
+            if (! $inscripcion)
+            {
+                $inscripcion = new Register;
+                $inscripcion->student_id = $estudiante_id;
+                $inscripcion->person_id = $representante_id;
+                $inscripcion->escolaridad_id = $request->escolaridad_id;
+                $inscripcion->mencion_id = $request->mencion_id;
+                $inscripcion->ano_id = $request->ano_id;
+                $inscripcion->seccion_id = $request->seccion_id;
+                $inscripcion->save();
+            }            
+        }
         return Redirect::route('matricula.index');        
     }
 
-    public function comprobar()
+    public function carnet($register_id)
     {
-        //return view('matricula.comprobar');
+        
     }
-
+    
     /**
      * Display the specified resource.
      *
