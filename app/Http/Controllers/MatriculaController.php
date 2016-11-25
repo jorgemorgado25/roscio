@@ -15,6 +15,7 @@ use Roscio\Ano;
 use Roscio\Seccion;
 use Roscio\Http\Requests;
 use Redirect;
+use Session;
 use Roscio\Http\Controllers\Controller;
 
 class MatriculaController extends Controller
@@ -101,29 +102,30 @@ class MatriculaController extends Controller
         #Verifico la nómina
         foreach($results as $result)
         {
-            $verify = $i . ' ' . intval($result[2]) . ' ' . 
+            $verify[] = $result[0] . ' ' . 
             $result[1] . ' ' . 
-            $result[5]->format('Y-m-d') . ' ' .
+            $result[2] . ' ' .
+            $result[3] . ' ' .
             $result[4] . ' ' .
-            $result[6] . ' ' .
             //representante
-            $result[10] . ' ' .
-            $result[11] . ' ' .
-            $result[12] . ' ' .
-            $result[13] . ' ' ;
+            $result[5] . ' ' .
+            $result[6] . ' ' .
+            $result[7] . ' ' .
+            $result[8] . ' ' ;
             $i++;
         }
-
+        //dd($verify);
         /**
-        1 => Nombre del estudiante
-        2 => Cédula del estudiante
-        4 => lugar de Nacimiento
-        5 => Fecha de Nacimiento
-        6 => Género
-        10 => Cédula del Representante
-        11 => Nombre del Representante
-        12 => Teléfono del Representante
-        13 => Dirección del Representante
+        0  ( A ) => Cédula del estudiante
+        1  ( B ) => Nombre del estudiante
+        2  ( C ) => lugar de Nacimiento
+        3  ( D ) => Fecha de Nacimiento
+        4  ( E ) => Género
+        
+        10 ( F ) => Cédula del Representante
+        11 ( G ) => Nombre del Representante
+        12 ( H ) => Teléfono del Representante
+        13 ( I ) => Dirección del Representante
         **/
 
         # Verifico si existen los estudiantes y los representante
@@ -131,31 +133,32 @@ class MatriculaController extends Controller
 
         $estudiante_id = '';
         $representante_id = '';
+
         foreach ($results as $result)
         {            
-            $estudiante = Student::where('ci', $result[2])->first();
+            $estudiante = Student::where('ci', $result[0])->first();
             if (!$estudiante)
             {
                 $student = new Student;
-                $student->ci = $result[2];
+                $student->ci = $result[0];
                 $student->full_name = $result[1];
-                $student->birth_place = $result[4];
-                $student->birthday = $result[5];
-                $student->gender = $result[6];
+                $student->birth_place = $result[2];
+                $student->birthday = $result[3];
+                $student->gender = $result[4];
                 $student->save();
                 $estudiante_id = $student->id;
             }else
             {
                 $estudiante_id = $estudiante->id;
             }
-            $representante = Person::where('ci', $result[10])->first();
+            $representante = Person::where('ci', $result[5])->first();
             if (!$representante)
             {
                 $person = new Person;
-                $person->ci = $result[10];
-                $person->full_name = $result[11];
-                $person->phone = $result[12];
-                $person->address = $result[13];
+                $person->ci = $result[5];
+                $person->full_name = $result[6];
+                $person->phone = $result[7];
+                $person->address = $result[8];
                 $person->save();
                 $representante_id = $person->id;
             }else
@@ -181,14 +184,30 @@ class MatriculaController extends Controller
                 $inscripcion->save();
             }            
         }
+
+        $escolaridad = Escolaridad::find($request->escolaridad_id);
+        $mencion = Mencion::find($request->mencion_id);
+        $ano = Ano::find($request->ano_id);
+        $seccion = Seccion::find($request->seccion_id);
+
+        Session::flash('success-message', 'La matrícula: ' . $escolaridad->escolaridad . 
+            ',  Mención:  ' . $mencion->mencion . 
+            ', Año: ' . $ano->ano . 
+            ', Sección: ' . $seccion->seccion . 
+            ', se cargó exitosamente');
         return Redirect::route('matricula.index');        
     }
 
     public function carnet($register_id)
     {
-        
+        $register = Register::find($register_id);
+        $view =  \View::make('matricula.carnet', (['register' => $register]))->render();
+        $pdf = \App::make('dompdf.wrapper');
+        $pdf->loadHTML($view)->setPaper('letter');
+        //$pdf->loadHTML($view)->setPaper('a4')->setOrientation('landscape');
+        return $pdf->stream('Carnet'); 
     }
-    
+
     /**
      * Display the specified resource.
      *

@@ -58,6 +58,7 @@ class EstudianteSeeder extends Seeder
 		$estudiante->nombre = 'JORGE LUIS';        
 		$estudiante->apellido = 'MORGADO ABREU';        
 		$estudiante->genero = 'm';
+		$estudiante->representante = '1';
 		$estudiante->fecha_nac = '11-02-1983';
 		$estudiante->estado_nac = 'GUARICO';
 		$estudiante->lugar_nac = 'SAN JUAN DE LOS MORROS';

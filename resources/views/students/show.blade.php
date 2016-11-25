@@ -38,21 +38,25 @@
 	<div class="box-header with-border">
 		<table class="table table-bordered table-stripped">
 			<tr>
-				<th>Representante</th>
-				<th>Cédula</th>
 				<th>Escolaridad</th>
 				<th>Año</th>
 				<th>Sección</th>
+				<th>Representante</th>
+				<th>Cédula</th>				
 				<th width="120px">Acciones</th>
 			</tr>
 			@foreach($registers as $reg)
 				<tr>
-					<td>{{ $reg->person->full_name }}</td>
-					<td>{{ $reg->person->ci }}</td>
 					<td>{{ $reg->escolaridad->escolaridad }}</td>
 					<td>{{ $reg->ano->ano }}</td>
 					<td>{{ $reg->seccion->seccion }}</td>
-					<td></td>
+					<td>{{ $reg->person->full_name }}</td>
+					<td>{{ $reg->person->ci }}</td>					
+					<td>
+						<a target="_blank" title="Carnet Estudiantil" href="/matricula/carnet/{{ $reg->id }}" class="btn btn-default btn-sm">
+							<span class="glyphicon glyphicon-credit-card"></span>
+							</a>
+					</td>
 				</tr>
 			@endforeach
 		</table>

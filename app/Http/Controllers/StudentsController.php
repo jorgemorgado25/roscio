@@ -17,9 +17,12 @@ class StudentsController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
-        //
+        $estudiantes = Student::Ci($request->get('ci'))
+            ->Name($request->get('name'))
+            ->paginate();
+        return view('students.index', compact('estudiantes'));
     }
 
     /**

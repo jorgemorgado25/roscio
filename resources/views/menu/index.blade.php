@@ -49,7 +49,7 @@
 							<div v-if="hayDesayuno()" class="panel panel-default">
 								<div class="panel-heading">
 									Desayuno
-									<button class="btn btn-xs btn-default pull-right">
+									<button class="btn btn-xs btn-default pull-right" @click="eliminarMenu(1)">
 										<span class="glyphicon glyphicon-trash"></span>
 									</button>
 								</div>
@@ -76,7 +76,7 @@
 							<div v-if="hayAlmuerzo()" class="panel panel-default">							
 								<div class="panel-heading">
 									Almuerzo
-									<button class="btn btn-xs btn-default pull-right">
+									<button class="btn btn-xs btn-default pull-right" @click="eliminarMenu(2)">
 										<span class="glyphicon glyphicon-trash"></span>
 									</button>
 								</div>
@@ -436,6 +436,20 @@
 				}
 				data = this.almuerzo;
 				this.$http.post('/menu/saveAlmuerzo/', data)
+				.then(function(response)
+				{
+					this.buscarMenu();
+		        });
+			},
+			deleteDesayuno: function()
+			{
+
+			},
+			eliminarMenu: function(tipo_ingreso_id)
+			{
+				data = {fecha: this.fecha, tipo_ingreso_id: tipo_ingreso_id};
+				console.log(data);
+				this.$http.post('/menu/postEliminar', data)
 				.then(function(response)
 				{
 					this.buscarMenu();

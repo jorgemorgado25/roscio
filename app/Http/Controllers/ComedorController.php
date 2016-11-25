@@ -17,6 +17,11 @@ class ComedorController extends Controller
     	return view('comedor.acceso');
     }
 
+    public function acceso2()
+    {
+        
+    }
+
     public function postRegistrarIngreso(Request $request)
     {
     	//Debo verificar si el estudiante está insrito y en la escolaridad activa

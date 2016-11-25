@@ -149,5 +149,6 @@ Route::group(['middleware' => ['auth', 'check_role'], 'roles' => 'Inscripciones'
 
 	Route::post('menu/saveDesayuno', 'MenuController@saveDesayuno');
 	Route::post('menu/saveAlmuerzo', 'MenuController@saveAlmuerzo');
+	Route::post('menu/postEliminar', 'MenuController@postEliminar');
 
 	Route::get('matricula/getMatriculaSeccion/{escolaridad_id}/{seccion_id}', 'MatriculaController@getMatriculaSeccion');

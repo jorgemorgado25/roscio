@@ -7,6 +7,7 @@
 <div class="col-md-12">
 	<h3>Listado de Matrículas</h3><br>
 	@include('partials.error-message')
+	@include('partials.success-message')
 	<div class="box box-primary">
 		<div class="box-header with-border">
 			<div class="row">
@@ -16,7 +17,7 @@
 						{!! Form::select('escolaridad_id', $escolaridades, NULL, [
 						'class' => 'form-control', 
 						'v-model' => 'escolaridad_id']) !!}	
-					</div>				
+					</div>
 				</div>
 				<div class="col-xs-3">
 					<div class="form-group">
@@ -27,7 +28,7 @@
 							'v-model' => 'mencion_id', 
 							'@change' => 'buscarAno()']
 							) !!}
-					</div>				
+					</div>	
 				</div>
 				<div class="col-xs-3">
 					<div class="form-group">
@@ -95,13 +96,14 @@
 							 href="{{ route('students.index') }}/@{{ matricula.estudiante_id }}">
 								<span class="glyphicon glyphicon-search"></span>
 							</a>
-							<a title="Carnet del Estudiante" href="/matricula/carnet/@{{ matricula.id }}" class="btn btn-default btn-sm">
+							<a target="_blank" title="Carnet Estudiantil" href="/matricula/carnet/@{{ matricula.id }}" class="btn btn-default btn-sm">
 								<span class="glyphicon glyphicon-credit-card"></span>
 							</a>
 						</td>							
 					</tr>
 					</tbody>
 				</table>
+				<button class="btn btn-danger"><span class="glyphicon glyphicon-trash"></span> Eliminar</button>
 				<span class="pull-right">
 					<button class="btn btn-primary">
 						<span class="glyphicon glyphicon-print"></span>

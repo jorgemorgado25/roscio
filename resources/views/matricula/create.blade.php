@@ -3,6 +3,7 @@
 	Listado de Matricula
 @endsection
 @section('main-content')
+<div class="row">
 <div class="col-md-12">
 	<h3>Cargar Matrícula</h3><br>
 	@include('partials.error-message')
@@ -42,6 +43,7 @@
 		<input type="hidden" value="{{ $seccion->id }}" name="seccion_id">
 		{{ csrf_field() }}
 		</form>
-	</div>	
+	</div>
+	</div>
 </div>
 @endsection

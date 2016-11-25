@@ -131,6 +131,17 @@ class MenuController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
+
+    public function postEliminar(Request $request)
+    {
+        $fecha = Carbon::parse($request['fecha']);
+        $fecha->format('Y-m-d');
+        Menu::where('fecha', $fecha)
+            ->where('tipo_ingreso_id', $request->tipo_ingreso_id)
+            ->delete();
+        return response()->json(['deleted' => true]);
+
+    }
     public function create()
     {
         //
@@ -189,6 +200,6 @@ class MenuController extends Controller
      */
     public function destroy($id)
     {
-        //
+        
     }
 }

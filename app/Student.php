@@ -29,4 +29,18 @@ class Student extends Model
         $fecha = $fecha->format('Y-m-d');
         $this->attributes['birthday'] = $fecha;
     }
+    public function scopeCi($query, $cedula)
+    {
+        if (trim($cedula) != '')
+        {
+            $query->where('ci', "LIKE", "%$cedula%");
+        }
+    }
+    public function scopeName($query, $nombre)
+    {
+        if (trim($nombre) != '')
+        {
+            $query->where('full_name', "LIKE", "%$nombre%");
+        }
+    }
 }

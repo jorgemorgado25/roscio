@@ -4,8 +4,11 @@
 @endsection 
 @section('main-content')
 
-<div class="col-md-6 col-md-offset-3">
+<div class="col-md-8 col-md-offset-2">
 	<h2 class="text-center">Acceso a Comedor</h2><br>
+
+	<h3>Tipo de Ingreso:</h3><br>
+
 
 	<div class="nav-tabs-custom">
 		<ul class="nav nav-tabs">
@@ -52,6 +55,25 @@
 	</div>
 	<!-- nav-tabs-custom -->
 
+	<h4>Menú del día</h4>
+	<div class="panel panel-default">
+		<div class="panel-body">
+			<p><b>Desayuno: </b></p>
+			<p><b>Bebida: </b></p>
+			<p><b>Fruta: </b></p>
+		</div>
+	</div>
+
+	<div class="panel panel-default">
+		<div class="panel-body">
+			<p><b>Sopa: </b></p>
+			<p><b>Plato Principal: </b></p>
+			<p><b>Ensalada: </b></p>
+			<p><b>Bebida: </b></p>
+			<p><b>Fruta: </b></p>
+		</div>
+	</div>
+
 </div>
 
 @endsection
@@ -80,6 +102,17 @@
 				}
 			},
 			buscando: false,
+			tipo_ingreso: 2
+		},
+		computed: {
+			tipo_ingreso: function(){
+				if (this.tipo_ingreso == 1)
+				{
+					return 'Desayuno';
+				}else{
+					return 'Almuerzo'
+				}
+			}
 		},
 		methods: {
 			ingresarCedula: function()

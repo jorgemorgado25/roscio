@@ -16,6 +16,7 @@ class CreateEstudiantesTable extends Migration
             $table->increments('id');
             $table->integer('madre_id');
             $table->integer('padre_id');
+            $table->string('representante', 1);
             $table->string('nac', 1);
             $table->string('cedula', 8)->unique();
             $table->string('nombre', 80);

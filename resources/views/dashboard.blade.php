@@ -39,6 +39,9 @@
 			<a class="btn btn-app" href="{{ route('estudiantes.index') }}">
 				<i class="fa fa-child"></i> Estudiantes
 			</a>
+			<a class="btn btn-app" href="{{ route('students.index') }}">
+				<i class="fa fa-child"></i> Students
+			</a>
 			<a class="btn btn-app" href="{{ route('inscripciones.index') }}">
 				<i class="glyphicon glyphicon-list"></i> Inscripciones
 			</a>
