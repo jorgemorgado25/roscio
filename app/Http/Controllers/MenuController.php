@@ -17,10 +17,16 @@ class MenuController extends Controller
      * @return \Illuminate\Http\Response
      */
 
-    public function getMenu(Request $request, $fecha)
+    public function getMenu(Request $request, $fecha=null)
     {
-        $fecha = Carbon::parse($fecha);
-        $fecha->format('Y-m-d');
+        if ($fecha == null)
+        {
+            $fecha = new Carbon('Y-m-d');
+        }else{
+            $fecha = Carbon::parse($fecha);
+            $fecha->format('Y-m-d');
+        }
+        
         $platos = Plato::all();
         $desayuno = Menu::where('fecha', $fecha)->where('tipo_ingreso_id', 1)->get();
         $almuerzo = Menu::where('fecha', $fecha)->where('tipo_ingreso_id', 2)->get();
@@ -139,7 +145,7 @@ class MenuController extends Controller
         Menu::where('fecha', $fecha)
             ->where('tipo_ingreso_id', $request->tipo_ingreso_id)
             ->delete();
-        return response()->json(['deleted' => true]);
+        return response()->json(['deleted' => true ]);
 
     }
     public function create()

@@ -97,6 +97,29 @@ var Funciones = Vue.extend({
 				return Promise.resolve(response);
 			});
 		},
+
+		
+
+
+		hayDesayuno: function()
+		{
+			if (this.res_desayuno.length > 0)
+			{
+				return true;
+			}else{
+				return false;
+			}
+		},
+		hayAlmuerzo: function()
+		{
+			if (this.res_almuerzo.length > 0)
+			{
+				return true;
+			}else{
+				return false;
+			}
+		},
+
 		//Registers - Matriculas
 		getBuscarMatriculaSeccion: function(escolaridad, seccion)
 		{
@@ -109,6 +132,17 @@ var Funciones = Vue.extend({
 		sendExcel: function()
 		{
 			
+		},
+
+		getItem: function(id, items)
+		{
+			for (i in items)
+			{
+				if (items[i]['id'] == id)
+				{
+					return items[i];
+				}
+			}
 		}
 	}
 });

@@ -7,7 +7,7 @@
 <div class="col-md-8 col-md-offset-2">
 	<h2 class="text-center">Acceso a Comedor</h2><br>
 
-	<h3>Tipo de Ingreso:</h3><br>
+	<h3>Tipo de Ingreso: @{{ tipoIngreso }}</h3><br>
 
 
 	<div class="nav-tabs-custom">
@@ -49,30 +49,39 @@
 			</form>
 			
 		</div>
-		<!-- /.tab-pane -->	
+		<!-- /.tab-pane -->
 		</div>
 		<!-- /.tab-content -->
 	</div>
 	<!-- nav-tabs-custom -->
 
-	<h4>Menú del día</h4>
-	<div class="panel panel-default">
-		<div class="panel-body">
-			<p><b>Desayuno: </b></p>
-			<p><b>Bebida: </b></p>
-			<p><b>Fruta: </b></p>
+	<div v-if="!buscandoMenu">
+		<h4>Menú del día</h4>	
+		<div v-if="tipo_ingreso == 1 && hayDesayuno()" class="panel panel-default">
+			<div class="panel-body">
+				<p><b>Desayuno: </b>@{{ desayunoPlato[1] }}</p>
+				<p><b>Bebida: </b>@{{ desayunoPlato[5] }}</p>
+				<p><b>Fruta: </b>@{{ desayunoPlato[6] }}</p>
+			</div>
 		</div>
-	</div>
 
-	<div class="panel panel-default">
-		<div class="panel-body">
-			<p><b>Sopa: </b></p>
-			<p><b>Plato Principal: </b></p>
-			<p><b>Ensalada: </b></p>
-			<p><b>Bebida: </b></p>
-			<p><b>Fruta: </b></p>
+		<div v-if="tipo_ingreso == 1 && !hayDesayuno()" class="alert alert-danger text-center">
+			No hay desayuno registrado
 		</div>
-	</div>
+
+		<div v-if="tipo_ingreso==2 && hayAlmuerzo()" class="panel panel-default">
+			<div class="panel-body">
+				<p><b>Sopa: </b> @{{ almuerzoPlato[2] }}</p>
+				<p><b>Plato Principal: </b>@{{ almuerzoPlato[3] }}</p>
+				<p><b>Ensalada: </b>@{{ almuerzoPlato[4] }}</p>
+				<p><b>Bebida: </b> @{{ almuerzoPlato[5] }}</p>
+				<p><b>Fruta: </b> @{{ almuerzoPlato[6] }}</p>
+			</div>
+		</div>
+		<div v-if="tipo_ingreso == 2 && !hayAlmuerzo()" class="alert alert-danger text-center">
+			No hay almuerzo registrado
+		</div>
+	</div>		
 
 </div>
 
@@ -80,6 +89,7 @@
 
 @section('scripts')
 <script src="{{ asset('/js/find-estudiante.vue') }}"></script>
+<script src="{{ asset('/js/vue-functions.js') }}"></script>
 <script>
 	$(document).on('shown.bs.tab', 'a[data-toggle="tab"]', function (e){
 		$("input:text" ).focus();
@@ -90,7 +100,7 @@
 			this.el.focus();
 		}
 	});
-	vm = new Vue ({
+	vm = new Funciones ({
 		el: "body",
 		data: {
 			cedula: {
@@ -101,20 +111,69 @@
 					message: ''
 				}
 			},
-			buscando: false,
-			tipo_ingreso: 2
+			tipo_ingreso: 1,
+			fecha: '2016-11-28',
+			buscando: true,
+			buscandoMenu: true,			
+			desayunoPlato: {},
+			almuerzoPlato: {},
+			res_desayuno: [],
+			res_almuerzo: [],
 		},
-		computed: {
-			tipo_ingreso: function(){
+		computed:
+		{
+			tipoIngreso: function()
+			{
 				if (this.tipo_ingreso == 1)
 				{
 					return 'Desayuno';
-				}else{
-					return 'Almuerzo'
-				}
+				}else
+				{
+					return 'Almuerzo';
+				}				
 			}
 		},
+		ready: function(){
+			console.log('hola');
+			this.buscarMenu();
+		},
 		methods: {
+			buscarMenu: function(){
+				this.desayunoPlato[1] = '-';
+				this.desayunoPlato[5] = '-';
+				this.desayunoPlato[6] = '-';
+
+				this.almuerzoPlato[2] = '-';
+				this.almuerzoPlato[3] = '-';
+				this.almuerzoPlato[4] = '-';
+				this.almuerzoPlato[5] = '-';
+				this.almuerzoPlato[6] = '-';
+
+				res_desayuno = [];
+				res_almuerzo = [];
+
+				this.getMenu(this.fecha).then(function(response)
+				{
+					var desayuno = response.data.desayuno;
+					this.res_desayuno = desayuno;
+					for (var i = 0; i < desayuno.length; i++)
+					{
+						var plato = this.getItem(desayuno[i]['plato_id'], response.data.platos);
+						console.log(plato.plato);
+						this.desayunoPlato[plato.categoria_plato_id] = plato.plato;
+					}
+
+					var almuerzo = response.data.almuerzo;
+					this.res_almuerzo = response.data.almuerzo;
+					for (var i = 0; i < almuerzo.length; i++)
+					{
+						var plato = this.getItem(almuerzo[i]['plato_id'], response.data.platos);
+						this.almuerzoPlato[plato.categoria_plato_id] = plato.plato;
+					}
+					this.buscandoMenu = false;
+				});
+			},
+			
 			ingresarCedula: function()
 			{
 				
@@ -130,7 +189,7 @@
 					this.buscarEstudiante().then(function(response)
 					{
 						//Cédula registrada
-						if(response.data.created)
+						if (response.data.created)
 						{
 							//Intenta registrar ingreso
 							this.registrarIngreso(response.data.estudiante.id)

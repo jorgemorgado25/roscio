@@ -73,7 +73,7 @@
 								</button>
 							</div>
 
-							<div v-if="hayAlmuerzo()" class="panel panel-default">							
+							<div v-if="hayAlmuerzo()" class="panel panel-default">		
 								<div class="panel-heading">
 									Almuerzo
 									<button class="btn btn-xs btn-default pull-right" @click="eliminarMenu(2)">
@@ -251,17 +251,6 @@
     	allowDecSep: false
     });	
 
-	function getItem(id, items)
-	{
-		for (i in items)
-		{
-			if (items[i]['id'] == id)
-			{
-				return items[i];
-			}
-		}
-	};
-
 	vm = new Funciones({
 		el: 'body',
 		data: {
@@ -302,7 +291,8 @@
 			}
 		},
 		methods: {
-			buscarMenu: function(){
+			buscarMenu: function()
+			{
 				this.buscando = true;
 				this.desayunoPlato[1] = '-';
 				this.desayunoPlato[5] = '-';
@@ -330,7 +320,7 @@
 
 					for (var i = 0; i < desayuno.length; i++)
 					{
-						var plato = getItem(desayuno[i]['plato_id'], response.data.platos);
+						var plato = this.getItem(desayuno[i]['plato_id'], response.data.platos);
 						this.desayunoPlato[plato.categoria_plato_id] = plato.plato;
 					}
 
@@ -338,29 +328,12 @@
 					this.res_almuerzo = response.data.almuerzo;
 					for (var i = 0; i < almuerzo.length; i++)
 					{
-						var plato = getItem(almuerzo[i]['plato_id'], response.data.platos);
+						var plato = this.getItem(almuerzo[i]['plato_id'], response.data.platos);
 						this.almuerzoPlato[plato.categoria_plato_id] = plato.plato;
 					}
 				});
 			},
-			hayDesayuno: function()
-			{
-				if (this.res_desayuno.length > 0)
-				{
-					return true;
-				}else{
-					return false;
-				}
-			},
-			hayAlmuerzo: function()
-			{
-				if (this.res_almuerzo.length > 0)
-				{
-					return true;
-				}else{
-					return false;
-				}
-			},
+			
 			showAddDesayuno: function()
 			{
 				this.desayuno.adding = !this.desayuno.adding;
@@ -390,7 +363,7 @@
 
 			activarBotonesAdd: function()
 			{
-				if(this.desayuno.adding || this.almuerzo.adding){
+				if (this.desayuno.adding || this.almuerzo.adding){
 					return true;
 				}else{
 					return false;
@@ -400,12 +373,12 @@
 			{
 				this.desayuno.error = '';
 				this.desayuno.fecha = this.fecha;
-				if (!this.desayuno.desayuno)
+				if (! this.desayuno.desayuno)
 				{
 					this.desayuno.error = 'Seleccione un plato para el desayuno';
 					return false;
 				}
-				if (!this.desayuno.cantidad)
+				if (! this.desayuno.cantidad)
 				{
 					this.desayuno.error = 'Escriba la cantidad de platos';
 					return false;
@@ -424,12 +397,12 @@
 			{
 				this.almuerzo.error = '';
 				this.almuerzo.fecha = this.fecha;
-				if (!this.almuerzo.platoPrincipal)
+				if (! this.almuerzo.platoPrincipal)
 				{
 					this.almuerzo.error = 'Seleccione un plato principal para el almuerzo';
 					return false;
 				}
-				if (!this.almuerzo.cantidad)
+				if (! this.almuerzo.cantidad)
 				{
 					this.almuerzo.error = 'Escriba la cantidad de platos';
 					return false;
