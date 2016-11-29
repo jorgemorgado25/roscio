@@ -25,6 +25,19 @@ class StudentsController extends Controller
         return view('students.index', compact('estudiantes'));
     }
 
+    public function buscar_ci($cedula, Request $request)
+    {
+        $student = Student::where('ci', $cedula)->first();
+        if ($student)
+        {
+            return response()->json(['created' => true, 'student' => $student]);
+        }else
+        {
+            return response()->json(['created' => false]);
+        }
+        
+    }
+
     /**
      * Show the form for creating a new resource.
      *

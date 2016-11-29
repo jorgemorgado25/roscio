@@ -33,6 +33,14 @@ class MenuController extends Controller
         return response()->json(['desayuno' => $desayuno, 'almuerzo' => $almuerzo, 'platos' => $platos]);
     }
 
+    public function getCantidadPlatos($fecha, $tipo_ingreso, Request $request)
+    {
+        $cantidad = Menu::where('fecha', $fecha)
+            ->where('tipo_ingreso_id', $tipo_ingreso)
+            ->first();
+        return response()->json(['cantidad' => $cantidad->cantidad]);
+    }
+
     public function index()
     {
         $desayunos = Plato::where('categoria_plato_id', 1)->lists('plato', 'id');

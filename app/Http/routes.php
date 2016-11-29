@@ -1,5 +1,7 @@
 <?php
 
+use Carbon\Carbon;
+
 #Impido el acceso a estas rutas si esta logueado
 Route::group(['middleware' => 'guest'], function()
 {
@@ -12,6 +14,10 @@ Route::group(['middleware' => 'guest'], function()
 		'uses' => 'PruebaController@login',
 		'as'   => 'login'
 	]);
+});
+
+Route::get('fecha', function(){
+	echo Carbon::today()->format('Y-m-d');
 });
 
 #Inicio de sesion
@@ -134,17 +140,23 @@ Route::group(['middleware' => ['auth', 'check_role'], 'roles' => 'Inscripciones'
 	Route::get('buscar_secciones/{ano_id}', 'AnosController@buscar_secciones');
 	Route::get('buscar_inscripciones_seccion/{escolaridad_id}/{seccion_id}', 'InscripcionesController@buscar_inscripciones_seccion');
 
+	Route::get('student/buscar_ci/{cedula}', 'StudentsController@buscar_ci');
+
 	Route::get('getCategoriasRubros', 'RubrosController@getCategoriasRubros');
 	Route::get('getCategoriasPlatos', 'PlatosController@getCategoriasPlatos');
 	Route::get('getRubros/{categoria_id}', 'RubrosController@getRubros');
 	Route::get('getPlatos/{categoria_id}', 'PlatosController@getPlatos');
 	Route::get('getPlato/{id}', 'PlatosController@getPlato');
+	
+	Route::get('comedor/getEntradasRegistradas/{fecha}/{tipo_ingreso}', 'ComedorController@getEntradasRegistradas');
 
+	Route::get('menu/getCantidadPlatos/{fecha}/{tipo_ingreso}', 'MenuController@getCantidadPlatos');
 	Route::get('menu/getMenu/{fecha}', 'MenuController@getMenu');
 
 	Route::post('platos/updatePlato', 'PlatosController@update'); // update Plato
 	Route::post('escolaridades/activar', 'EscolaridadesController@activar');
 	Route::post('comedor/postRegistrarIngreso', 'ComedorController@postRegistrarIngreso');
+	Route::post('comedor/postRegistrarEntrada', 'ComedorController@postRegistrarEntrada');
 	Route::post('platos/postCreatePlato', 'PlatosController@store');
 
 	Route::post('menu/saveDesayuno', 'MenuController@saveDesayuno');

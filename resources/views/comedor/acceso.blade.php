@@ -7,7 +7,7 @@
 <div class="col-md-8 col-md-offset-2">
 	<h2 class="text-center">Acceso a Comedor</h2><br>
 
-	<h3>Tipo de Ingreso: @{{ tipoIngreso }}</h3><br>
+	<h4>Tipo de Ingreso: @{{ tipoIngreso }}</h4><br>
 
 
 	<div class="nav-tabs-custom">
@@ -56,12 +56,27 @@
 	<!-- nav-tabs-custom -->
 
 	<div v-if="!buscandoMenu">
-		<h4>Menú del día</h4>	
+		<h4>Menú del día</h4>
 		<div v-if="tipo_ingreso == 1 && hayDesayuno()" class="panel panel-default">
 			<div class="panel-body">
 				<p><b>Desayuno: </b>@{{ desayunoPlato[1] }}</p>
 				<p><b>Bebida: </b>@{{ desayunoPlato[5] }}</p>
 				<p><b>Fruta: </b>@{{ desayunoPlato[6] }}</p>
+				<hr>
+				<div class="row">
+					<div class="col-md-4">
+						<p><b>Platos para hoy: </b> @{{ cantidad_platos }}</p>
+					</div>
+					<div class="col-md-4">
+						<p><b>Entradas Registradas: </b> @{{ total_entradas }}</p>
+					</div>
+					<div class="col-md-4">
+						<p>
+						<b>Platos disponibles: </b>
+						<span :style="calcularEstilos()">@{{ cantidad_platos - total_entradas }}</span>
+						</p>
+					</div>
+				</div>
 			</div>
 		</div>
 
@@ -76,6 +91,22 @@
 				<p><b>Ensalada: </b>@{{ almuerzoPlato[4] }}</p>
 				<p><b>Bebida: </b> @{{ almuerzoPlato[5] }}</p>
 				<p><b>Fruta: </b> @{{ almuerzoPlato[6] }}</p>
+				<hr>
+				<h4>Totales</h4>
+				<div class="row">
+					<div class="col-md-4">
+						<p><b>Platos para hoy: </b> @{{ cantidad_platos }}</p>
+					</div>
+					<div class="col-md-4">
+						<p><b>Entradas Registradas: </b> @{{ total_entradas }}</p>
+					</div>
+					<div class="col-md-4">
+						<p>
+						<b>Platos disponibles: </b>
+						<span :style="calcularEstilos()">@{{ cantidad_platos - total_entradas }}</span>
+						</p>
+					</div>
+				</div>
 			</div>
 		</div>
 		<div v-if="tipo_ingreso == 2 && !hayAlmuerzo()" class="alert alert-danger text-center">
@@ -108,11 +139,13 @@
 				buscando: false,
 				ha_ingresado: false,
 				error: {
-					message: ''
+					message: '' 
 				}
 			},
-			tipo_ingreso: 1,
-			fecha: '2016-11-28',
+			cantidad_platos: '',
+			total_entradas: '',
+			tipo_ingreso: '',
+			fecha: '',
 			buscando: true,
 			buscandoMenu: true,			
 			desayunoPlato: {},
@@ -120,25 +153,24 @@
 			res_desayuno: [],
 			res_almuerzo: [],
 		},
-		computed:
-		{
-			tipoIngreso: function()
-			{
-				if (this.tipo_ingreso == 1)
-				{
-					return 'Desayuno';
-				}else
-				{
-					return 'Almuerzo';
-				}				
+		computed: {
+			tipoIngreso: function(){
+				this.tipo_ingreso == 1 ? t = 'Desayuno' : t = 'Almuerzo';
+				return t;
 			}
 		},
-		ready: function(){
-			console.log('hola');
+		ready: function() {
+			var d = new Date();
+			var hora = d.getHours();
+			var mes = d.getMonth() + 1
+			this.fecha = d.getFullYear() + '-' + mes + '-' + d.getDate();
+			hora <= 10 ? this.tipo_ingreso = 1 : this.tipo_ingreso = 2;
 			this.buscarMenu();
+			this.cantidadPlatos();
+			this.entradasRegistradas();
 		},
 		methods: {
-			buscarMenu: function(){
+			buscarMenu: function() {
 				this.desayunoPlato[1] = '-';
 				this.desayunoPlato[5] = '-';
 				this.desayunoPlato[6] = '-';
@@ -173,10 +205,25 @@
 					this.buscandoMenu = false;
 				});
 			},
+
+			entradasRegistradas: function()
+			{
+				this.$http.get('/comedor/getEntradasRegistradas/' + this.fecha +'/'+ this.tipo_ingreso).then(function(response)
+				{
+					this.total_entradas = response.data.total;
+				});
+			},
+
+			cantidadPlatos: function()
+			{
+				this.$http.get('/menu/getCantidadPlatos/' + this.fecha +'/'+ this.tipo_ingreso).then(function(response)
+				{
+					this.cantidad_platos = response.data.cantidad;
+				});
+			},
 			
 			ingresarCedula: function()
-			{
-				
+			{				
 				this.cedula.buscando = true;
 				this.cedula.error.message = '';
 				this.cedulaFocus();
@@ -192,11 +239,14 @@
 						if (response.data.created)
 						{
 							//Intenta registrar ingreso
-							this.registrarIngreso(response.data.estudiante.id)
+							data = {
+								student_id: response.data.student.id, 
+								tipo_ingreso: this.tipo_ingreso
+							}
+							this.$http.post('/comedor/postRegistrarEntrada', data)
 							.then(function(response)
 							{
-								console.log(response.data);
-								if(response.data.error)
+								if (response.data.error)
 								{
 									//hubo error
 									this.cedula.error.message = response.data.message;
@@ -204,6 +254,7 @@
 								{
 									this.cedula.ha_ingresado = true;
 								}
+								this.entradasRegistradas();
 								this.buscando = false;
 								parent.document.getElementById("txt-cedula").focus();
 							});
@@ -211,7 +262,7 @@
 						{
 							//Cédula no está registrada
 							this.cedula.error.error = true;
-							this.cedula.error.message = 'La cédula no está registrada.';
+							this.cedula.error.message = 'La cédula no está registrada';
 							this.buscando = false;
 						}
 						this.cedula.val = '';						
@@ -225,15 +276,15 @@
 			},
 			buscarEstudiante: function ()
 			{
-				return this.$http.get('/buscar_estudiante_ci/' + this.cedula.val)
+				return this.$http.get('/student/buscar_ci/' + this.cedula.val)
 				.then(function(response)
 				{
 					return Promise.resolve(response);
 				});
 			},
-			registrarIngreso: function (id)
+			registrarEntrada: function (student_id)
 			{
-				return this.$http.post('/comedor/postRegistrarIngreso', {'id': id})
+				return this.$http.post('/comedor/postRegistrarEntrada', {'student_id': student_id})
 				.then(function(response)
 				{
 					return Promise.resolve(response);

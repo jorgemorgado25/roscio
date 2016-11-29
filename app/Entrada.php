@@ -4,12 +4,13 @@ namespace Roscio;
 
 use Illuminate\Database\Eloquent\Model;
 
-class Ingreso extends Model
+class Entrada extends Model
 {
-    protected $table = 'ingresos';
+    protected $table = "entradas";
+
     protected $fillable = [
     	'tipo_ingreso_id', 
-    	'estudiante_id', 
+    	'student_id', 
     	'mencion_id', 
     	'escolaridad_id', 
     	'ano_id', 
