@@ -8,7 +8,8 @@
 <body class="login-page">
     <div class="login-box">
         <div class="login-logo">
-            <b>Control de Comedor</b>
+            <h3>Liceo Juan Germán Roscio</h3>
+            <h3>Control de Comedor</h3>
         </div><!-- /.login-logo -->
         @include('partials.error-message')
         @include('partials.success-message')

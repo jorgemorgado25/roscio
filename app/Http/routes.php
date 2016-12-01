@@ -49,7 +49,15 @@ Route::group(['middleware' => 'auth'], function()
 		'uses' => 'UsersController@postChangePassword',
 		'as'   => 'user.post.change_password'
 	]);
-	
+
+	# Reportes
+	Route::group(['prefix' => 'reportes'], function()
+	{
+		Route::get('reporteDiario', [
+			'uses' => 'ReportesController@reporteDiario',
+			'as' => 'reportes.reporteDiario'
+		]);
+	});	
 });
 
 #RUTAS CON MIDDLEWARE IS_ADMIN

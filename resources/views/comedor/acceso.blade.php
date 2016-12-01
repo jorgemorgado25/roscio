@@ -63,6 +63,7 @@
 				<p><b>Bebida: </b>@{{ desayunoPlato[5] }}</p>
 				<p><b>Fruta: </b>@{{ desayunoPlato[6] }}</p>
 				<hr>
+				<h4>Totales</h4>
 				<div class="row">
 					<div class="col-md-4">
 						<p><b>Platos para hoy: </b> @{{ cantidad_platos }}</p>
@@ -170,6 +171,11 @@
 			this.entradasRegistradas();
 		},
 		methods: {
+			calcularEstilos: function(){
+				if(this.cantidad_platos - this.total_entradas > 51){
+					'font-color:green'
+				}
+			},
 			buscarMenu: function() {
 				this.desayunoPlato[1] = '-';
 				this.desayunoPlato[5] = '-';

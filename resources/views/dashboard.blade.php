@@ -53,6 +53,14 @@
 			</a>
 		</div>
 		<div class="box-header with-border">
+			<h4 class="text-primary">Reportes</h4>
+		</div>
+		<div class="box-body">
+			<a class="btn btn-app" href="{{ route('reportes.reporteDiario') }}">
+				<i class="fa fa-child"></i> Ingresos del Día
+			</a>
+		</div>
+		<div class="box-header with-border">
 			<h4 class="text-primary">Administración del Sistema</h4>
 		</div>
 		<div class="box-body">
