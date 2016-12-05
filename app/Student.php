@@ -14,6 +14,11 @@ class Student extends Model
     	return $this->hasMany('Roscio\Register', 'student_id');
     }
 
+    public function entradas()
+    {
+        return $this->hasMany('Roscio\Entradas', 'ano_id');
+    }
+
     public function getGeneroAttribute()
     {
     	return ($this->gender == 'M' ? 'Masculino' : 'Femenino');

@@ -38,7 +38,12 @@ class MenuController extends Controller
         $cantidad = Menu::where('fecha', $fecha)
             ->where('tipo_ingreso_id', $tipo_ingreso)
             ->first();
-        return response()->json(['cantidad' => $cantidad->cantidad]);
+        if($cantidad){
+            return response()->json(['cantidad' => $cantidad->cantidad, 'error' => false]);
+        }else{
+            return response()->json(['error' => true]);
+        }
+        
     }
 
     public function index()

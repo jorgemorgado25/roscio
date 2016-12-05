@@ -15,4 +15,9 @@ class Entrada extends Model
     	'escolaridad_id', 
     	'ano_id', 
     	'seccion_id'];
+
+    public function student()
+    {
+    	return $this->belongsTo('Roscio\Student', 'ano_id');
+    }
 }

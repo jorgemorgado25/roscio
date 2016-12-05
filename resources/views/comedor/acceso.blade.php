@@ -32,9 +32,9 @@
 				</p>
 
 				<label for="">Cédula: </label>
-				<input type="text" v-model='cedula.val' class="form-control text-center input-lg" id="txt-cedula" autocomplete="off" autofocus>
+				<input type="text" v-model='cedula.val' class="form-control text-center input-lg" id="txt-cedula" autocomplete="off" autofocus :disabled="!hayMenu">
 				<br>
-				<button type="submit" class="btn btn-primary">Ingresar</button>
+				<button type="submit" class="btn btn-primary" :disabled="!hayMenu">Ingresar</button>
 			</div>
 			</form>
 		</div>
@@ -43,7 +43,7 @@
 			<form id="form-cedula" action="" @submit.prevent="ingresarCodigo"autocomplete="off">
 			<div class="form-group">
 				<label for="">Código de Barras: </label>
-				<input type="text" v-model='codigo' class="form-control text-center input-lg" id="txt-codigo" autocomplete="off">
+				<input type="text" v-model='codigo' class="form-control text-center input-lg" id="txt-codigo" autocomplete="off" :disabled="!hayMenu">
 				<button class="hidden" type="submit">Enviar</button>
 			</div>
 			</form>
@@ -153,6 +153,7 @@
 			almuerzoPlato: {},
 			res_desayuno: [],
 			res_almuerzo: [],
+			hayMenu: false
 		},
 		computed: {
 			tipoIngreso: function(){
@@ -176,7 +177,20 @@
 					'font-color:green'
 				}
 			},
+			HayMenu: function()
+			{				
+				if (this.tipo_ingreso == 1 && this.hayDesayuno())
+				{
+					this.hayMenu = true;
+				}
+
+				if (this.tipo_ingreso == 2 && this.hayAlmuerzo())
+				{
+					this.hayMenu = true;
+				}
+			},
 			buscarMenu: function() {
+				
 				this.desayunoPlato[1] = '-';
 				this.desayunoPlato[5] = '-';
 				this.desayunoPlato[6] = '-';
@@ -209,6 +223,7 @@
 						this.almuerzoPlato[plato.categoria_plato_id] = plato.plato;
 					}
 					this.buscandoMenu = false;
+					
 				});
 			},
 

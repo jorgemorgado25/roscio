@@ -98,9 +98,6 @@ var Funciones = Vue.extend({
 			});
 		},
 
-		
-
-
 		hayDesayuno: function()
 		{
 			if (this.res_desayuno.length > 0)

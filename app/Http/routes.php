@@ -172,3 +172,5 @@ Route::group(['middleware' => ['auth', 'check_role'], 'roles' => 'Inscripciones'
 	Route::post('menu/postEliminar', 'MenuController@postEliminar');
 
 	Route::get('matricula/getMatriculaSeccion/{escolaridad_id}/{seccion_id}', 'MatriculaController@getMatriculaSeccion');
+
+	Route::get('reportes/getEntradasDiarias/{fecha}/{tipo_entrada}', 'ReportesController@getEntradasDiarias');
