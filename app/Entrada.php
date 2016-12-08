@@ -18,6 +18,6 @@ class Entrada extends Model
 
     public function student()
     {
-    	return $this->belongsTo('Roscio\Student', 'ano_id');
+    	return $this->belongsTo('Roscio\Student', 'student_id');
     }
 }

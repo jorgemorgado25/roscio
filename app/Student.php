@@ -16,7 +16,7 @@ class Student extends Model
 
     public function entradas()
     {
-        return $this->hasMany('Roscio\Entradas', 'ano_id');
+        return $this->hasMany('Roscio\Entradas', 'student_id');
     }
 
     public function getGeneroAttribute()

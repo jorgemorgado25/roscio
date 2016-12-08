@@ -16,10 +16,10 @@
 			<li><a href="#tab_2" data-toggle="tab"><i class="fa fa-barcode"></i> &nbsp;Código de Barras</a></li>
 		</ul>
 		<div class="tab-content">
+
 		<div class="tab-pane active" id="tab_1">
 			<form id="form-codigo" action="" @submit.prevent="ingresarCedula" autocomplete="off">
 			<div class="form-group">
-
 				<p class="alert alert-success text-center" v-if="cedula.ha_ingresado">
 					Registro generado satisfactoriamente
 				</p>
@@ -32,18 +32,22 @@
 				</p>
 
 				<label for="">Cédula: </label>
-				<input type="text" v-model='cedula.val' class="form-control text-center input-lg" id="txt-cedula" autocomplete="off" autofocus :disabled="!hayMenu">
+				<input type="text" v-model='cedula.val' class="form-control text-center input-lg" id="txt-cedula" autocomplete="off" autofocus >
 				<br>
-				<button type="submit" class="btn btn-primary" :disabled="!hayMenu">Ingresar</button>
-			</div>
+
+				<button type="submit" class="btn btn-primary">Ingresar</button>
+			</div>			
 			</form>
+			<p class="text-center" v-if="buscandoCedula">
+				<i class=" text-center fa fa-spinner fa-spin fa-4x"></i>
+			</p>
 		</div>
 		<!-- /.tab-pane -->
 		<div class="tab-pane" id="tab_2">
 			<form id="form-cedula" action="" @submit.prevent="ingresarCodigo"autocomplete="off">
 			<div class="form-group">
 				<label for="">Código de Barras: </label>
-				<input type="text" v-model='codigo' class="form-control text-center input-lg" id="txt-codigo" autocomplete="off" :disabled="!hayMenu">
+				<input type="text" v-model='codigo' class="form-control text-center input-lg" id="txt-codigo" autocomplete="off" :disabled="!HayMenu()">
 				<button class="hidden" type="submit">Enviar</button>
 			</div>
 			</form>
@@ -153,7 +157,8 @@
 			almuerzoPlato: {},
 			res_desayuno: [],
 			res_almuerzo: [],
-			hayMenu: false
+			varHayMenu: false,
+			buscandoCedula: false
 		},
 		computed: {
 			tipoIngreso: function(){
@@ -179,18 +184,20 @@
 			},
 			HayMenu: function()
 			{				
-				if (this.tipo_ingreso == 1 && this.hayDesayuno())
+				var hay = false
+				if (this.tipo_ingreso == 1 && this.res_desayuno.length > 0)
 				{
-					this.hayMenu = true;
+					hay = true;
 				}
 
-				if (this.tipo_ingreso == 2 && this.hayAlmuerzo())
+				if (this.tipo_ingreso == 2 && this.res_almuerzo.length > 0)
 				{
-					this.hayMenu = true;
+					hay = true;
 				}
+				return hay;
 			},
-			buscarMenu: function() {
-				
+			buscarMenu: function()
+			{				
 				this.desayunoPlato[1] = '-';
 				this.desayunoPlato[5] = '-';
 				this.desayunoPlato[6] = '-';
@@ -223,7 +230,8 @@
 						this.almuerzoPlato[plato.categoria_plato_id] = plato.plato;
 					}
 					this.buscandoMenu = false;
-					
+					this.cedulaFocus();
+					parent.document.getElementById('txt-cedula').focus();
 				});
 			},
 
@@ -245,15 +253,17 @@
 			
 			ingresarCedula: function()
 			{				
-				this.cedula.buscando = true;
 				this.cedula.error.message = '';
 				this.cedulaFocus();
 				this.cedula.ha_ingresado = false;
+				
 				//text cedula not empty
 				if (this.cedula.val)
 				{
-					this.buscando = true;
-					this.cedula.buscando = false;					
+					if(!this.HayMenu()){
+						return false;
+					}
+					this.buscandoCedula = true;
 					this.buscarEstudiante().then(function(response)
 					{
 						//Cédula registrada
@@ -277,7 +287,7 @@
 								}
 								this.entradasRegistradas();
 								this.buscando = false;
-								parent.document.getElementById("txt-cedula").focus();
+								this.buscandoCedula = false;
 							});
 						}else
 						{
@@ -285,6 +295,7 @@
 							this.cedula.error.error = true;
 							this.cedula.error.message = 'La cédula no está registrada';
 							this.buscando = false;
+							this.buscandoCedula = false;
 						}
 						this.cedula.val = '';						
 					});
