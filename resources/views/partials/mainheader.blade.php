@@ -4,9 +4,9 @@
     <!-- Logo -->
     <a href="{{ route('prueba.index') }}" class="logo">
         <!-- mini logo for sidebar mini 50x50 pixels -->
-        <span class="logo-mini"><b>A</b>LT</span>
+        <span class="logo-mini"><b>R</b>C</span>
         <!-- logo for regular state and mobile devices -->
-        <span class="logo-lg"><b>Personal</b>LTE</span>
+        <span class="logo-lg"><b>Roscio </b>Comedor</span>
     </a>
 
     <!-- Header Navbar -->

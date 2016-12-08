@@ -201,11 +201,14 @@ class MatriculaController extends Controller
     public function carnet($register_id)
     {
         $register = Register::find($register_id);
+
         $view =  \View::make('matricula.carnet', (['register' => $register]))->render();
         $pdf = \App::make('dompdf.wrapper');
         $pdf->loadHTML($view)->setPaper('letter');
         //$pdf->loadHTML($view)->setPaper('a4')->setOrientation('landscape');
-        return $pdf->stream('Carnet'); 
+        return $pdf->stream('Carnet');
+
+        //return view('matricula.carnet', ['register' => $register]);
     }
 
     /**

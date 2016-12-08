@@ -22,11 +22,17 @@
 		margin-left: 60px;
 		margin-top: 15px;
 	}
-	#codigo
+	#bar-code
 	{
 		position: absolute;
 		margin-top: 10px;
 		margin-left: 15px;
+	}
+	#qr-code
+	{
+		position: absolute;
+		margin-top: -20px;
+		margin-left: 240px;
 	}
 	#logo
 	{
@@ -90,9 +96,27 @@
 
 		<h3 id="h3-escolaridad">{{ $register->escolaridad->escolaridad }} - AÑO: {{ $register->ano->ano }} - SECCION:  {{ $register->seccion->seccion }}</h3>
 
-		<span id="codigo">
+		<span id="bar-code">
 			<?php
-				echo '<img src="data:image/png;base64,' . DNS1D::getBarcodePNG($register->student->ci, "C39E", 1, 30) . '" alt="barcode"   />';
+				/*echo '<img src="data:image/png;base64,' . DNS1D::getBarcodePNG($register->student->ci, "C39", 1, 30) . '" alt="barcode"   />';*/
+				
+				/**
+					CODIGOS: C39 - QRCODE
+				**/
+				echo DNS1D::getBarcodeHTML($register->student->ci, "C39",1,30);
+				//echo DNS2D::getBarcodeHTML($register->student->ci, "QRCODE", 2, 2);
+			?>
+		</span>
+
+		<span id="qr-code">
+			<?php
+				/*echo '<img src="data:image/png;base64,' . DNS1D::getBarcodePNG($register->student->ci, "C39", 1, 30) . '" alt="barcode"   />';*/
+				
+				/**
+					CODIGOS: C39 - QRCODE
+				**/
+				//echo DNS1D::getBarcodeHTML($register->student->ci, "C39",1,30);
+				echo DNS2D::getBarcodeHTML($register->student->ci, "QRCODE", 2.5, 2.5);
 			?>
 		</span>
 	</div>

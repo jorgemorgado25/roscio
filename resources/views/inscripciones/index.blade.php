@@ -3,6 +3,7 @@
 	Listado de Inscripciones
 @endsection
 @section('main-content')
+<div class="row">
 <div class="col-md-12">
 	<h3>Listado de Inscripciones</h3><br>
 	@include('partials.error-message')
@@ -110,6 +111,7 @@
 
 		</div>
 	</div>	
+</div>
 </div>
 @endsection
 
