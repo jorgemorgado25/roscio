@@ -54,7 +54,7 @@
 </style>
 	<body style="margin: 50px 80px 50px 80px">
 
-		<img style="position:absolute" width="100px" src="img/logo.png" alt="">
+		<img style="position:absolute" width="100px" src="img/logo-lti-400.png" alt="">
 
 		<header>
 			<p>REPUBLICA BOLIVARIANA DE VENEZUELA</p>

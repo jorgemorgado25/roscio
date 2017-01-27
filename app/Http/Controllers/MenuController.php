@@ -9,6 +9,7 @@ use Roscio\Http\Controllers\Controller;
 use Roscio\Menu;
 use Roscio\Plato;
 use Carbon\Carbon;
+use Roscio\MenuDia;
 class MenuController extends Controller
 {
     /**
@@ -17,7 +18,7 @@ class MenuController extends Controller
      * @return \Illuminate\Http\Response
      */
 
-    public function getMenu(Request $request, $fecha=null)
+    public function getMenu(Request $request, $fecha = null)
     {
         if ($fecha == null)
         {
@@ -30,7 +31,10 @@ class MenuController extends Controller
         $platos = Plato::all();
         $desayuno = Menu::where('fecha', $fecha)->where('tipo_ingreso_id', 1)->get();
         $almuerzo = Menu::where('fecha', $fecha)->where('tipo_ingreso_id', 2)->get();
-        return response()->json(['desayuno' => $desayuno, 'almuerzo' => $almuerzo, 'platos' => $platos]);
+        return response()->json([
+            'desayuno' => $desayuno, 
+            'almuerzo' => $almuerzo, 
+            'platos' => $platos]);
     }
 
     public function getCantidadPlatos($fecha, $tipo_ingreso, Request $request)

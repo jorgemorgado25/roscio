@@ -5,8 +5,12 @@ namespace Roscio\Http\Controllers;
 use Illuminate\Http\Request;
 
 use Roscio\Http\Requests;
+use Roscio\Http\Requests\CreateEscolaridadRequest;
+use Roscio\Http\Requests\UpdateEscolaridadRequest;
 use Roscio\Http\Controllers\Controller;
 use Roscio\Escolaridad;
+use Session;
+use Redirect;
 class EscolaridadesController extends Controller
 {
     /**
@@ -42,7 +46,7 @@ class EscolaridadesController extends Controller
      */
     public function create()
     {
-        //
+        return view('escolaridades.create');
     }
 
     /**
@@ -51,9 +55,12 @@ class EscolaridadesController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(CreateEscolaridadRequest $request)
     {
-        //
+        $escolaridad = new Escolaridad($request->all());
+        $escolaridad->save();
+        Session::flash('success-message', 'La Escolaridad ' . $escolaridad->escolaridad. ' fue creada exitosamente');
+        return Redirect::route('escolaridades.index');
     }
 
     /**
@@ -75,7 +82,8 @@ class EscolaridadesController extends Controller
      */
     public function edit($id)
     {
-        //
+        $escolaridad = Escolaridad::findOrFail($id);
+        return view('escolaridades.edit', compact('escolaridad'));
     }
 
     /**
@@ -85,9 +93,13 @@ class EscolaridadesController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(UpdateEscolaridadRequest $request, $id)
     {
-        //
+        $escolaridad = Escolaridad::find($id);
+        $escolaridad->fill($request->all());
+        $escolaridad->save();
+        Session::flash('success-message', 'Escolaridad actualizada exitosamente.');
+        return Redirect::route('escolaridades.index');
     }
 
     /**

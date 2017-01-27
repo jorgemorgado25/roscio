@@ -2,14 +2,21 @@
 @section('title')
 	Listado de Escolaridades
 @endsection
+
 @section('main-content')
+<h3>
+	<a href="{{ route('escolaridades.create') }}" class="btn pull-right btn-primary">
+		<span class="glyphicon glyphicon-plus"></span>
+		Nueva</a>
+	Listado de Escolaridades</h3><br>
 
-<h3>Listado de Escolaridades</h3><br>
+@include('partials.success-message')
 
-<p class="alert alert-success text-center" 
-	:transition="fade" 
-	v-show="escolaridad">
-	La escolaridad @{{ escolaridad }} ahora está activa</p>
+
+<div class="alert alert-success alert-dismissible" v-show="escolaridad">
+	<button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+	<p class="text-center">La escolaridad @{{ escolaridad }} ahora está activa</p>
+</div>
 
 <div class="box box-primary">
 	<div class="box-header with-border">

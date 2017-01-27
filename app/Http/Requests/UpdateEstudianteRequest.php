@@ -29,7 +29,7 @@ class UpdateEstudianteRequest extends Request
     public function rules()
     {
         return [
-            'cedula'      => 'required|unique:estudiantes,cedula,' . $this->route->getParameter('estudiantes')
+            'cedula' => 'required|unique:estudiantes,cedula,' . $this->route->getParameter('estudiantes')
         ];
     }
 }

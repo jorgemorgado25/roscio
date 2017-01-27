@@ -99,6 +99,7 @@ Route::group(['middleware' => ['auth', 'check_role'], 'roles' => 'Inscripciones'
 	/* INSCRIPCIONES */
 	Route::resource('inscripciones', 'InscripcionesController');
 	Route::resource('escolaridades', 'EscolaridadesController');
+	Route::resource('persons', 'PersonsController');
 
 	/* MATRICULA */
 	Route::resource('matricula', 'MatriculaController');
@@ -142,10 +143,15 @@ Route::group(['middleware' => ['auth', 'check_role'], 'roles' => 'Inscripciones'
 
 /* RUTAS PARA PETICIONES AJAX */
 	Route::get('buscar_persona_ci/{cedula}', 'EstudiantesController@buscar_persona_ci');
+
 	Route::get('buscar_persona_id/{id}', 'EstudiantesController@buscar_persona_id');
+
 	Route::get('buscar_estudiante_ci/{cedula}', 'EstudiantesController@buscar_estudiante_ci');
+
 	Route::get('buscar_anos/{mencion_id}', 'AnosController@buscar_anos');
+
 	Route::get('buscar_secciones/{ano_id}', 'AnosController@buscar_secciones');
+	
 	Route::get('buscar_inscripciones_seccion/{escolaridad_id}/{seccion_id}', 'InscripcionesController@buscar_inscripciones_seccion');
 
 	Route::get('student/buscar_ci/{cedula}', 'StudentsController@buscar_ci');
@@ -164,7 +170,9 @@ Route::group(['middleware' => ['auth', 'check_role'], 'roles' => 'Inscripciones'
 	Route::post('platos/updatePlato', 'PlatosController@update'); // update Plato
 	Route::post('escolaridades/activar', 'EscolaridadesController@activar');
 	Route::post('comedor/postRegistrarIngreso', 'ComedorController@postRegistrarIngreso');
+
 	Route::post('comedor/postRegistrarEntrada', 'ComedorController@postRegistrarEntrada');
+
 	Route::post('platos/postCreatePlato', 'PlatosController@store');
 
 	Route::post('menu/saveDesayuno', 'MenuController@saveDesayuno');
@@ -173,4 +181,14 @@ Route::group(['middleware' => ['auth', 'check_role'], 'roles' => 'Inscripciones'
 
 	Route::get('matricula/getMatriculaSeccion/{escolaridad_id}/{seccion_id}', 'MatriculaController@getMatriculaSeccion');
 
+	Route::post('matricula/postEliminar', 'MatriculaController@postEliminar');
+
+	Route::post('matricula/postEliminarRegistro', 'MatriculaController@postEliminarRegistro');
+
+
 	Route::get('reportes/getEntradasDiarias/{fecha}/{tipo_entrada}', 'ReportesController@getEntradasDiarias');
+	
+	Route::get('reportes/pdfEntradasDiarias/{fecha}/{tipo_entrada}', [
+		'uses' => 'ReportesController@pdfEntradasDiarias',
+		'as'   => 'pdfEntradasDiarias'
+	]);

@@ -28,10 +28,12 @@ class Student extends Model
     	$fecha = Carbon::parse($this->birthday);
         return $fecha->format('d-m-Y');
     }
-    public function setBirthdayAttribute($value)
+    public function setBirthdayAttribute($valor)
     {
-        $fecha = Carbon::parse($this->value);
-        $fecha = $fecha->format('Y-m-d');
+        $ano = substr($valor, 6, 4);
+        $mes = substr($valor, 3, 2);
+        $dia = substr($valor, 0, 2);
+        $fecha = $ano . '-' . $mes . '-' . $dia;
         $this->attributes['birthday'] = $fecha;
     }
     public function scopeCi($query, $cedula)

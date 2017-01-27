@@ -108,24 +108,24 @@ class MatriculaController extends Controller
             $result[3] . ' ' .
             $result[4] . ' ' .
             //representante
-            $result[5] . ' ' .
-            $result[6] . ' ' .
             $result[7] . ' ' .
-            $result[8] . ' ' ;
+            $result[8] . ' ' .
+            $result[9] . ' ' ;
             $i++;
         }
+        
         //dd($verify);
-        /**
+        
+        /*
         0  ( A ) => Cédula del estudiante
         1  ( B ) => Nombre del estudiante
         2  ( C ) => lugar de Nacimiento
         3  ( D ) => Fecha de Nacimiento
         4  ( E ) => Género
         
-        10 ( F ) => Cédula del Representante
-        11 ( G ) => Nombre del Representante
-        12 ( H ) => Teléfono del Representante
-        13 ( I ) => Dirección del Representante
+        7 ( H ) => Nombre del Representante
+        8 ( I ) => Cédula del Representante
+        9 ( J ) => Dirección del Representante
         **/
 
         # Verifico si existen los estudiantes y los representante
@@ -139,11 +139,15 @@ class MatriculaController extends Controller
             $estudiante = Student::where('ci', $result[0])->first();
             if (!$estudiante)
             {
-                $student = new Student;
+                $student = new Student();
                 $student->ci = $result[0];
                 $student->full_name = $result[1];
                 $student->birth_place = $result[2];
-                $student->birthday = $result[3];
+
+                $birthday = Carbon::parse($result[3]);
+                $birthday = $birthday->format('d-m-Y');
+
+                $student->birthday = $birthday;
                 $student->gender = $result[4];
                 $student->save();
                 $estudiante_id = $student->id;
@@ -151,14 +155,14 @@ class MatriculaController extends Controller
             {
                 $estudiante_id = $estudiante->id;
             }
-            $representante = Person::where('ci', $result[5])->first();
+            $representante = Person::where('ci', $result[8])->first();
             if (!$representante)
             {
                 $person = new Person;
-                $person->ci = $result[5];
-                $person->full_name = $result[6];
-                $person->phone = $result[7];
-                $person->address = $result[8];
+                $person->ci = $result[8];
+                $person->full_name = $result[7];
+                //$person->phone = $result[7];
+                $person->address = $result[9];
                 $person->save();
                 $representante_id = $person->id;
             }else
@@ -211,49 +215,18 @@ class MatriculaController extends Controller
         //return view('matricula.carnet', ['register' => $register]);
     }
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function show()
+    public function postEliminar(Request $request)
     {
-        //dd($results);
-        //return view('matricula.comprobar', compact('results'));
+        Register::where('escolaridad_id', $request->escolaridad_id)
+            ->where('seccion_id', $request->seccion_id)
+            ->delete();
+        return response()->json(['deleted' => true ]);
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function edit($id)
+    public function postEliminarRegistro(Request $request)
     {
-        //
-    }
+        Register::where('id', $request->register_id)->delete();
+        return response()->json(['deleted' => true, 'register_id' => $request->register_id]);
+    }   
 
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function update(Request $request, $id)
-    {
-        //
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy($id)
-    {
-        //
-    }
 }

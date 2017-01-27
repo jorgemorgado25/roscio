@@ -40,7 +40,7 @@ class EstudianteSeeder extends Seeder
 		$padre->nac = 'v';
 		$padre->cedula = '2521505';
 		$padre->nombre = 'JOSE LUIS';        
-		$padre->apellido = 'MORGADO REINA';        
+		$padre->apellido = 'PEREZ REINA';        
 		$padre->genero = 'm';
 		$padre->fecha_nac = '14-08-1954';
 		$padre->telefono = '04143434486';
@@ -54,9 +54,9 @@ class EstudianteSeeder extends Seeder
 
 		$estudiante = new Estudiante();
 		$estudiante->nac = 'v';
-		$estudiante->cedula = '15392404';
-		$estudiante->nombre = 'JORGE LUIS';        
-		$estudiante->apellido = 'MORGADO ABREU';        
+		$estudiante->cedula = '30342507';
+		$estudiante->nombre = 'ALEJANDRO JOSUE';        
+		$estudiante->apellido = 'PEREZ ABREU';        
 		$estudiante->genero = 'm';
 		$estudiante->representante = '1';
 		$estudiante->fecha_nac = '11-02-1983';
@@ -74,7 +74,6 @@ class EstudianteSeeder extends Seeder
 		$estudiante->padre_id = $padre->id;
 
 		$estudiante->save();
-
 
 		$persona = new Persona();
 		$persona->nac = 'v';

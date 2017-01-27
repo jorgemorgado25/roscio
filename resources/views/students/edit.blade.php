@@ -1,11 +1,14 @@
 @extends('app')
 @section('title')
-	Crear Rubro
+	Editar Estudiante
 @endsection
 @section('main-content')
 <h3>Editar Estudiante</h3><br>
-<div class="box box-primary">
-	
+
+@include('partials.error-message')
+@include('partials.validation-errors')
+
+<div class="box box-primary">	
 	<div class="box-header with-border">
 		{!! Form::model($student, ['route' => ['students.update', $student->id], 'method' => 'PUT']) !!}
 		<div class="row">

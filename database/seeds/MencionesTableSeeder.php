@@ -14,8 +14,8 @@ class MencionesTableSeeder extends Seeder
         DB::Table('menciones')->truncate();
         $menciones = [
             ['nombre' => 'Media', 'descripcion' => 'Educación Media'],
-            ['nombre' => 'Ciencias', 'descripcion' => 'Educación Diversificada'],
-            ['nombre' => 'Humanidades', 'descripcion' => 'Educación Diversificada']
+            //['nombre' => 'Ciencias', 'descripcion' => 'Educación Diversificada'],
+            //['nombre' => 'Humanidades', 'descripcion' => 'Educación Diversificada']
         ];
         foreach ($menciones as $mencion)
         {

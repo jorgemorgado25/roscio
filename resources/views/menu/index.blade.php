@@ -139,7 +139,7 @@
 				<hr>
 				<form class="form-inline">
 				<div class="form-group">
-				<label for="exampleInputName2">Cantidad de Platos: &nbsp;</label>
+				<label for="exampleInputName2">Cantidad de Platos aproximado: &nbsp;</label>
 				<input type="text" class="form-control" v-model="desayuno.cantidad" maxlength="4" id="txt-cantidad-1">
 				</div>
 				</form>
@@ -218,7 +218,7 @@
 				<hr>
 				<form class="form-inline">
 				<div class="form-group">
-				<label for="exampleInputName2">Cantidad de Platos: &nbsp;</label>
+				<label for="exampleInputName2">Cantidad de Platos aproximado: &nbsp;</label>
 				<input type="text" class="form-control" v-model="almuerzo.cantidad" maxlength=4 id="txt-cantidad-2">
 				</div>
 				</form>
@@ -242,7 +242,7 @@
 		format: 'dd-mm-yyyy',
 		language: 'es',
 		todayHighlight: true,
-		daysOfWeekDisabled: "0,6",
+		//daysOfWeekDisabled: "0,6",
 	});	
 		
 	$('#txt-cantidad-1, #txt-cantidad-2').numeric({

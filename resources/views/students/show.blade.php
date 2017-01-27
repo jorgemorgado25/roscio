@@ -1,6 +1,6 @@
 @extends('app')
 @section('title')
-	Crear Rubro
+	Mostrar Estudiante
 @endsection
 @section('main-content')
 <h3>Mostrar Estudiante</h3><br>

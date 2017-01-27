@@ -9,6 +9,7 @@ use Session;
 use Register;
 use Roscio\Escolaridad;
 use Roscio\Menu;
+use Roscio\MenuDia; #Clase personalizada
 use Roscio\Ano;
 use Roscio\Entrada;
 use DB;
@@ -23,6 +24,7 @@ class ReportesController extends Controller
     {
         $this->escolaridades = Escolaridad::lists('escolaridad', 'id');
     }
+
     public function reporteDiario()
     {
         return view('reportes.reporte_diario', ['escolaridades' => $this->escolaridades]);
@@ -32,24 +34,54 @@ class ReportesController extends Controller
     {
         $date = Carbon::parse($fecha);
         $date->format('Y-m-d');
+
         $hayEntradas = Entrada::whereDate('created_at', '=', $date)
             ->where('tipo_ingreso_id', $tipo_entrada)
             ->first();
+
         if($hayEntradas)
         {
             $hayEntradas = true;
             $totales = $this->totalesDiarios($date, $tipo_entrada);
+            
+            $menu = new MenuDia();
 
+            $menu->getMenu($fecha);
+            $tipo_entrada == 1 ? $platos = $menu->desayuno : $platos = $menu->almuerzo;
+
+            //dd($menu);
+            
             return view('reportes.getEntradasDiarias', compact(
                 'hayEntradas', 
                 'fecha',
                 'tipo_entrada',
+                'platos',
                 'totales'));
+            
         }else
         {
             $hayEntradas = false;
             return view('reportes.getEntradasDiarias', compact('hayEntradas', 'fecha', 'tipo_entrada'));  
         }     
+    }
+
+    public function pdfEntradasDiarias($fecha, $tipo_entrada)
+    {
+        $date = Carbon::parse($fecha);
+        $date->format('Y-m-d');
+        $totales = $this->totalesDiarios($date, $tipo_entrada);
+        $menu = new MenuDia();
+        $menu->getMenu($fecha);
+        $tipo_entrada == 1 ? $platos = $menu->desayuno : $platos = $menu->almuerzo;
+
+        //dd($totales);
+        $view =  \View::make('reportes.pdfEntradasDiarias', compact(
+            'fecha', 'tipo_entrada', 'totales', 'platos'
+            ))->render();
+        $pdf = \App::make('dompdf.wrapper');
+        $pdf->loadHTML($view)->setPaper('letter');
+        //$pdf->loadHTML($view)->setPaper('a4')->setOrientation('landscape');
+        return $pdf->stream('Reporte Entradas Diarias');
     }
 
     public function totalesDiarios($fecha, $tipo_entrada)

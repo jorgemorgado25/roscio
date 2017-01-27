@@ -25,7 +25,7 @@ class AnosTableSeeder extends Seeder
 
         $anos = ['4to', '5to'];
 
-        $mencion = Mencion::where('mencion', 'Ciencias')->first();      
+        /*$mencion = Mencion::where('mencion', 'Ciencias')->first();      
         foreach($anos as $a)
         {
             DB::Table('anos')->insert([
@@ -40,6 +40,6 @@ class AnosTableSeeder extends Seeder
                 'mencion_id' => $mencion->id,
                 'ano' => $a
             ]);
-        }
+        }*/
     }
 }

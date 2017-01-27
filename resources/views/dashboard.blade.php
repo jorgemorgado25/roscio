@@ -43,6 +43,11 @@
 				<a class="btn btn-app" href="{{ route('students.index') }}">
 					<i class="fa fa-child"></i> Estudiantes
 				</a>
+
+				<a class="btn btn-app" href="{{ route('persons.index') }}">
+					<i class="fa fa-child"></i> Personas
+				</a>
+
 				<a class="btn btn-app" href="{{ route('matricula.index') }}">
 					<i class="glyphicon glyphicon-th"></i> Matrícula
 				</a>
@@ -83,6 +88,12 @@
 				</a>
 				<a class="btn btn-app" href="{{ route('users.index') }}">
 					<i class="fa fa-users"></i> Usuarios
+				</a>
+				<a class="btn btn-app" href="#">
+					<i class="glyphicon glyphicon-map-marker"></i> Bitácora del Sistema
+				</a>
+				<a class="btn btn-app" href="#">
+					<i class="glyphicon glyphicon-save-file"></i> Respaldar DB
 				</a>
 			</div>
 		@endif

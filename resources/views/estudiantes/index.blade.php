@@ -4,7 +4,9 @@
 @endsection
 @section('main-content')
 
-<h3>Listado de Estudiantes</h3><br>
+<h3>
+	<a href="/estudiantes/create" class="btn btn-primary btn-sm pull-right">Nuevo</a>
+	Listado de Estudiantes</h3><br>
 <div class="box box-primary">
 	<div class="box-header with-border">
 		Hay {{ $estudiantes->total() }} estudiantes registrados

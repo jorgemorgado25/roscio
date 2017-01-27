@@ -20,7 +20,6 @@
 					</div>
 				</div>
 				<div class="col-md-12">
-					<hr>
 					@if(!$hayEntradas)
 						<div class="alert alert-danger text-center">No hay registros</div>
 					@else
@@ -69,9 +68,54 @@
 								<td><b>
 									{{ $tf = $totales['primero']['F'] + $totales['segundo']['F'] + $totales['tercero']['F'] + $totales['cuarto']['F'] + $totales['quinto']['F'] }}
 								</b></td>
-								<td><b>{{ $tm + $tf }}</b></td>
+								<td><b>{{ $total = $tm + $tf }}</b></td>
 							</tr>
 						</table>
+						<hr>
+						<h4>Menú del Día</h4><br>
+
+						@foreach($platos as $p)
+
+							<div class="panel panel-default">
+								<div class="panel-heading">
+									<strong>{{ $p['plato'] }}</strong> &nbsp;
+									<span class="muted">{{ $p['categoria'] }}</span>
+								</div>		
+								<table class="table table-striped">
+									<tr>
+										<th>Rubro</th>
+										<th>Medida</th>
+										<th>Cantidad</th>
+										<th>Gasto</th>
+									</tr>
+									@foreach($p['rubros'] as $rubro)
+										<tr>
+											<td>{{ $rubro['rubro'] }}</td>
+											<td>
+												@if($rubro['medida'] == 'gramos')
+													{{ $rubro['medida'] }} x 10 personas
+												@else
+													{{ $rubro['medida'] }} x persona
+												@endif
+											</td>
+											<?php //$total = 15 ?>
+											<td>{{ $rubro['cantidad'] }}</td>
+											<td>
+												@if($rubro['medida'] == 'gramos')
+													{{ ($rubro['cantidad'] * $total) / 10000 }} Kg
+												@else
+													{{ $rubro['cantidad'] * $total }} Unidad
+												@endif
+											</td>
+										</tr>
+									@endforeach
+								</table>
+							</div>
+						@endforeach
+						<a target="_blank" href="{{ route('pdfEntradasDiarias', [$fecha, $tipo_entrada]) }}" class="btn btn-primary">
+							<span class="glyphicon glyphicon-print"></span>
+							&nbsp;Imprimir Reporte
+						</a>
 					@endif
 				</div>
 			</div>

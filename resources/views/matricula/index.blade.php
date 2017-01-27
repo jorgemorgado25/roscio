@@ -48,7 +48,7 @@
 						<select name="seccion_id" 
 						id="sel_seccion" 
 						class="form-control" 
-						placeholder="Selccione una seccion" 
+						placeholder="Seleccione una seccion" 
 						v-model="seccion_id"
 						>
 						<option 
@@ -76,14 +76,27 @@
 			<p class="text-center" v-if="buscando">
 				<i class=" text-center fa fa-spinner fa-spin fa-4x"></i>
 			</p>
-			<div v-if="matriculas" v-if="matriculas.length > 1">		
+			<div v-if="matriculas" v-if="matriculas.length > 1">
+				<button class="btn btn-sm btn-primary">
+					<span class="glyphicon glyphicon-plus"></span>
+					Agregar Estudiante
+				</button>
+				<button class="btn btn-sm btn-primary">
+					<span class="glyphicon glyphicon-print"></span>
+					Imprimir
+				</button>
+				<span class="pull-right">
+					<button class="btn btn-sm btn-danger" onclick="eliminar_nomina()"><span class="glyphicon glyphicon-trash"></span> Eliminar Nómina</button>			
+				</span>
+
+				<hr>
 				<table class="table table-striped" id="table">
 					<thead>
 					<tr>
 						<th>N.</th>
 						<th>Cédula</th>
 						<th>Nombre del Estudiante</th>
-						<th class="text-center" width="120px">Acciones</th>
+						<th class="text-center" width="140px">Acciones</th>
 					</tr>
 					</thead>
 					<tbody>
@@ -99,21 +112,14 @@
 							<a target="_blank" title="Carnet Estudiantil" href="/matricula/carnet/@{{ matricula.id }}" class="btn btn-default btn-sm">
 								<span class="glyphicon glyphicon-credit-card"></span>
 							</a>
+							<button 
+								class="btn btn-default btn-sm" 
+								onclick="eliminar_registro( @{{ matricula.id }} )">
+								<span class="glyphicon glyphicon-trash"></span></button>
 						</td>							
 					</tr>
 					</tbody>
 				</table>
-				<button class="btn btn-danger"><span class="glyphicon glyphicon-trash"></span> Eliminar</button>
-				<span class="pull-right">
-					<button class="btn btn-primary">
-						<span class="glyphicon glyphicon-print"></span>
-						Imprimir
-					</button>
-					<button class="btn btn-primary">
-						<span class="glyphicon glyphicon-credit-card"></span>
-						Listado de Carnets
-					</button>	
-				</span>				
 			</div>
 			<div id="div-message">
 				<p class="alert alert-info text-center">Seleccione una Sección</p>
@@ -128,13 +134,65 @@
 <script src="{{ asset('/js/vue-functions.js') }}"></script>
 <script src="{{ asset('/js/set-datatable.js') }}"></script>
 <script>
-	vm = new Funciones({
+
+	function eliminar_registro(id)
+	{
+		
+		bootbox.dialog({
+		message: "¿Realmente desea eliminar el alumno de la matrícula?",
+		title: "<span class='text-danger'><b>Eliminar Registro</b></span>",
+		buttons: {
+		danger: {
+		label: "Aceptar",
+		className: "btn-default",
+		callback: function()
+		{
+			vm.eliminarRegistro(id);
+		}
+		},
+		main: {
+		label: "Cancelar",
+		className: "btn-primary",
+		callback: function() {
+
+		}
+		}
+		}
+		});
+	}
+	function eliminar_nomina()
+	{
+		bootbox.dialog({
+		message: "¿Realmente desea eliminar la matrícula?",
+		title: "<span class='text-danger'><b>Eliminar Matrícula</b></span>",
+		buttons: {
+		danger: {
+		label: "Aceptar",
+		className: "btn-default",
+		callback: function()
+		{
+			console.log('eliminar matrícula');
+			vm.eliminarMatricula();
+		}
+		},
+		main: {
+		label: "Cancelar",
+		className: "btn-primary",
+		callback: function() {
+
+		}
+		}
+		}
+		});
+	}
+	var vm = new Funciones({
 		el: 'body',
 		data: {
 			escolaridad_id: '',
 			mencion_id: '',
 			ano_id: '',
 			seccion_id: '',
+			matricula_id: '',
 			anos: {},
 			secciones: {},
 			buscando: false,
@@ -173,9 +231,15 @@
 				.then(function(response)
 				{
 					this.buscando = false;
-					console.log(response.data.matricula);
-					this.matriculas = response.data.matricula;
-					response.data.matricula ? this.error = '' : this.error = 'No se ha cargado la Matrícula'
+					console.log(response.data.matricula);					
+					if(response.data.matricula)
+					{
+						this.matriculas = response.data.matricula;
+						this.error = '';
+						this.matricula_id = response.data.matricula.id;
+					}else{
+						this.error = 'No se ha cargado la Matrícula';
+					}
 				});
 			},
 			formValid: function() {
@@ -186,8 +250,27 @@
 			},
 			createMatricula: function(){
 				window.location = '/matricula/cargar/' + this.escolaridad_id +'/'+ this.mencion_id +'/'+ this.ano_id +'/'+ this.seccion_id;
+			},
+			eliminarMatricula: function()
+			{
+				data = {escolaridad_id: this.escolaridad_id, seccion_id: this.seccion_id};	
+				this.$http.post('/matricula/postEliminar', data)
+				.then(function(response)
+				{
+					this.buscarMatricula();
+		        });
+			},
+			eliminarRegistro: function(id)
+			{
+				data = {register_id: id}
+				this.$http.post('/matricula/postEliminarRegistro', data)
+				.then(function(response)
+				{
+					this.buscarMatricula();
+				});
 			}
 		}
 	});
+
 </script>
 @endsection

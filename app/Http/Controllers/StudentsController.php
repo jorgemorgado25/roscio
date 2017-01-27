@@ -3,6 +3,8 @@
 namespace Roscio\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Roscio\Http\Requests\CreateStudentRequest;
+use Roscio\Http\Requests\EditStudentRequest;
 use Roscio\Student;
 use Roscio\Register;
 use Roscio\Http\Requests;
@@ -45,7 +47,7 @@ class StudentsController extends Controller
      */
     public function create()
     {
-        //
+        return view('students.create');
     }
 
     /**
@@ -54,9 +56,12 @@ class StudentsController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(CreateStudentRequest $request)
     {
-        //
+        $student = new Student($request->all());
+        $student->save();
+        Session::flash('success-message', 'El estudiante fue creado exitosamente');
+        return Redirect::route('students.show', $student->id);
     }
 
     /**
@@ -92,7 +97,7 @@ class StudentsController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(EditStudentRequest $request, $id)
     {
         $student = Student::find($id);
         $student->fill($request->all());

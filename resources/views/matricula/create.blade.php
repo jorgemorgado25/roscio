@@ -30,7 +30,9 @@
 				</div>		
 				<br><br>
 				<div class="col-md-12">
-					<input type="file" name="excel" id="excel" @change="inputFileChange">
+					<input type="file" name="excel" id="excel"
+					accept="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
+					>
 				</div>		
 			</div>			
 		</div>
@@ -46,4 +48,21 @@
 	</div>
 	</div>
 </div>
+@endsection
+
+@section('scripts')
+	<script>
+		var file = document.getElementById('excel');
+         file.onchange = function(e){
+            var ext = this.value.match(/\.([^\.]+)$/)[1];
+            switch(ext)
+            {
+                case 'xlsx':
+                break;
+                default:
+                    alert('Archivo no permitido');
+                    this.value='';
+            }
+    };
+	</script>
 @endsection

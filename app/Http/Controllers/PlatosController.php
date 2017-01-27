@@ -5,12 +5,12 @@ namespace Roscio\Http\Controllers;
 use Illuminate\Http\Request;
 use Roscio\CategoriaPlato;
 use Roscio\CategoriaRubro;
-use Roscio\Plato;
 use Roscio\PlatoRubro;
 use Redirect;
 use Session;
 use Roscio\Http\Requests;
 use Roscio\Http\Controllers\Controller;
+use Roscio\Plato;
 
 class PlatosController extends Controller
 {

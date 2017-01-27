@@ -13,4 +13,19 @@ class Person extends Model
     {
     	return $this->hasMany('Roscio\Register', 'person_id');
     }
+
+    public function scopeCi($query, $cedula)
+    {
+        if (trim($cedula) != '')
+        {
+            $query->where('ci', "LIKE", "%$cedula%");
+        }
+    }
+    public function scopeName($query, $nombre)
+    {
+        if (trim($nombre) != '')
+        {
+            $query->where('full_name', "LIKE", "%$nombre%");
+        }
+    }
 }
