@@ -8,6 +8,8 @@ use Roscio\Http\Requests;
 use Roscio\Http\Requests\LoginRequest;
 use Roscio\Http\Controllers\Controller;
 
+use Illuminate\Support\Facades\DB;
+
 use Roscio\Auditoria;
 use Auth;
 use Session;
@@ -18,6 +20,12 @@ class PruebaController extends Controller
     public function index()
     {
         return view('dashboard');
+    }
+
+    public function respaldar()
+    {
+        $pdo = DB::connection()->getPdo();
+        dd($pdo);
     }
 
     public function logout()

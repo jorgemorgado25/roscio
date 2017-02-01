@@ -38,6 +38,11 @@ Route::group(['middleware' => 'auth'], function()
 		'as'   => 'prueba.index'
 	]);
 
+	Route::get('respaldar',[
+		'uses' => 'PruebaController@respaldar',
+		'as'   => 'respaldar'
+	]);
+
 	# Change password
 	Route::get('change-password', [
 		'uses' => 'UsersController@getChangePassword',

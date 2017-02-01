@@ -92,7 +92,7 @@
 				<a class="btn btn-app" href="{{ route('auditoria.index') }}">
 					<i class="glyphicon glyphicon-map-marker"></i> Bitácora del Sistema
 				</a>
-				<a class="btn btn-app" href="#">
+				<a class="btn btn-app" href="http://localhost/respaldar" target="_blank">
 					<i class="glyphicon glyphicon-save-file"></i> Respaldar DB
 				</a>
 			</div>
