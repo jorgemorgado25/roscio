@@ -89,7 +89,7 @@
 				<a class="btn btn-app" href="{{ route('users.index') }}">
 					<i class="fa fa-users"></i> Usuarios
 				</a>
-				<a class="btn btn-app" href="#">
+				<a class="btn btn-app" href="{{ route('auditoria.index') }}">
 					<i class="glyphicon glyphicon-map-marker"></i> Bitácora del Sistema
 				</a>
 				<a class="btn btn-app" href="#">

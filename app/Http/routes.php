@@ -78,7 +78,12 @@ Route::group(['middleware' => ['auth', 'is_admin'] ], function()
 		]
 	);
 	#Find Email validate
-	Route::get('users/login_created/{login}', 'UsersController@login_created');	
+	Route::get('users/login_created/{login}', 'UsersController@login_created');
+
+	Route::get('auditoria', [
+		'uses' => 'AuditoriasController@index',
+		'as' => 'auditoria.index'
+	]);
 });
 
 #RUTAS CON CHECK ROLE 'Comedor'

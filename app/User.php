@@ -55,6 +55,11 @@ class User extends Model implements AuthenticatableContract,
         return $this->belongsToMany('Roscio\Role', 'user_role', 'user_id', 'role_id');
     }
 
+    public function auditorias()
+    {
+        return $this->hasMany('Roscio\Auditoria', 'user_id');
+    }
+
     public function hasAnyRole($roles)
     {
         if(is_array($roles))
