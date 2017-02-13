@@ -148,6 +148,27 @@ Route::group(['middleware' => ['auth', 'check_role'], 'roles' => 'Inscripciones'
 		'as'   => 'estudiantes.carnet'
 	]);
 	Route::resource('personas', 'PersonasController');
+
+	Route::get('reportes/getEntradasDiarias/{fecha}/{tipo_entrada}', 'ReportesController@getEntradasDiarias');
+	
+	Route::get('reportes/pdfEntradasDiarias/{fecha}/{tipo_entrada}', [
+		'uses' => 'ReportesController@pdfEntradasDiarias',
+		'as'   => 'pdfEntradasDiarias'
+	]);
+
+	Route::get('reportes/EntradasMes', [
+		'uses' => 'ReportesController@EntradasMes',
+		'as'   => 'reportes.entradasMes'
+	]);
+
+	Route::get('reportes/rsEntradasMes', [
+		'uses' => 'ReportesController@rsEntradasMes',
+		'as'   => 'reportes.rsEntradasMes'
+	]);
+	Route::get('reportes/rsRangoFecha/{fecha1}/{fecha2}', [
+		'uses' => 'ReportesController@rsRangoFecha',
+		'as'   => 'reportes.rsRangoFecha'
+	]);
 });
 
 
@@ -196,9 +217,4 @@ Route::group(['middleware' => ['auth', 'check_role'], 'roles' => 'Inscripciones'
 	Route::post('matricula/postEliminarRegistro', 'MatriculaController@postEliminarRegistro');
 
 
-	Route::get('reportes/getEntradasDiarias/{fecha}/{tipo_entrada}', 'ReportesController@getEntradasDiarias');
 	
-	Route::get('reportes/pdfEntradasDiarias/{fecha}/{tipo_entrada}', [
-		'uses' => 'ReportesController@pdfEntradasDiarias',
-		'as'   => 'pdfEntradasDiarias'
-	]);

@@ -15,6 +15,9 @@ use Roscio\Entrada;
 use DB;
 use Carbon\Carbon;
 
+use Charts;
+
+
 use Roscio\Http\Requests;
 use Roscio\Http\Controllers\Controller;
 
@@ -56,8 +59,7 @@ class ReportesController extends Controller
                 'fecha',
                 'tipo_entrada',
                 'platos',
-                'totales'));
-            
+                'totales'));            
         }else
         {
             $hayEntradas = false;
@@ -182,5 +184,66 @@ class ReportesController extends Controller
             ->where('tipo_ingreso_id', $tipo_entrada)
             ->get();
         return $entradas;
+    }
+
+    public function entradasMes()
+    {
+        $meses = [
+            '01' => 'ENERO', '02' => 'FEBRERO', '03' => 'MARZO', 
+            '04' => 'ABRIL', '05' => 'MAYO',
+            '06' => 'JUNIO', '07' => 'JULIO', '08' => 'AGOSTO', '09' => 'SEPTIEMBRE', '10' => 'OCTUBRE',
+            '11' => 'NOVIEMBRE', '12' => 'DICIEMBRE'
+        ];
+        return view('reportes.entradas_mes', compact('meses'));
+    }
+
+    public function rsEntradasMes()
+    {
+
+    }
+
+    public function rsRangoFecha(Request $request, $fecha1, $fecha2)
+    {
+        $date1 = Carbon::parse($fecha1);
+        $date1->format('Y-m-d');
+        $date2 = Carbon::parse($fecha2);
+        $date2->format('Y-m-d');
+        $date2->addDay(); 
+
+        /*$entradas = Entrada::where('created_at' , '>=', $date1)
+            ->where('created_at' , '<=', $date2)
+            ->get();*/
+
+        $entradas = Entrada::where('created_at' , '>=', $date1)
+            ->where('created_at' , '<=', $date2)
+            ->get();
+
+        $total = 0;
+        $masculino = 0;
+        $femenino = 0;
+        if(count($entradas) > 0)
+        {
+            foreach ($entradas as $entrada)
+            {                
+                if ($entrada->student->gender == 'M')
+                {
+                    $masculino++;
+                }else
+                {
+                    $femenino++;
+                }
+            }
+            $total = $masculino + $femenino;
+        }
+
+        $chart = Charts::create('pie', 'highcharts')
+            ->title($total . ' Entradas en Total ')
+            ->colors(['#ff0000', '#00ff00'])
+            ->labels(['Femenino', 'Masculino'])
+            ->values([$femenino, $masculino])
+            ->dimensions(800,400)
+            ->responsive(true);
+        return view('reportes.rsRangoFecha', 
+            compact('chart', 'total', 'fecha1', 'fecha2'));
     }
 }

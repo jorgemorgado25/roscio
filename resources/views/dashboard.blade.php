@@ -77,6 +77,10 @@
 			<a class="btn btn-app" href="{{ route('reportes.reporteDiario') }}">
 				<i class="fa fa-child"></i> Ingresos del Día
 			</a>
+
+			<a class="btn btn-app" href="{{ route('reportes.entradasMes') }}">
+				<i class="glyphicon glyphicon-calendar"></i> Ingresos por Mes
+			</a>
 		</div>
 		@if(Auth::user()->isAdmin)
 			<div class="box-header with-border">
