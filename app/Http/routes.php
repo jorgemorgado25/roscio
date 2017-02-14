@@ -161,7 +161,7 @@ Route::group(['middleware' => ['auth', 'check_role'], 'roles' => 'Inscripciones'
 		'as'   => 'reportes.entradasMes'
 	]);
 
-	Route::get('reportes/rsEntradasMes', [
+	Route::get('reportes/rsEntradasMes/{mes}/{ano}', [
 		'uses' => 'ReportesController@rsEntradasMes',
 		'as'   => 'reportes.rsEntradasMes'
 	]);

@@ -197,9 +197,52 @@ class ReportesController extends Controller
         return view('reportes.entradas_mes', compact('meses'));
     }
 
-    public function rsEntradasMes()
+    public function rsEntradasMes(Request $request, $mes, $ano)
     {
-
+        $entradas = Entrada::where(DB::raw('YEAR(created_at)'), '=', $ano)
+            ->where(DB::raw('MONTH(created_at)'), '=', $mes )
+            ->get();
+        $primero = 0;
+        $segundo = 0;
+        $tercero = 0;
+        $cuarto = 0;
+        $quinto = 0;
+        $total = 0;
+        if(count($entradas) > 0)
+        {
+            foreach ($entradas as $entrada)
+            {
+                switch ($entrada->ano->ano) {
+                    case '1ro':
+                        $primero++;
+                    break;
+                    case '2do':
+                        $segundo++;
+                    break;
+                    case '3ro':
+                        $tercero++;
+                    break;
+                    case '4to':
+                        $cuarto++;
+                    break;
+                    case '5to':
+                        $quinto++;
+                    break;                    
+                }
+            }
+            $total = $primero + $segundo + $tercero + $cuarto + $quinto;
+        }
+        $chart = Charts::create('bar', 'highcharts')
+            ->title($total . ' Entradas en Total ')
+            ->colors(['#ff0000', '#00ff00'])
+            ->labels(['1ro', '2do', '3ro', '4to', '5to'])
+            ->values([$primero, $segundo, $tercero, $cuarto, $quinto])
+            ->dimensions(800,400)
+            ->responsive(true);
+        return view('reportes.rsEntradasMes', 
+            compact(
+                'primero', 'segundo', 'tercero', 'cuarto', 'quinto', 
+                'total', 'chart', 'mes', 'ano'));
     }
 
     public function rsRangoFecha(Request $request, $fecha1, $fecha2)

@@ -20,4 +20,8 @@ class Entrada extends Model
     {
     	return $this->belongsTo('Roscio\Student', 'student_id');
     }
+    public function ano()
+    {
+        return $this->belongsTo('Roscio\Ano', 'ano_id');
+    }
 }

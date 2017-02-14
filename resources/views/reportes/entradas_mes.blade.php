@@ -15,26 +15,27 @@
 		</div>
 		<div class="box-body">
 			<div class="row">
-				<form action="" >
+				<form @submit.prevent='consultar_mes'>
 					<div class="col-md-6">
 						<div class="form-group">
 							<label for="">Mes</label>
-							{!! Form::select('tipo_ingreso', $meses, NULL, [
+							{!! Form::select('mes', $meses, NULL, [
 								'class' => 'form-control',
-								'v-model' => 'tipo_ingreso'] 
+								'required' => 'required',
+								'v-model' => 'mes'] 
 							) !!}
 						</div>
 					</div>
 					<div class="col-md-6">
 						<div class="form-group">
 							<label for="">Año</label>
-							<input type="text" class="form-control" maxlength="4">
+							<input type="text" class="form-control" v-model="ano" name="ano" maxlength="4" required>
 						</div>
 					</div>
 					<div class="col-md-12">
-						<button class="btn btn-primary">Consultar</button>
+						<button class="btn btn-primary" type="submit" @click="consultar_mes">Consultar</button>
 					</div>
-				</form>				
+				</form>			
 			</div>
 		</div>
 	</div>
@@ -45,8 +46,7 @@
 		</div>
 		<div class="row">
 			<div class="box-body">
-				<form action="{{ route('reportes.rsRangoFecha') }}" 
-					@submit.prevent="consultar_rango">
+				<form @submit.prevent="consultar_rango">
 					<div class="col-md-6">
 						<div class="form-group">
 							<label for="">Fecha</label>
@@ -108,8 +108,8 @@
 		data: {
 			fecha1: '', 
 			fecha2: '', 
-			tipo_ingreso: '',
-			opcion: 1,
+			mes: '',
+			ano: '',
 			buscando: false,
 			error2: '',
 		},
@@ -136,7 +136,7 @@
 			},
 			consultar_mes: function()
 			{
-				this.opcion = 1;
+				window.location = "/reportes/rsEntradasMes/" + this.mes + '/' + this.ano;
 			}
 		}
 	});
