@@ -5,7 +5,9 @@
 @endsection
 
 @section('assets')
+    <!-- Begin Chart -->
     {!! Charts::assets() !!}
+    <!-- End Chart -->
 @endsection
 
 @section('main-content')
