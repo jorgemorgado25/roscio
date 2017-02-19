@@ -29,11 +29,11 @@
 					<div class="col-md-6">
 						<div class="form-group">
 							<label for="">Año</label>
-							<input type="text" class="form-control" v-model="ano" name="ano" maxlength="4" required>
+							<input id="txt-ano" type="text" class="form-control" v-model="ano" name="ano" maxlength="4" required>
 						</div>
 					</div>
 					<div class="col-md-12">
-						<button class="btn btn-primary" type="submit" @click="consultar_mes">Consultar</button>
+						<button class="btn btn-primary" type="submit">Consultar</button>
 					</div>
 				</form>			
 			</div>
@@ -89,6 +89,12 @@
 
 @section('scripts')
 	<script>
+	$('#txt-ano').numeric({
+    	allowMinus   : false,
+    	allowThouSep : false,
+    	allowDecSep: false
+    });
+
 	$('#datepicker-1').datepicker({
 		format: 'dd-mm-yyyy',
 		language: 'es',
